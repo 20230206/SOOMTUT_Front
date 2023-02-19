@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
@@ -13,7 +13,7 @@ function GetPost() {
     const [isMy, setIsMy] = useState(false);
     const [fav, setFav] = useState(false);
 
-    const GetPostInfo = () => {
+    const GetPostInfo = useCallback(() => {
                 
         var config = {
             method: 'get',
@@ -32,9 +32,9 @@ function GetPost() {
             console.log(error);
         });
         
-    }
+    }, [postId])
 
-    const GetPostIsMy = () => {
+    const GetPostIsMy = useCallback(() => {
                 
         var config = {
             method: 'get',
@@ -53,9 +53,9 @@ function GetPost() {
             console.log(error);
         });
         
-    }
+    }, [postId])
 
-    const GetFav = () => {
+    const GetFav = useCallback(() => {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
@@ -73,13 +73,13 @@ function GetPost() {
             console.log(error);
           });
           
-    }
+    }, [postId])
 
     useEffect(() => {
         GetPostInfo();
         GetPostIsMy();
         GetFav();
-    }, [ ])
+    }, [GetPostInfo, GetPostIsMy, GetFav])
 
     const RequestFav = () => {
         console.log(fav)
@@ -117,7 +117,7 @@ function GetPost() {
                 </div>
                     
                 <div className={styles.imagebox}>
-                    <img src={postdata.image} />
+                    <img src={postdata.image} alt="postimage"/>
                 </div>
 
                 <div className={styles.tutorinfobox} >

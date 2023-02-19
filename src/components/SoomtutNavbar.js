@@ -15,7 +15,7 @@ function SoomtutNavbar() {
     const [name, setName] = useState("...");
     const [userData, setUserData] = useState(null);
 
-    const IsSignnedIn = async () => {
+    const IsSignnedIn = useCallback (async () => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -37,7 +37,7 @@ function SoomtutNavbar() {
             setUserData(null);
             return;
         }
-    }
+    }, []);
 
     const signout = async () => {
         // 서버에 로그아웃 요청 보내고 refresh cookie를 삭제해준다
@@ -49,7 +49,7 @@ function SoomtutNavbar() {
         
         try {
             const response = await axios(config)
-            setSignin(false);
+            setSignin(response.data);
         } catch(error) {
             console.log(error);
         }
@@ -61,7 +61,7 @@ function SoomtutNavbar() {
     
     useEffect(() => {
         IsSignnedIn();
-    }, [])
+    }, [IsSignnedIn])
 
     useEffect(() => {
         const fetchUserData = async() => {
@@ -75,7 +75,7 @@ function SoomtutNavbar() {
               };
             try {
                 const response = await axios(config)
-                setName(response.data.nickname)
+                setUserData(response.data)
             
             } catch(error) {
                 console.log(error);
@@ -90,8 +90,8 @@ function SoomtutNavbar() {
     }, [signin, token])
 
     useEffect(() => {
-        
-    }, [name])
+        setName(userData.nickname)
+    }, [userData])
     
     return (
         <div className={styles.wrapper}>

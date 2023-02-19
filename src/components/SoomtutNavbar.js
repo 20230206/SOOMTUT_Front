@@ -10,28 +10,36 @@ import logo from '../assets/images/logo.png'
 function SoomtutNavbar() {
     axios.defaults.withCredentials = true;
 
-    const [signin, setSignin] = useState(false)
-    const [token, setToken] = useState(null)
+    const [signin, setSignin] = useState(false);
+    const [token, setToken] = useState(null);
     const [name, setName] = useState("...");
+    const [userData, setUserData] = useState(null);
 
-    const IsSignnedIn = () => {
+    const IsSignnedIn = async () => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: 'http://localhost:8080/auth/validtoken',
-            headers: { 
-
-            }
+            headers: { }
           };
           
-          axios(config)
-          .then(function (response) {
+        try {
+            const response = await axios(config);
             setToken(response.headers.get("Authorization"));
             setSignin(response.data);
-          });
+        }
+        catch(error) {
+            console.log(error)
+            setToken(null);
+        }
+
+        if (!token) {
+            setUserData(null);
+            return;
+        }
     }
 
-    const signout = () => {
+    const signout = async () => {
         // 서버에 로그아웃 요청 보내고 refresh cookie를 삭제해준다
         var config = {
             method: 'post',
@@ -39,10 +47,13 @@ function SoomtutNavbar() {
             url: 'http://localhost:8080/auth/signout'
         };
         
-        axios(config)
-        .then(function (response) {
+        try {
+            const response = await axios(config)
             setSignin(false);
-        });
+        } catch(error) {
+            console.log(error);
+        }
+    
 
         // 화면을 새로고침 해준다
         window.location.reload();
@@ -62,11 +73,14 @@ function SoomtutNavbar() {
                   'Authorization': token
                 }
               };
-          
-              axios(config)
-              .then(function (response) {
+            try {
+                const response = await axios(config)
                 setName(response.data.nickname)
-              });
+            
+            } catch(error) {
+                console.log(error);
+            }
+            
         }
                 
         if (signin === true) {

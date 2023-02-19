@@ -17,12 +17,15 @@ import axios from "axios"
 import Postcode from '@actbase/react-daum-postcode';
 
 function MyPage() {
-    var geocoder = new kakao.maps.services.Geocoder();
     const [myInfo, setMyInfo] = useState([]);
   
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const [posX, setPosX] = useState(37.365264512305174);
     const [posY, setPosY] = useState(127.10676860117488);
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const GetMyInfo = () => {
         axios.defaults.withCredentials = true;
@@ -47,34 +50,29 @@ function MyPage() {
   
     }
     
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     useEffect(() => {
         GetMyInfo();
     }, [])
 
+
     useEffect(() => {
+        const AddressToMapXY = async () => {
+            var geocoder = new kakao.maps.services.Geocoder();
+            await geocoder.addressSearch(location, callback);
+        };
+
         AddressToMapXY();
     }, [location])
 
-    useEffect(() => {
-        MoveMap();
-    }, [posX, posY])
-
-    const callback = (result, status) => {
+    const callback = async(result, status) => {
         if(status === kakao.maps.services.Status.OK) {
             setPosX(result[0].y);
             setPosY(result[0].x);
         }
     }
 
-    const AddressToMapXY = () => {
-        geocoder.addressSearch(location, callback);
-    }
+    useEffect(() => {
 
-    const MoveMap = () => {
         var container = document.getElementById('map');
         var options = {
             center: new kakao.maps.LatLng(posX, posY),
@@ -90,7 +88,8 @@ function MyPage() {
         marker.setMap(map);
         map.setDraggable(false);
         map.setZoomable(false);
-    }
+
+    }, [posX, posY])
 
     const ChangeLocation = (address) => {
         var data = JSON.stringify({

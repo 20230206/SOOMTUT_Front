@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import axios from 'axios'
@@ -10,7 +10,8 @@ function SetSignin () {
     const params = useParams().access;
     const [loading, SetLoading] = useState(false);
 
-    const SetToken = () => {
+
+    useEffect(() => {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
@@ -28,22 +29,12 @@ function SetSignin () {
         .catch(function (error) {
             console.log(error);
         });
-        
-    }
-
-    useEffect(() => {
-        SetToken();
-    }, [])
+    }, [params])
 
     useEffect(() => {
         navigate("/");
-    }, [loading])
+    }, [loading, navigate])
 
-    return (
-        <div>
-            <SetToken />
-        </div>
-    );
 }
 
 export default SetSignin;

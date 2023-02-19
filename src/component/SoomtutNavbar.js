@@ -59,36 +59,35 @@ function SoomtutNavbar() {
     }, [])
 
     useEffect(() => {
-        if(signin === true) {
-            GetUserInfo();
+        const fetchUserData = async() => {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: 'http://localhost:8080/getmyinfo',
+                headers: { 
+                  'Authorization': token
+                }
+              };
+          
+              axios(config)
+              .then(function (response) {
+                setName(response.data.nickname)
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
-        else {
+                
+        if (signin === true) {
+            fetchUserData();
         }
-    }, [signin])
+            
+    }, [signin, token])
 
     useEffect(() => {
         
     }, [name])
     
-    const GetUserInfo = () => {
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:8080/getmyinfo',
-            headers: { 
-                'Authorization': token
-            }
-        };
-        
-        axios(config)
-        .then(function (response) {
-            setName(response.data.nickname)
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    }
-
     return (
         <div className={styles.wrapper}>
          <Navbar bg="white" variant="white">

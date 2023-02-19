@@ -6,7 +6,7 @@ import styles from "../../assets/styles/listpage.module.css"
 import axios from "axios"
 
 import { Link } from "react-router-dom";
-import PostBoxInList from "../../component/PostBoxInList";
+import PostBoxInList from "../../components/PostBoxInList";
 
 const Category_List = [ 
     { id:0, name:"전체" },

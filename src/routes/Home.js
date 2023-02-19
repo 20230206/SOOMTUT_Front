@@ -1,5 +1,5 @@
-import SoomtutNavbar from "../component/SoomtutNavbar";
-import HomeContents from "../component/HomeContents";
+import SoomtutNavbar from "../components/SoomtutNavbar";
+import HomeContents from "../components/HomeContents";
 
 function Home() {
     return (

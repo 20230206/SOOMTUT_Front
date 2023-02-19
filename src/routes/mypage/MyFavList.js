@@ -6,7 +6,7 @@ import React, {
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-import PostBoxInList from "../../component/PostBoxInList";
+import PostBoxInList from "../../components/PostBoxInList";
 
 import axios from "axios";
 import styles from "../../assets/styles/listpage.module.css"

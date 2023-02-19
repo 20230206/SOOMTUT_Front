@@ -28,9 +28,6 @@ function SoomtutNavbar() {
           .then(function (response) {
             setToken(response.headers.get("Authorization"));
             setSignin(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
           });
     }
 
@@ -45,9 +42,6 @@ function SoomtutNavbar() {
         axios(config)
         .then(function (response) {
             setSignin(false);
-        })
-        .catch(function (error) {
-            console.log(error);
         });
 
         // 화면을 새로고침 해준다
@@ -72,9 +66,6 @@ function SoomtutNavbar() {
               axios(config)
               .then(function (response) {
                 setName(response.data.nickname)
-              })
-              .catch(function (error) {
-                console.log(error);
               });
         }
                 

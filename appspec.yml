@@ -8,12 +8,12 @@ files:
 
 permission:
   - object: /home/ubuntu/app/front
-    pattern: "**"
     owner: ubuntu
     group: ubuntu
+    mode: 755
     
 hooks:
   AfterInstall:
     - location: deploy.sh
       timeout: 60
-      runas: ubuntu
+      runas: root

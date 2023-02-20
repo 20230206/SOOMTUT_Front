@@ -25,9 +25,11 @@ jobs:
       run: npm run build
       env:
         CI: ""
-        
+    
+    
+
     - name: zip create
-      run: zip -qq -r ./soomtut_front.zip
+      run: zip -qq -r ./build.zip
       shell: bash
 
     - name: Configure AWS credentials
@@ -42,11 +44,11 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run:
-        aws s3 cp --region ap-northeast-2 ./soomtut_front.zip s3://soomtut-github-actions-s3-bucket/soomtut_front.zip
+        aws s3 cp --region ap-northeast-2 ./build.zip s3://soomtut-github-actions-s3-bucket/build.zip
     
     - name: Deploy to EC2 from S3
       run: aws deploy create-deployment
         --application-name soomtut-codedeploy-app
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name soomtut-codedeploy-deployment-group
-        --s3-location bucket=soomtut-github-actions-s3-bucket,key=soomtut_front.zip,bundleType=zip
+        --s3-location bucket=soomtut-github-actions-s3-bucket,key=build.zip,bundleType=zip

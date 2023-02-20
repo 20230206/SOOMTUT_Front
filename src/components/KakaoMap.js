@@ -12,6 +12,8 @@ const KakaoMap = (props) => {
             level: 3
         };
         var map = new kakao.maps.Map(container, options);
+        var map2 = new kakao.maps.Map(container, options);
+        var map3 = new kakao.maps.Map(container, options);
         setPos(props)
     }, [])
 

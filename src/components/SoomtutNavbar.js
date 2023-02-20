@@ -23,6 +23,7 @@ function SoomtutNavbar() {
     };
     try {
       const response = await axios(config);
+      console.log(response.data);
       setToken(response.headers.get("Authorization"));
       setIsSignedIn(response.data);
     } catch (error) {
@@ -36,7 +37,7 @@ function SoomtutNavbar() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/signout'
+      url: 'http://localhost:8080/auth/logout'
     };
 
     try {
@@ -66,6 +67,7 @@ function SoomtutNavbar() {
       };
       try {
         const response = await axios(config);
+        console.log(response.data);
         setName(response.data.nickname);
 
       } catch (error) {

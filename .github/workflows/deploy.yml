@@ -3,15 +3,7 @@ name: Deploy
 on:
   push:
     branches: [ "release" ]
-
-
-env:
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: soomtut-github-actions-s3-bucket
-  CODE_DEPLOY_APPLICATION_NAME: soomtut-front-deployment-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: soomtut-front-deployment-group
   
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,7 +32,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ evn.AWS_REGION }}
+        aws-region: ap-northeast-2
         
     - name: Upload to S3
       env:
@@ -51,7 +43,7 @@ jobs:
     
     - name: Deploy to EC2 from S3
       run: aws deploy create-deployment 
-        --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} 
+        --application-name soomtut-front-deployment-app 
         --deployment-config-name CodeDeployDefault.AllAtOnce 
-        --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} 
+        --deployment-group-name soomtut-front-deployment-group 
         --s3-location bucket=soomtut-github-actions-s3-bucket,key=SOOMTUT_FRONT.zip,bundleType=zip

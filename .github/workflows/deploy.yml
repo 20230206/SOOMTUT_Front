@@ -45,4 +45,8 @@ jobs:
         aws s3 cp --region ap-northeast-2 ./SOOMTUT_FRONT.zip s3://soomtut-github-actions-s3-bucket/SOOMTUT_FRONT.zip
     
     - name: Deploy to EC2 from S3
-      run: aws deploy create-deployment --application-name soomtut-codedeploy-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name soomtut-codedeploy-deployment-group --s3-location bucket=soomtut-github-actions-s3-bucket,key=SOOMTUT_FRONT.zip,bundleType=zip
+      run: aws deploy create-deployment 
+        --application-name soomtut-deploy-app 
+        --deployment-config-name CodeDeployDefault.AllAtOnce 
+        --deployment-group-name soomtut-group 
+        --s3-location bucket=soomtut-github-actions-s3-bucket,key=SOOMTUT_FRONT.zip,bundleType=zip

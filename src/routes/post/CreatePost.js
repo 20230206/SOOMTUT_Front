@@ -59,7 +59,7 @@ function CreatePost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/createpost',
+            url: 'http://3.35.187.107:8080/createpost',
             headers: { 
               'Authorization': localStorage.getItem("Authorization"),
               'Content-Type': 'application/json'

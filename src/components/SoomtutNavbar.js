@@ -18,7 +18,7 @@ function SoomtutNavbar() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/validtoken',
+      url: 'http://3.35.187.107:8080/auth/validtoken',
       headers: {}
     };
     try {
@@ -37,7 +37,7 @@ function SoomtutNavbar() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/logout'
+      url: 'http://3.35.187.107:8080/auth/logout'
     };
 
     try {
@@ -60,7 +60,7 @@ function SoomtutNavbar() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/getmyinfo',
+        url: 'http://3.35.187.107:8080/getmyinfo',
         headers: {
           'Authorization': token
         }

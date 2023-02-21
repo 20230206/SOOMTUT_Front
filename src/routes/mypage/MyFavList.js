@@ -19,7 +19,7 @@ function MyFavList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/bookmark?page=0&size=5',
+            url: 'http://3.35.187.107:8080/bookmark?page=0&size=5',
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }

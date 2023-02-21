@@ -33,7 +33,7 @@ function MyPage() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/getmyinfo',
+            url: 'http://3.35.187.107:8080/getmyinfo',
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }
@@ -101,7 +101,7 @@ function MyPage() {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/updatelocation',
+            url: 'http://3.35.187.107:8080/updatelocation',
             headers: { 
               'Content-Type': 'application/json'
             },

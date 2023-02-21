@@ -31,7 +31,7 @@ function SigninForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/auth/signin',
+        url: 'http://3.35.187.107:8080/auth/signin',
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -88,8 +88,8 @@ function SigninForm() {
             </Button>
             </Form>
         
-            <Link to="http://localhost:8080/oauth2/authorization/kakao" > <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Link>
-            <Link to="http://localhost:8080/oauth2/authorization/google" ><Button> Google </Button></Link>
+            <Link to="http://3.35.187.107:8080/oauth2/authorization/kakao" > <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Link>
+            <Link to="http://3.35.187.107:8080/oauth2/authorization/google" ><Button> Google </Button></Link>
             </div>
         </div>
     );

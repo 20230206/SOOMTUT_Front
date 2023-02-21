@@ -15,7 +15,7 @@ function SetSignin () {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/auth/createrefreshforoauth2',
+            url: 'http://3.35.187.107:8080/auth/createrefreshforoauth2',
             headers: { 
                 'Authorization': params
             }

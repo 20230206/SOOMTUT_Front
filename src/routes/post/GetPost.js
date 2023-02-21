@@ -18,7 +18,7 @@ function GetPost() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}`,
+            url: `http://3.35.187.107:8080/posts/${postId}`,
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }
@@ -39,7 +39,7 @@ function GetPost() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/ismypost`,
+            url: `http://3.35.187.107:8080/posts/${postId}/ismypost`,
             headers: { 
                 'Authorization': localStorage.getItem("Authorization")
             }
@@ -59,7 +59,7 @@ function GetPost() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/bookmark`,
+            url: `http://3.35.187.107:8080/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': localStorage.getItem("Authorization")
             }
@@ -90,7 +90,7 @@ function GetPost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/bookmark`,
+            url: `http://3.35.187.107:8080/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': localStorage.getItem("Authorization"), 
               'Content-Type': 'application/json'

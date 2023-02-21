@@ -18,7 +18,7 @@ function MyClassList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/board/myposts`,
+            url: `http://3.35.187.107:8080/board/myposts`,
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }

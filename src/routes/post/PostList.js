@@ -29,7 +29,7 @@ function PostList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/boardAll?category=${category.id}`,
+            url: `http://3.35.187.107:8080/boardAll?category=${category.id}`,
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }

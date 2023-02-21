@@ -22,7 +22,7 @@ function SigninForm() {
         setPassword(event.target.value);
     }
 
-    const SubmitSignin = (email, password) => {
+    const SubmitLogin = (email, password) => {
         var data = JSON.stringify({
             "email": email,
             "password": password
@@ -31,7 +31,7 @@ function SigninForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://3.35.187.107:8080/auth/signin',
+        url: 'http://3.35.187.107:8080/auth/login',
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -83,7 +83,7 @@ function SigninForm() {
                 <br></br>
             </Form.Group>
 
-            <Button className={styles.summit} variant="primary" type="submit" onClick={() => SubmitSignin(email, password)}>
+            <Button className={styles.summit} variant="primary" type="submit" onClick={() => SubmitLogin(email, password)}>
             로그인
             </Button>
             </Form>

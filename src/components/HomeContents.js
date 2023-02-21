@@ -6,7 +6,6 @@ function HomeContents() {
     return (
         <div className={styles.wrapper}>
          <div className={styles.frontbanner}>
-
          </div>
          <div className={styles.buttonbox}>
             <Link to="/posts" className={styles.buttonboxitem}>

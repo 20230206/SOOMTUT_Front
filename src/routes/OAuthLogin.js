@@ -18,11 +18,6 @@ function OAuthLogin () {
     const state = params.get("state");
     const [loading, SetLoading] = useState(false);
 
-    console.log("name: "+ name);
-    console.log("role: "+ role);
-    console.log("hash: "+ hash);
-    console.log("state: "+ state);
-
     useEffect(() => {
         var data = JSON.stringify({
             "email" : name,
@@ -42,11 +37,9 @@ function OAuthLogin () {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
             SetLoading(response.data);
         })
         .catch(function (error) {
-            console.log(error);
         });
     }, [name, role, hash])
 
@@ -69,10 +62,8 @@ function OAuthLogin () {
           
           axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
           })
           .catch(function (error) {
-            console.log(error);
           });
     }
 
@@ -80,15 +71,12 @@ function OAuthLogin () {
         
     }, [loading])
 
-
-
     return (
         <div>
             {state === "false" && <Postcode
                 style={{ width: 460, height: 320 }}
                 jsOptions={{ animation: true, hideMapBtn: true }}
                 onSelected={data => {
-                    console.log(JSON.stringify(data));
                     SetAddress(data.address);
                     navigate("/");
                 }}

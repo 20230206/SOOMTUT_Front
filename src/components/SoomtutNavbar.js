@@ -14,18 +14,17 @@ function SoomtutNavbar() {
   const [token, setToken] = useState(null);
   const [name, setName] = useState("...");
 
-  const checkTokenValidity = useCallback(async () => {
+  const getAccessToken = useCallback(async () => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/validtoken',
+      url: 'http://localhost:8080/auth/getAccesstoken',
       headers: {}
     };
     try {
       const response = await axios(config);
-      console.log(response.data);
       setToken(response.headers.get("Authorization"));
-      setIsSignedIn(response.data);
+      setIsSignedIn(response.data.data);
     } catch (error) {
       console.log(error);
       setToken(null);
@@ -42,7 +41,7 @@ function SoomtutNavbar() {
 
     try {
       const response = await axios(config);
-      setIsSignedIn(response.data);
+      setIsSignedIn(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -51,9 +50,12 @@ function SoomtutNavbar() {
     window.location.reload();
   }
 
+  console.log(token)
+  console.log(isSignedIn)
+
   useEffect(() => {
-    checkTokenValidity();
-  }, [checkTokenValidity])
+    getAccessToken();
+  }, [getAccessToken])
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -62,7 +64,7 @@ function SoomtutNavbar() {
         maxBodyLength: Infinity,
         url: 'http://localhost:8080/getmyinfo',
         headers: {
-          'Authorization': token
+          'Authorization': "Bearer " + token
         }
       };
       try {

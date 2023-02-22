@@ -5,6 +5,7 @@ import styles from '../assets/styles/navstyles.module.css'
 import axios from 'axios'
 
 import logo from '../assets/images/logo.png'
+import { Link } from "react-router-dom";
 
 
 function SoomtutNavbar() {
@@ -86,7 +87,7 @@ function SoomtutNavbar() {
       <div className={styles.wrapper}>
       <Navbar bg="white" variant="white">
         <Container>
-          <Navbar.Brand href="#home">
+          <Link to="/"> <Navbar.Brand>
             <img
               alt=""
               src={logo}
@@ -94,6 +95,7 @@ function SoomtutNavbar() {
               className="d-inline-block align-top"
             />{' '}
           </Navbar.Brand>
+          </Link>
           <div className={styles.navmenu}>
             {isSignedIn &&
               <Navbar.Text className={styles.navmenuitem}>{member.nickname}님 안녕하세요</Navbar.Text>

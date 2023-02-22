@@ -7,6 +7,7 @@ import axios from "axios"
 
 import { Link } from "react-router-dom";
 import PostBoxInList from "../../components/PostBoxInList";
+import SoomtutNavbar from "../../components/SoomtutNavbar";
 
 const Category_List = [ 
     { id:0, name:"전체" },
@@ -28,16 +29,17 @@ function PostList() {
     const getPosts = (category) => {
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
-            url: `http://localhost:8080/boardAll?category=${category.id}`,
+            maxBodyLength: Infinity,
+            url: `http://localhost:8080/board?category=${category.id}&page=0&size=5`,
             headers: { 
-            'Authorization': localStorage.getItem("Authorization")
+
             }
         };
         
         axios(config)
         .then(function (response) {
-            const data = response.data;
+            const data = response.data.data.content;
+            console.log(response.data.data);
             setRes(data);
         })
         .catch(function (error) {
@@ -62,6 +64,7 @@ function PostList() {
 
     return (
         <div>
+            <SoomtutNavbar />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>

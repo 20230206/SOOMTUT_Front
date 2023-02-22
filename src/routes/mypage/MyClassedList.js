@@ -1,40 +1,78 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 
-import styles from "../../assets/styles/mycard.module.css"
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-import KakaoMap from "../../components/KakaoMap";
+import styles from "../../assets/styles/listpage.module.css"
+
+import SoomtutNavbar from "../../components/SoomtutNavbar";
+import PostBoxInList from "../../components/PostBoxInList";
+
+import axios from "axios";
+
 
 function MyClassedList() {
+    const [View, token, member] = SoomtutNavbar();
+    const [res, setRes] = useState([])
 
-    const [times, setTimes] = useState(0);
-    
-    const GetEvent = () => {
-        setTimes(value => value = (times + 1))
+    const getPosts = () => {
+        var config = {
+            method: 'get',
+        maxBodyLength: Infinity,
+            url: `http://localhost:8080/getCompletePost?page=0&size=5`,
+            headers: { 
+            'Authorization': token
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(response.data);
+            const data = response.data;
+            setRes(data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  
     }
-
+    
+    
     useEffect(() => {
-        console.log(times)
-    }, [times])
+        getPosts();
+    }, [])
+    
+    const CreatePost = (props) => 
+    {
+        if(res.length >= 1)  {
+            return props.posts.map((post) => (
+                <PostBoxInList 
+                    postId={post.postId} 
+                    image={post.image} 
+                    tutorNickname={post.tutorNickname} 
+                    title={post.title} 
+                    location={post.location} 
+                    fee={post.fee} />
+                )
+            );
+        }
+    }
 
     return (
         <div>
-            <Card className={styles.cardbox} onClick={() => GetEvent()}>
-                <Card.Header>Quote : {times} </Card.Header>
-                <Card.Body>
-                    <blockquote >
-                        <p>
-                            {' '}
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                            posuere erat a ante.{' '}
-                        </p>
-                        <KakaoMap />
-                        <footer>
-                            Someone famous in <cite title="Source Title">Source Title</cite>
-                        </footer>
-                    </blockquote>
-                </Card.Body>
-            </Card>
+            <View />
+            <div className={styles.wrapper}>
+                <div className={styles.headbox}>
+                    <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
+                    <div className={styles.headtextbox}> 
+                        <span className={styles.headtext}> 내가 받은 수업 목록 </span>
+                    </div> 
+                    <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                </div>
+                <div className={styles.listbox} id="listbox">
+                    <CreatePost posts={res} />
+                </div>
+            </div>
         </div>
     );
 

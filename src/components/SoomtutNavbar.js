@@ -67,7 +67,6 @@ function SoomtutNavbar() {
       };
       try {
         const response = await axios(config);
-        console.log(response.data);
         setMember(response.data);
 
       } catch (error) {

@@ -10,23 +10,26 @@ import PostBoxInList from "../../components/PostBoxInList";
 
 import axios from "axios";
 import styles from "../../assets/styles/listpage.module.css"
+import SoomtutNavbar from "../../components/SoomtutNavbar";
 
 function MyClassList() {
+    const [View, token, member] = SoomtutNavbar();
     const [res, setRes] = useState([])
 
     const getPosts = () => {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/board/myposts`,
+            url: `http://localhost:8080/board/myposts?page=0&size=5`,
             headers: { 
-            'Authorization': localStorage.getItem("Authorization")
+            'Authorization': token
             }
         };
         
         axios(config)
         .then(function (response) {
-            const data = response.data;
+            console.log(response.data.data);
+            const data = response.data.data.content;
             setRes(data);
         })
         .catch(function (error) {
@@ -40,8 +43,25 @@ function MyClassList() {
         getPosts();
     }, [])
     
+    const CreatePost = (props) => 
+    {
+        if(res.length >= 1)  {
+            return props.posts.map((post) => (
+                <PostBoxInList 
+                    postId={post.postId} 
+                    image={post.image} 
+                    tutorNickname={post.tutorNickname} 
+                    title={post.title} 
+                    location={post.location} 
+                    fee={post.fee} />
+                )
+            );
+        }
+    }
+
     return (
         <div>
+            <View />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
@@ -51,11 +71,7 @@ function MyClassList() {
                     <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
-                    { res.length >= 1  ? <PostBoxInList data={res[0]} /> : null }
-                    { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
-                    { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
-                    { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                    { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
+                    <CreatePost posts={res} />
                 </div>
             </div>
         </div>

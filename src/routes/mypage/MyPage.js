@@ -1,7 +1,8 @@
 /*global kakao*/
 import React, {
     useState,
-    useEffect
+    useEffect,
+    useCallback
 } from "react";
 
 import { 
@@ -18,6 +19,7 @@ import Postcode from '@actbase/react-daum-postcode';
 
 function MyPage() {
     const [myInfo, setMyInfo] = useState([]);
+    const [token, setToken] = useState("");
   
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const [posX, setPosX] = useState(37.365264512305174);
@@ -27,28 +29,28 @@ function MyPage() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const GetMyInfo = () => {
+    const GetMyInfo = useCallback(async() => {
         axios.defaults.withCredentials = true;
                 
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
+            maxBodyLength: Infinity,
             url: 'http://localhost:8080/getmyinfo',
             headers: { 
-            'Authorization': localStorage.getItem("Authorization")
+                "Content-Type": "application/json"
             }
         };
-        
-        axios(config)
-        .then(function (response) {
-            setMyInfo(response.data)
+
+        try {
+            const response = await axios(config);
+            console.log(response.headers.getAuthorization());
+            setToken(response.headers.get("Authorization"));
+            setMyInfo(response.data);
             setLocation(response.data.address)
-        })
-        .catch(function (error) {
+          } catch (error) {
             console.log(error);
-        });
-  
-    }
+        }
+    }, [])
     
     useEffect(() => {
         GetMyInfo();

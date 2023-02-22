@@ -68,7 +68,7 @@ function OAuthLogin () {
     }
 
     useEffect(() => {
-        
+        if(state === "true") navigate("/")
     }, [loading])
 
     return (

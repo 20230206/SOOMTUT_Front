@@ -50,9 +50,6 @@ function SoomtutNavbar() {
     window.location.reload();
   }
 
-  console.log(token)
-  console.log(isSignedIn)
-
   useEffect(() => {
     getAccessToken();
   }, [getAccessToken])
@@ -64,12 +61,12 @@ function SoomtutNavbar() {
         maxBodyLength: Infinity,
         url: 'http://localhost:8080/getmyinfo',
         headers: {
-          'Authorization': "Bearer " + token
+          'Authorization': `Bearer ${token}`
         }
       };
       try {
         const response = await axios(config);
-        console.log(response.data);
+        console.log(response.data)
         setName(response.data.nickname);
 
       } catch (error) {

@@ -24,29 +24,41 @@ const Category_List = [
 ];
 
 function PostList() {
-    const [res, setRes] = useState([])
+    const [res, setRes] = useState([
+        {
+            "postId" : 0,
+            "image" : 0,
+            "tutorNickname" : 0,
+            "title" : 0,
+            "location" : 0,
+            "fee" : 0
+        }
+    ])
+    const [View, token, member] = SoomtutNavbar()
+    const [loading, setLoading] = useState(false);
+    const [loadPost, setLoadPost] = useState(false);
 
-    const getPosts = (category) => {
+    const GetPosts = (category) => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `http://localhost:8080/board?category=${category.id}&page=0&size=5`,
             headers: { 
-
+                "Authorization" : token
             }
         };
         
         axios(config)
         .then(function (response) {
             const data = response.data.data.content;
-            console.log(response.data.data);
             setRes(data);
+            SetLoading();
         })
         .catch(function (error) {
-            console.log(error);
         });
-  
     }
+
+    const SetLoading = () => { setLoading(true); }
     
     const [curCategory, setCurCategory] = useState(Category_List[0])
     const SelectCategory = (type) => {
@@ -54,17 +66,37 @@ function PostList() {
     }
 
     useEffect(() => {
-        getPosts(Category_List[0]);
-    }, [])
+        if(loading === true) setLoadPost(true);
+    }, [loading])
+
+    useEffect(() => {
+        GetPosts(Category_List[0]);
+    }, [token])
 
 
     useEffect(() => {
-        getPosts(curCategory);
-    }, [curCategory])
+        if(loading===true) GetPosts(curCategory);
+    }, [curCategory, loadPost])
+
+    const CreatePost = (props) => 
+    {
+        if(res.length >= 1)  {
+            return props.posts.map((post) => (
+                <PostBoxInList 
+                    postId={post.postId} 
+                    image={post.image} 
+                    tutorNickname={post.tutorNickname} 
+                    title={post.title} 
+                    location={post.location} 
+                    fee={post.fee} />
+                )
+            );
+        }
+    }
 
     return (
         <div>
-            <SoomtutNavbar />
+            <View />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
@@ -90,11 +122,7 @@ function PostList() {
                     <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
-                    { res.length >= 1  ? <PostBoxInList data={res[0]} /> : null }
-                    { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
-                    { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
-                    { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                    { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
+                    <CreatePost posts={res}></CreatePost>
                 </div>
             </div>
         </div>

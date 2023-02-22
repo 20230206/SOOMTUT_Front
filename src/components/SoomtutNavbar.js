@@ -12,7 +12,7 @@ function SoomtutNavbar() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [token, setToken] = useState(null);
-  const [name, setName] = useState("...");
+  const [member, setMember] = useState([]);
 
   const getAccessToken = useCallback(async () => {
     const config = {
@@ -66,8 +66,8 @@ function SoomtutNavbar() {
       };
       try {
         const response = await axios(config);
-        console.log(response.data)
-        setName(response.data.nickname);
+        console.log(response.data);
+        setMember(response.data);
 
       } catch (error) {
         console.log(error);
@@ -81,8 +81,9 @@ function SoomtutNavbar() {
 
   }, [isSignedIn, token])
 
-  return (
-    <div className={styles.wrapper}>
+  const View = () => {
+    return (
+      <div className={styles.wrapper}>
       <Navbar bg="white" variant="white">
         <Container>
           <Navbar.Brand href="#home">
@@ -95,7 +96,7 @@ function SoomtutNavbar() {
           </Navbar.Brand>
           <div className={styles.navmenu}>
             {isSignedIn &&
-              <Navbar.Text className={styles.navmenuitem}>{name}님 안녕하세요</Navbar.Text>
+              <Navbar.Text className={styles.navmenuitem}>{member.nickname}님 안녕하세요</Navbar.Text>
             }
             {isSignedIn ?
               <Nav.Link className={styles.navmenuitem} onClick={handleSignout}> 로그아웃 </Nav.Link> :
@@ -109,7 +110,10 @@ function SoomtutNavbar() {
         </Container>
       </Navbar>
     </div>
-  );
+    );
+  }
+
+  return [View, token, member];
 }
 
 export default SoomtutNavbar;

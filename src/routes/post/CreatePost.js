@@ -4,6 +4,8 @@ import styles from "../../assets/styles/poststyle.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
+import SoomtutNavbar from "../../components/SoomtutNavbar";
+
 const Category_List = [ 
     { id:0, name:"카테고리" },
     { id:1, name:"스포츠" },
@@ -19,6 +21,9 @@ const Category_List = [
 ];
 
 function CreatePost() {
+    
+    const [View, token, member] = SoomtutNavbar();
+
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
@@ -78,6 +83,8 @@ function CreatePost() {
     }
 
     return (
+        <div>
+        <View />
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
                 <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
@@ -143,6 +150,7 @@ function CreatePost() {
                  onChange={InputContents}
                 />
             </div>
+        </div>
         </div>
     );
 }

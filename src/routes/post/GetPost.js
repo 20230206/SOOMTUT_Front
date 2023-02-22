@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import SoomtutNavbar from "../../components/SoomtutNavbar";
 import styles from "../../assets/styles/poststyle.module.css"
 import axios from "axios";
 
@@ -12,6 +13,8 @@ function GetPost() {
     const [postdata, setPostdata] = useState([])
     const [isMy, setIsMy] = useState(false);
     const [fav, setFav] = useState(false);
+
+    const [View, token, member] = SoomtutNavbar();
 
     const GetPostInfo = useCallback(() => {
                 
@@ -110,6 +113,7 @@ function GetPost() {
 
     return (
         <div>
+            <View />
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
                     <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>

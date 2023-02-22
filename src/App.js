@@ -7,7 +7,7 @@ import {
 import Home from "./routes/Home"
 import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
-import SetSignin from "./routes/SetSignin"
+import OAuthLogin from "./routes/OAuthLogin"
 
 import MyPage from "./routes/mypage/MyPage";
 import MyFavList from "./routes/mypage/MyFavList";
@@ -27,7 +27,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/setsignin/:access" element={<SetSignin />} />
+          <Route path="/oauthlogin" element={ <OAuthLogin />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/favlist" element={<MyFavList />} />
           <Route path="/mypage/myclasslist" element={<MyClassList/>} />

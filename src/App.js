@@ -18,6 +18,7 @@ import MyChatList from "./routes/mypage/MyChatList";
 import PostList from "./routes/post/PostList";
 import CreatePost from "./routes/post/CreatePost"
 import GetPost from "./routes/post/GetPost";
+import ChatRoom from "./components/ChatRoom";
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
           <Route path="/posts" element={<PostList />} />
           <Route path="/posts/:id" element={<GetPost />} />
           <Route path="/posts/create" element={<CreatePost />} />
+
+          <Route path="/chat/:id" element={<ChatRoom />} />
       </Routes>
     </Router>
   );

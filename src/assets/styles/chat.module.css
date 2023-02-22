@@ -1,0 +1,38 @@
+.wrapper {
+    width: 96vw;
+    height: 93vh;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: 2px auto 2px auto;
+}
+
+.chatbox{
+    width: 96vw;
+    height: 83vh;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+}
+
+.inputbox {
+    width: 96vw;
+    min-width: 500px;
+    min-height: 58px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    display: flex;
+}
+
+.inputbutton {
+    min-width: 100px;
+    min-height: 54px;
+}
+
+.input {
+    width: 300px;
+}

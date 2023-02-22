@@ -8,7 +8,7 @@ import styles from "../assets/styles/formstyle.module.css"
 import logo from "../assets/images/logo.png"
 import { useNavigate } from "react-router-dom";
 
-function SignupForm() {
+function RegisterForm() {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -76,14 +76,15 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/auth/signup/check?email=${input}`,
+            url: `http://localhost:8080/auth/register/check?email=${input}`,
             headers: { },
             data : data
         };
 
         axios(config)
         .then(function (response) {
-            setDupleEmail(response.data)
+            console.log(response);
+            setDupleEmail(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
@@ -96,7 +97,7 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/auth/signup/check?nickname=${input}`,
+            url: `http://localhost:8080/auth/register/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -104,7 +105,7 @@ function SignupForm() {
         axios(config)
         .then(function (response) {
             console.log("response.data : " + response.data)
-            setDupleNickname(response.data)
+            setDupleNickname(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
@@ -124,7 +125,7 @@ function SignupForm() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/auth/signup',
+            url: 'http://localhost:8080/auth/register',
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -239,4 +240,4 @@ function SignupForm() {
     );
 }
 
-export default SignupForm;
+export default RegisterForm;

@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom"
 import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
-function SigninForm() {
+function LoginForm() {
     axios.defaults.withCredentials = true;
 
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ function SigninForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/auth/signin',
+        url: 'http://localhost:8080/auth/login',
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -95,4 +95,4 @@ function SigninForm() {
     );
 }
 
-export default SigninForm
+export default LoginForm

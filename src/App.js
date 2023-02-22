@@ -5,7 +5,7 @@ import {
 } from "react-router-dom"
 
 import Home from "./routes/Home"
-import Signin from "./routes/Signin";
+import Login from "./routes/Login";
 import Register from "./routes/Register";
 import OAuthLogin from "./routes/OAuthLogin"
 
@@ -25,8 +25,8 @@ function App() {
     <Router>
       <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/oauthlogin" element={ <OAuthLogin />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/favlist" element={<MyFavList />} />

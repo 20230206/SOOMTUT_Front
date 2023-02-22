@@ -99,11 +99,11 @@ function SoomtutNavbar() {
             }
             {isSignedIn ?
               <Nav.Link className={styles.navmenuitem} onClick={handleSignout}> 로그아웃 </Nav.Link> :
-              <Nav.Link className={styles.navmenuitem} href="/signin"> 로그인 </Nav.Link>
+              <Nav.Link className={styles.navmenuitem} href="/login"> 로그인 </Nav.Link>
             }
             {isSignedIn ?
               <Nav.Link className={styles.navmenuitem} href="/mypage"> 마이페이지 </Nav.Link> :
-              <Nav.Link className={styles.navmenuitem} href="/signup"> 회원가입 </Nav.Link>
+              <Nav.Link className={styles.navmenuitem} href="/register"> 회원가입 </Nav.Link>
             }
           </div>
         </Container>

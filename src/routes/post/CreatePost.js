@@ -66,7 +66,7 @@ function CreatePost() {
           maxBodyLength: Infinity,
             url: 'http://localhost:8080/createpost',
             headers: { 
-              'Authorization': localStorage.getItem("Authorization"),
+              'Authorization': token,
               'Content-Type': 'application/json'
             },
             data : data

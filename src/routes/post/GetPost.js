@@ -44,7 +44,7 @@ function GetPost() {
             maxBodyLength: Infinity,
             url: `http://localhost:8080/posts/${postId}/ismypost`,
             headers: { 
-                'Authorization': localStorage.getItem("Authorization")
+                'Authorization': token
             }
         };
         
@@ -64,7 +64,7 @@ function GetPost() {
           maxBodyLength: Infinity,
             url: `http://localhost:8080/posts/${postId}/bookmark`,
             headers: { 
-              'Authorization': localStorage.getItem("Authorization")
+              'Authorization': token
             }
           };
           

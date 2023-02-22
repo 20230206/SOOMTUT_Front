@@ -16,10 +16,12 @@ import styles from "../../assets/styles/mypage.module.css"
 import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
+import SoomtutNavbar from "../../components/SoomtutNavbar";
 
 function MyPage() {
+    const [View, token, member] = SoomtutNavbar()
+
     const [myInfo, setMyInfo] = useState([]);
-    const [token, setToken] = useState("");
   
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const [posX, setPosX] = useState(37.365264512305174);
@@ -37,6 +39,7 @@ function MyPage() {
             maxBodyLength: Infinity,
             url: 'http://localhost:8080/getmyinfo',
             headers: { 
+                "Authrorization": token,
                 "Content-Type": "application/json"
             }
         };
@@ -44,7 +47,6 @@ function MyPage() {
         try {
             const response = await axios(config);
             console.log(response.headers.getAuthorization());
-            setToken(response.headers.get("Authorization"));
             setMyInfo(response.data);
             setLocation(response.data.address)
           } catch (error) {
@@ -122,6 +124,7 @@ function MyPage() {
 
     return (
         <div>
+            <View />
             <div className={styles.wrapper}>
                 <div className={styles.pagebox}>
                      <p className={styles.pageboxtext}>마이 페이지</p>

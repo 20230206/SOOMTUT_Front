@@ -23,7 +23,7 @@ function GetPost() {
         maxBodyLength: Infinity,
             url: `http://localhost:8080/posts/${postId}`,
             headers: { 
-            'Authorization': localStorage.getItem("Authorization")
+            'Authorization': token
             }
         };
         
@@ -85,7 +85,6 @@ function GetPost() {
     }, [GetPostInfo, GetPostIsMy, GetFav])
 
     const RequestFav = () => {
-        console.log(fav)
         var data = JSON.stringify({
             "curfav": true
           });

@@ -17,6 +17,7 @@ import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
 import SoomtutNavbar from "../../components/SoomtutNavbar";
+import ProfileModal from "../../components/ProfileModal";
 
 function MyPage() {
     const [View, token, member] = SoomtutNavbar()
@@ -26,10 +27,15 @@ function MyPage() {
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const [posX, setPosX] = useState(37.365264512305174);
     const [posY, setPosY] = useState(127.10676860117488);
-
-    const [show, setShow] = useState(false);
+    
+    const [profileshow, setProfileShow] = useState(false);
+    const handleProfileClose = () => setProfileShow(false);
+    const handleProfileShow = () => setProfileShow(true);
+    
+    const [locationshow, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
 
     const GetMyInfo = useCallback(async() => {
         axios.defaults.withCredentials = true;
@@ -136,7 +142,13 @@ function MyPage() {
                     <div className={styles.profiles}>
                         <div className={styles.profilename}> <span> {myInfo.nickname} </span></div>
                         <div className={styles.profileemail}> <span> {myInfo.email} </span></div>
-                        <div className={styles.profilebutton}> <Button> 프로필 업로드 </Button></div>
+                        <br></br>
+                        <Button onClick={() => handleProfileShow()}> 프로필 보기 </Button>
+
+                        <Modal show={profileshow} onHide={handleProfileClose} size="xl">
+                        <ProfileModal info={myInfo} location={location} />
+                        </Modal>
+
                     </div>
                 </div>
                 <div className={styles.infobox}>
@@ -145,13 +157,13 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 프로필 보기 </Link></li>
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/favlist"> 관심 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclassedlist"> 수강한 수업 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/favlist"> 관심 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclassedlist"> 수강한 수업 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
 
-                    <Modal show={show} onHide={handleClose}>
+                    <Modal show={locationshow} onHide={handleClose}>
                     <Modal.Body style={{height:"540px"}}>
                         <Postcode
                         style={{ width: 460, height: 320 }}

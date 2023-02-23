@@ -109,3 +109,16 @@
     position: relative;
     transform: translateX(500%);
 }
+
+.modalprofilebox{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.modalprofileinfobox {
+    width: 800px;
+    min-height: 160px;
+
+    border: 2px solid;
+    margin: 5px auto 0px auto;
+}

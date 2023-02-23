@@ -45,7 +45,7 @@ function MyClassList() {
     
     const CreatePost = (props) => 
     {
-        if(res.length >= 1)  {
+        if(props.posts)  {
             return props.posts.map((post) => (
                 <PostBoxInList 
                     postId={post.postId} 

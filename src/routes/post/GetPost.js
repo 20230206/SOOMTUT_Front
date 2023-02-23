@@ -38,25 +38,8 @@ function GetPost() {
     }, [postId])
 
     const GetPostIsMy = useCallback(() => {
-                
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/ismypost`,
-            headers: { 
-                'Authorization': token
-            }
-        };
-        
-        axios(config)
-        .then(function (response) {
-            setIsMy(response.data)
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-        
-    }, [postId])
+        setIsMy(postdata.tutorNickname===member.nickname)
+    }, [postdata])
 
     const GetFav = useCallback(() => {
         var config = {
@@ -80,9 +63,12 @@ function GetPost() {
 
     useEffect(() => {
         GetPostInfo();
-        GetPostIsMy();
         GetFav();
-    }, [GetPostInfo, GetPostIsMy, GetFav])
+    }, [GetPostInfo, GetFav])
+
+    useEffect(() => {
+        if(postdata.length!==0) { GetPostIsMy() }
+    }, [postdata])
 
     const RequestFav = () => {
         var data = JSON.stringify({
@@ -111,7 +97,23 @@ function GetPost() {
     }
 
     const RequestClass = () => {
+        var config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `http://localhost:8080/classConfirmed/${postId}`,
+            headers: { 
+                'Authorization': token
+            }
+        };
         
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  
     }
 
     const CreateChatRoom = () => {
@@ -120,7 +122,8 @@ function GetPost() {
         const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
         const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
         const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open("http://localhost:3000/chat/1", "_blank", windowFeatures);
+        window.open(`http://localhost:3000/chat/${postId}`, "_blank", windowFeatures);
+
     }
 
     return (

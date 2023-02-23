@@ -1,11 +1,24 @@
 .wrapper {
-    width: 96vw;
+    width: 94vw;
 
     margin: 2px auto 2px auto;
 }
 
+.chatinfobox {
+    width: 94vw;
+    height: 48px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
 .chatbox{
-    width: 96vw;
+    width: 94vw;
     height: 83vh;
 
     border: 2px solid;
@@ -14,7 +27,7 @@
 }
 
 .inputbox {
-    width: 96vw;
+    width: 94vw;
     min-width: 350px;
     min-height: 58px;
 
@@ -24,8 +37,9 @@
 }
 
 .inputgroup {
-    width: 96vw;
+    width: 94vw;
     min-width: 280px;
+
 }
 
 .inputbutton {
@@ -35,4 +49,11 @@
 
 .input {
     width: 300px;
+}
+
+.chatwrapper {
+    width: 92vw;
+    height: 36px;
+
+    /* background-color: tomato; */
 }

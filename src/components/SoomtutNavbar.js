@@ -24,7 +24,7 @@ function SoomtutNavbar() {
     };
     try {
       const response = await axios(config);
-      setToken(response.headers.get("Authorization"));
+      setToken("Bearer " + response.headers.get("Authorization"));
       setIsSignedIn(response.data.data);
     } catch (error) {
       console.log(error);
@@ -62,7 +62,7 @@ function SoomtutNavbar() {
         maxBodyLength: Infinity,
         url: 'http://localhost:8080/getmyinfo',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': token
         }
       };
       try {

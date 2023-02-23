@@ -1,9 +1,5 @@
 .wrapper {
     width: 96vw;
-    height: 93vh;
-
-    border: 2px solid;
-    border-radius: 5px;
 
     margin: 2px auto 2px auto;
 }
@@ -19,17 +15,21 @@
 
 .inputbox {
     width: 96vw;
-    min-width: 500px;
+    min-width: 350px;
     min-height: 58px;
 
-    border: 2px solid;
     border-radius: 5px;
 
     display: flex;
 }
 
+.inputgroup {
+    width: 96vw;
+    min-width: 280px;
+}
+
 .inputbutton {
-    min-width: 100px;
+    min-width: 80px;
     min-height: 54px;
 }
 

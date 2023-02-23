@@ -115,8 +115,8 @@ function GetPost() {
     }
 
     const CreateChatRoom = () => {
-        const windowWidth = 600;
-        const windowHeight = 600;
+        const windowWidth = 370;
+        const windowHeight = 500;
         const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
         const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
         const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
@@ -130,7 +130,6 @@ function GetPost() {
                 <div className={styles.headbox}>
                     <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
                     <div className={styles.headboxtextonRead}><span> {postdata.title} </span></div>
-                    { !isMy && <Link > <Button className={styles.headboxbutton} onClick={()=>RequestClass()}> 수업신청 </Button> </Link> }
                 </div>
                     
                 <div className={styles.imagebox}>

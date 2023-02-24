@@ -21,7 +21,7 @@ function GetPost() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}`,
+            url: `http://l${process.env.REACT_APP_HOST}/posts/${postId}`,
             headers: { 
             'Authorization': token
             }
@@ -45,7 +45,7 @@ function GetPost() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/bookmark`,
+            url: `http://${process.env.REACT_APP_HOST}/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': token
             }
@@ -78,7 +78,7 @@ function GetPost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://localhost:8080/posts/${postId}/bookmark`,
+            url: `http://${process.env.REACT_APP_HOST}/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': localStorage.getItem("Authorization"), 
               'Content-Type': 'application/json'
@@ -100,7 +100,7 @@ function GetPost() {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/classConfirmed/${postId}`,
+            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${postId}`,
             headers: { 
                 'Authorization': token
             }
@@ -122,7 +122,7 @@ function GetPost() {
         const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
         const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
         const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`http://localhost:3000/chat/${postId}`, "_blank", windowFeatures);
+        window.open(`http://${process.env.REACT_APP_HOST}/chat/${postId}`, "_blank", windowFeatures);
 
     }
 

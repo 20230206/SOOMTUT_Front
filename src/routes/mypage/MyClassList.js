@@ -20,7 +20,7 @@ function MyClassList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/board/myposts?page=0&size=5`,
+            url: `http://${process.env.REACT_APP_HOST}/board/myposts?page=0&size=5`,
             headers: { 
             'Authorization': token
             }

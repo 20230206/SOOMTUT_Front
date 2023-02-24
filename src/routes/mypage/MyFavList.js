@@ -21,7 +21,7 @@ function MyFavList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/bookmark?page=0&size=5',
+            url: `http://${process.env.REACT_APP_HOST}/bookmark?page=0&size=5`,
             headers: { 
             'Authorization': token
             }

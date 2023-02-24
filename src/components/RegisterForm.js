@@ -76,7 +76,7 @@ function RegisterForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/auth/register/check?email=${input}`,
+            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?email=${input}`,
             headers: { },
             data : data
         };
@@ -97,7 +97,7 @@ function RegisterForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/auth/register/check?nickname=${input}`,
+            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -125,7 +125,7 @@ function RegisterForm() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/auth/register',
+            url: `http://${process.env.REACT_APP_HOST}/auth/register`,
             headers: { 
               'Content-Type': 'application/json'
             },

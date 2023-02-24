@@ -64,7 +64,7 @@ function CreatePost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/createpost',
+            url: `http://${process.env.REACT_APP_HOST}/createpost`,
             headers: { 
               'Authorization': token,
               'Content-Type': 'application/json'

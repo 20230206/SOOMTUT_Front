@@ -28,7 +28,7 @@ function OAuthLogin () {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8080/auth/oauthlogin',
+            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-login`,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -53,7 +53,7 @@ function OAuthLogin () {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/auth/oauthlocation',
+            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-getinfo`,
             headers: { 
               'Content-Type': 'application/json'
             },

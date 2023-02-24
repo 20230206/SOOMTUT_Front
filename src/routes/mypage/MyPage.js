@@ -43,7 +43,7 @@ function MyPage() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8080/getmyinfo',
+            url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
             headers: { 
                 "Authrorization": token,
                 "Content-Type": "application/json"
@@ -111,7 +111,7 @@ function MyPage() {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/updatelocation',
+            url: `http://${process.env.REACT_APP_HOST}/updatelocation`,
             headers: { 
               'Content-Type': 'application/json'
             },

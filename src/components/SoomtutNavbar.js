@@ -19,7 +19,7 @@ function SoomtutNavbar() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/getAccesstoken',
+      url: `http://${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
       headers: {}
     };
     try {
@@ -37,7 +37,7 @@ function SoomtutNavbar() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8080/auth/logout'
+      url: `http://${process.env.REACT_APP_HOST}/auth/logout`
     };
 
     try {
@@ -60,14 +60,14 @@ function SoomtutNavbar() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/getmyinfo',
+        url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
         headers: {
           'Authorization': token
         }
       };
       try {
         const response = await axios(config);
-        setMember(response.data);
+        setMember(response.data.data);
 
       } catch (error) {
         console.log(error);

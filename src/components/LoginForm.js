@@ -31,7 +31,7 @@ function LoginForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/auth/login',
+        url: `http://${process.env.REACT_APP_HOST}/auth/login`,
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -88,8 +88,8 @@ function LoginForm() {
             </Button>
             </Form>
         
-            <Link to="http://localhost:8080/oauth2/authorization/kakao" > <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Link>
-            <Link to="http://localhost:8080/oauth2/authorization/google" ><Button> Google </Button></Link>
+            <Link to={`http://${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} > <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Link>
+            <Link to={`http://${process.env.REACT_APP_HOST}/oauth2/authorization/google`} ><Button> Google </Button></Link>
             </div>
         </div>
     );

@@ -19,7 +19,7 @@ function MyClassedList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://localhost:8080/getCompletePost?page=0&size=5`,
+            url: `http://${process.env.REACT_APP_HOST}/getCompletePost?page=0&size=5`,
             headers: { 
             'Authorization': token
             }

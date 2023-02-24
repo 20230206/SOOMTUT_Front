@@ -95,7 +95,7 @@ const ChatRoom = () => {
 
     useEffect(() => {
       if (stompClient) {
-        stompClient.subscribe('/subscribe/room/roomId', (message) => {
+        stompClient.subscribe(`/subscribe/room/${roomInfo.id}`, (message) => {
           const messageList = JSON.parse(message.body);
           setMessageList((prevChatMessages) => [...prevChatMessages, messageList]);
         });
@@ -107,6 +107,7 @@ const ChatRoom = () => {
         const chatRequest = { senderId: userdata.memberId, roomId: roomInfo.id, message };
         stompClient.send('/publish/message', {}, JSON.stringify(chatRequest));
         setMessage("");
+        window.location.reload();
     }
 
     const SetMessage = (event) => {

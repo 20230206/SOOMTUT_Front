@@ -12,7 +12,7 @@ function HomeContents() {
             <Link to="/posts" className={styles.buttonboxitem}>
                 <Button className={styles.button}>   나의 튜터 찾기  </Button>  
             </Link>
-            <Link to="/" className={styles.buttonboxitem}> 
+            <Link to="/findtutor" className={styles.buttonboxitem}> 
                 <Button className={styles.button}> 내 주변의 튜터 찾기 </Button> 
             </Link>    
          </div>

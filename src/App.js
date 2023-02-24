@@ -19,6 +19,7 @@ import PostList from "./routes/post/PostList";
 import CreatePost from "./routes/post/CreatePost"
 import GetPost from "./routes/post/GetPost";
 import ChatRoom from "./components/ChatRoom";
+import FindTutor from "./routes/findtutor/FindTutor";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/posts/create" element={<CreatePost />} />
 
           <Route path="/chat/:id" element={<ChatRoom />} />
+          <Route path="/findtutor" element={<FindTutor />} />
       </Routes>
     </Router>
   );

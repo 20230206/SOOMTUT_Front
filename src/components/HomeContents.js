@@ -9,7 +9,7 @@ function HomeContents() {
 
          </div>
          <div className={styles.buttonbox}>
-            <Link to="/posts" className={styles.buttonboxitem}>
+            <Link to="/lecture" className={styles.buttonboxitem}>
                 <Button className={styles.button}>   나의 튜터 찾기  </Button>  
             </Link>
             <Link to="/findtutor" className={styles.buttonboxitem}> 

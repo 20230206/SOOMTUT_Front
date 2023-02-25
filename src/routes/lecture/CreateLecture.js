@@ -20,7 +20,7 @@ const Category_List = [
     { id:10, name:"운동" }
 ];
 
-function CreatePost() {
+function CreateLecture() {
     
     const [View, token, member] = SoomtutNavbar();
 
@@ -64,7 +64,7 @@ function CreatePost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/createpost`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
               'Authorization': token,
               'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ function CreatePost() {
           
           axios(config)
           .then(function (response) {
-            navigate("/posts/"+response.data.postId)
+            // navigate("/posts/"+response.data.postId)
           })
           .catch(function (error) {
             console.log(error);
@@ -87,7 +87,7 @@ function CreatePost() {
         <View />
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
-                <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
                 <div className={styles.headboxtext}><span> 글쓰기 </span></div>
                 <Button
                  className={styles.headboxbutton}
@@ -155,4 +155,4 @@ function CreatePost() {
     );
 }
 
-export default CreatePost;
+export default CreateLecture;

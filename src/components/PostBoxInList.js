@@ -6,7 +6,7 @@ import styles from "../assets/styles/postforminlist.module.css"
 function PostBoxInList(props) {
     const navigate = useNavigate();
     const ToPost = () => {
-        navigate("/posts/" + props.postId)
+        navigate("/lecture/" + props.postId)
     }
     return (
         <div>

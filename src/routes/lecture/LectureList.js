@@ -23,26 +23,15 @@ const Category_List = [
     { id:10, name:"운동" }
 ];
 
-function PostList() {
-    const [res, setRes] = useState([
-        {
-            "postId" : 0,
-            "image" : 0,
-            "tutorNickname" : 0,
-            "title" : 0,
-            "location" : 0,
-            "fee" : 0
-        }
-    ])
+function LectureList() {
     const [View, token, member] = SoomtutNavbar()
     const [loading, setLoading] = useState(false);
-    const [loadPost, setLoadPost] = useState(false);
 
     const GetPosts = (category) => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/board?category=${category.id}&page=0&size=5`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture?category=${category.id}&page=0&size=5`,
             headers: { 
                 "Authorization" : token
             }
@@ -51,7 +40,7 @@ function PostList() {
         axios(config)
         .then(function (response) {
             const data = response.data.data.content;
-            setRes(data);
+            setLectures(data);
             SetLoading();
         })
         .catch(function (error) {
@@ -60,27 +49,26 @@ function PostList() {
 
     const SetLoading = () => { setLoading(true); }
     
+    // 토큰 정보 생성 시, 포스트 내용 조회
+    useEffect(() => {
+        if(token) GetPosts(Category_List[0]);
+    }, [token])
+
+    const [lectures, setLectures] = useState(null)
+    
     const [curCategory, setCurCategory] = useState(Category_List[0])
     const SelectCategory = (type) => {
         setCurCategory(Category_List[type])
     }
 
     useEffect(() => {
-        if(loading === true) setLoadPost(true);
-    }, [loading])
-
-    useEffect(() => {
-        GetPosts(Category_List[0]);
-    }, [token])
-
-
-    useEffect(() => {
         if(loading===true) GetPosts(curCategory);
-    }, [curCategory, loadPost])
+    }, [curCategory])
 
-    const CreatePost = (props) => 
-    {
-        if(res.length >= 1)  {
+    const CreatePost = (props) => {
+        // 강의가 존재하면 조회해옴
+        if(lectures)  {
+            console.log(lectures);
             return props.posts.map((post) => (
                 <PostBoxInList 
                     postId={post.postId} 
@@ -119,14 +107,14 @@ function PostList() {
                     </Dropdown.Menu>
                     </Dropdown>
                     </div> 
-                    <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                    <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
-                    <CreatePost posts={res}></CreatePost>
+                    <CreatePost posts={lectures}></CreatePost>
                 </div>
             </div>
         </div>
     );
 }
 
-export default PostList;
+export default LectureList;

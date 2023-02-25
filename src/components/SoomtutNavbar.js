@@ -68,7 +68,7 @@ function SoomtutNavbar() {
       };
       try {
         const response = await axios(config);
-        setMemberdata(response.data);
+        setMemberdata(response.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -131,7 +131,7 @@ function SoomtutNavbar() {
   useEffect(() => {
     if(isSignedIn===true) View();
   }, [memberdata])
-
+  
   return [View, token, memberdata];
 }
 

@@ -8,20 +8,20 @@ import SoomtutNavbar from "../../components/SoomtutNavbar";
 import styles from "../../assets/styles/poststyle.module.css"
 import axios from "axios";
 
-function GetPost() {
-    const postId = useParams().id;
-    const [postdata, setPostdata] = useState([])
+function GetLecture() {
+    const lectureId = useParams().id;
+    const [lecturedata, setPostdata] = useState(null)
     const [isMy, setIsMy] = useState(false);
     const [fav, setFav] = useState(false);
 
     const [View, token, member] = SoomtutNavbar();
 
-    const GetPostInfo = useCallback(() => {
+    const GetLectureInfo = useCallback(() => {
                 
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://l${process.env.REACT_APP_HOST}/posts/${postId}`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
             headers: { 
             'Authorization': token
             }
@@ -29,23 +29,23 @@ function GetPost() {
         
         axios(config)
         .then(function (response) {
-            setPostdata(response.data)
+            setPostdata(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
         });
         
-    }, [postId])
+    }, [lectureId])
 
     const GetPostIsMy = useCallback(() => {
-        setIsMy(postdata.tutorNickname===member.nickname)
-    }, [postdata])
+        if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
+    }, [lecturedata])
 
     const GetFav = useCallback(() => {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/posts/${postId}/bookmark`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token
             }
@@ -53,24 +53,24 @@ function GetPost() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data)
+            setFav(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
           });
           
-    }, [postId])
+    }, [lectureId])
 
     useEffect(() => {
-        GetPostInfo();
+        GetLectureInfo();
         GetFav();
-    }, [GetPostInfo, GetFav])
+    }, [GetLectureInfo, GetFav])
 
     useEffect(() => {
-        if(postdata.length!==0) { GetPostIsMy() }
-    }, [postdata])
+        if(lecturedata) { GetPostIsMy() }
+    }, [lecturedata])
 
-    const RequestFav = () => {
+    const RequestBookmark = () => {
         var data = JSON.stringify({
             "curfav": true
           });
@@ -78,9 +78,9 @@ function GetPost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/posts/${postId}/bookmark`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
-              'Authorization': localStorage.getItem("Authorization"), 
+              'Authorization': token, 
               'Content-Type': 'application/json'
             },
             data : data
@@ -88,7 +88,8 @@ function GetPost() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data)
+            console.log(data);
+            setFav(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -100,7 +101,7 @@ function GetPost() {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${postId}`,
+            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
             headers: { 
                 'Authorization': token
             }
@@ -122,28 +123,28 @@ function GetPost() {
         const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
         const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
         const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`http://${process.env.REACT_APP_HOST}/chat/${postId}`, "_blank", windowFeatures);
+        window.open(`http://${process.env.REACT_APP_HOST}/chat/${lectureId}`, "_blank", windowFeatures);
 
     }
 
-    return (
-        <div>
-            <View />
+    const SetPost = () => {
+        if(lecturedata) {
+            return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
-                    <div className={styles.headboxtextonRead}><span> {postdata.title} </span></div>
+                    <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                    <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     
                 <div className={styles.imagebox}>
-                    <img src={postdata.image} alt="postimage"/>
+                    <img src={lecturedata.image} alt="postimage"/>
                 </div>
 
                 <div className={styles.tutorinfobox} >
                     <div className={styles.tutorimagebox}> </div>
                     <div className={styles.tutordiscripbox}>
-                        <span> {postdata.tutorNickname} </span> <br />
-                        <span> {postdata.location} </span> <span> LV20 </span> <br />
+                        <span> {lecturedata.tutorNickname} </span> <br />
+                        <span> {lecturedata.location} </span> <span> LV20 </span> <br />
                     </div>
                 </div>
 
@@ -151,12 +152,22 @@ function GetPost() {
                 <div className={styles.contentsbox}>
                     <div className={styles.contentdescrip}>
                         <p>
-                            {postdata.content}
+                            {lecturedata.content}
                         </p>
                     </div>
                 </div>
 
-                <div className={styles.menubox}>
+            </div>
+            )
+        }
+    }
+
+    return (
+        <div>
+            <View />
+            <SetPost />
+            
+            <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
                      isMy ? 
@@ -165,16 +176,14 @@ function GetPost() {
                     </Button> :
                     <Button
                      className={styles.favbutton} 
-                     onClick={() => RequestFav() }> {fav ? "❤" : "🤍"} {postdata.fee} 
+                     onClick={() => RequestBookmark() }> {fav ? "❤" : "🤍"} 
                     </Button>
                     }
                     <Button className={styles.chatbutton}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>
                 </div>
-
-            </div>
         </div>
     );
 }
 
-export default GetPost;
+export default GetLecture;

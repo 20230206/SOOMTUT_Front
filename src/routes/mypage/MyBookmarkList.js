@@ -12,16 +12,16 @@ import axios from "axios";
 import styles from "../../assets/styles/listpage.module.css"
 import SoomtutNavbar from "../../components/SoomtutNavbar";
 
-function MyFavList() {
+function MyBookmarkList() {
     const [View, token, member] = SoomtutNavbar();
-    const [res, setRes] = useState([])
+    const [lecturedatas, setRes] = useState(null)
 
     const GetFavList = () => {
                 
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/bookmark?page=0&size=5`,
+            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark?page=0&size=5`,
             headers: { 
             'Authorization': token
             }
@@ -29,7 +29,7 @@ function MyFavList() {
         
         axios(config)
         .then(function (response) {
-            setRes(response.data.content);
+            setRes(response.data.data.content);
         })
         .catch(function (error) {
             console.log(error);
@@ -38,14 +38,15 @@ function MyFavList() {
     }
 
     useEffect(() => {
-        GetFavList();
-    }, [])
+        if(token) GetFavList();
+    }, [token])
 
     const CreatePost = (props) => 
     {
-        if(res.length >= 1)  {
-            return props.posts.map((post) => (
+        if(lecturedatas)  {
+            return props.posts.map((post, index) => (
                 <PostBoxInList 
+                    key={index}
                     postId={post.postId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
@@ -70,11 +71,11 @@ function MyFavList() {
                 <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
             </div>
             <div className={styles.listbox} id="listbox">
-                <CreatePost posts={res} />
+                <CreatePost posts={lecturedatas} />
             </div>
         </div>
     </div>
     );
 }
 
-export default MyFavList;
+export default MyBookmarkList;

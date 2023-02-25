@@ -13,7 +13,7 @@ function SoomtutNavbar() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [token, setToken] = useState(null);
-  const [member, setMember] = useState([]);
+  const [memberdata, setMemberdata] = useState(null);
 
   const getAccessToken = useCallback(async () => {
     const config = {
@@ -29,11 +29,11 @@ function SoomtutNavbar() {
     } catch (error) {
       console.log(error);
       setToken(null);
+      setMemberdata(null);
     }
   }, []);
 
-  const handleSignout = async () => {
-    // Send a logout request to the server and delete the refresh cookie
+  const handleLogout = async () => {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
@@ -43,11 +43,12 @@ function SoomtutNavbar() {
     try {
       const response = await axios(config);
       setIsSignedIn(response.data.data);
+      setToken(null)
+      setMemberdata(null);
     } catch (error) {
       console.log(error);
     }
 
-    // Refresh the page
     window.location.reload();
   }
 
@@ -60,61 +61,78 @@ function SoomtutNavbar() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
+        url: `http://${process.env.REACT_APP_HOST}/member/info/myinfo`,
         headers: {
           'Authorization': token
         }
       };
       try {
         const response = await axios(config);
-        setMember(response.data.data);
-
+        setMemberdata(response.data);
       } catch (error) {
         console.log(error);
       }
-
     }
-
     if (isSignedIn === true) {
       fetchUserData();
     }
-
   }, [isSignedIn, token])
 
   const View = () => {
-    return (
-      <div className={styles.wrapper}>
-      <Navbar bg="white" variant="white">
-        <Container>
-          <Link to="/"> <Navbar.Brand>
-            <img
-              alt=""
-              src={logo}
-              width="240"
-              className="d-inline-block align-top"
-            />{' '}
-          </Navbar.Brand>
-          </Link>
-          <div className={styles.navmenu}>
-            {isSignedIn &&
-              <Navbar.Text className={styles.navmenuitem}>{member.nickname}님 안녕하세요</Navbar.Text>
-            }
-            {isSignedIn ?
-              <Nav.Link className={styles.navmenuitem} onClick={handleSignout}> 로그아웃 </Nav.Link> :
-              <Nav.Link className={styles.navmenuitem} href="/login"> 로그인 </Nav.Link>
-            }
-            {isSignedIn ?
-              <Nav.Link className={styles.navmenuitem} href="/mypage"> 마이페이지 </Nav.Link> :
-              <Nav.Link className={styles.navmenuitem} href="/register"> 회원가입 </Nav.Link>
-            }
-          </div>
-        </Container>
-      </Navbar>
-    </div>
-    );
+    if(memberdata) {
+      return (
+       <div className={styles.wrapper}>
+        <Navbar bg="white" variant="white">
+          <Container>
+            <Link to="/"> <Navbar.Brand>
+              <img
+                alt=""
+                src={logo}
+                width="240"
+                className="d-inline-block align-top"
+              />{' '}
+            </Navbar.Brand>
+            </Link>
+            <div className={styles.navmenu}>
+                <Navbar.Text className={styles.navmenuitem}>{memberdata.nickname}님 안녕하세요</Navbar.Text>
+                <Nav.Link className={styles.navmenuitem} onClick={handleLogout}> 로그아웃 </Nav.Link> 
+                <Nav.Link className={styles.navmenuitem} href="/mypage"> 마이페이지 </Nav.Link> 
+            </div>
+          </Container>
+        </Navbar>
+       </div>
+      );
+    }
+    else {
+      return (
+        <div className={styles.wrapper}>
+        <Navbar bg="white" variant="white">
+          <Container>
+            <Link to="/"> <Navbar.Brand>
+              <img
+                alt=""
+                src={logo}
+                width="240"
+                className="d-inline-block align-top"
+              />{' '}
+            </Navbar.Brand>
+            </Link>
+            <div className={styles.navmenu}>
+                <Nav.Link className={styles.navmenuitem} href="/login"> 로그인 </Nav.Link>
+                <Nav.Link className={styles.navmenuitem} href="/register"> 회원가입 </Nav.Link>
+            </div>
+          </Container>
+        </Navbar>
+       </div>
+      )
+    }
   }
 
-  return [View, token, member];
+  useEffect(() => {
+    if(isSignedIn===true) View();
+  }, [memberdata])
+
+  return [View, token, memberdata];
 }
 
 export default SoomtutNavbar;

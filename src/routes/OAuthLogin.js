@@ -53,7 +53,7 @@ function OAuthLogin () {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-getinfo`,
+            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-updateinfo`,
             headers: { 
               'Content-Type': 'application/json'
             },

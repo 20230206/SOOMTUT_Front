@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/*global kakao*/
+import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 
@@ -10,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
     const navigate = useNavigate();
+    
 
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
@@ -22,7 +24,9 @@ function RegisterForm() {
     const [dupleEmail, setDupleEmail] = useState(false);
     const [dupleNickname, setDupleNickname] = useState(false);
 
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState(null);
+    const [posX, setPosX] = useState();
+    const [posY, setPosY] = useState();
     const [settedlocation, setSettedlocation] = useState(false);
     
     const [show, setShow] = useState(false);
@@ -112,14 +116,35 @@ function RegisterForm() {
         });
     }
 
+    const SetLocation = (input) => {
+        setLocation(input);
+    }
+
+    useEffect(() => {
+        const AddressToMapXY = async () => {
+            var geocoder = new kakao.maps.services.Geocoder();
+            await geocoder.addressSearch(location, callback);
+        };
+
+        if(location) AddressToMapXY();
+    }, [location])
+
+    const callback = async(result, status) => {
+        if(status === kakao.maps.services.Status.OK) {
+            console.log(result[0].y, result[0].x);
+            setPosX(result[0].y);
+            setPosY(result[0].x);
+        }
+    }
+
     function SubmitAccount() {
         var data = JSON.stringify({
             "nickname": nickname,
             "email": email,
             "password": password,
             "address": location,
-            "vectorX": 0,
-            "vectorY": 0
+            "vectorX": posX,
+            "vectorY": posY
           });
           
           var config = {
@@ -201,7 +226,7 @@ function RegisterForm() {
              <Form.Label className={styles.label}>Address</Form.Label>
              <div style={{display:"flex"}}>
              <Form.Control className={styles.address}
-              value={location}
+              value={location ? location : ""}
               type="text"
               placeholder="주소를 입력하세요"
               disabled={true} />
@@ -225,8 +250,7 @@ function RegisterForm() {
                 style={{ width: 460, height: 320 }}
                 jsOptions={{ animation: true, hideMapBtn: true }}
                 onSelected={data => {
-                    console.log(JSON.stringify(data));
-                    setLocation(data.address);
+                    SetLocation(data.address)
                     setSettedlocation(true);
                     
                     handleClose();

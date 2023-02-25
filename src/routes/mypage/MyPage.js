@@ -43,7 +43,7 @@ function MyPage() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
+            url: `http://${process.env.REACT_APP_HOST}/member/info/myinfo`,
             headers: { 
                 "Authrorization": token,
                 "Content-Type": "application/json"
@@ -52,9 +52,8 @@ function MyPage() {
 
         try {
             const response = await axios(config);
-            console.log(response.headers.getAuthorization());
-            setMyInfo(response.data);
-            setLocation(response.data.address)
+            setMyInfo(response.data.data);
+            setLocation(response.data.data.address)
           } catch (error) {
             console.log(error);
         }
@@ -111,7 +110,7 @@ function MyPage() {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/updatelocation`,
+            url: `http://${process.env.REACT_APP_HOST}/location/updatelocation`,
             headers: { 
               'Content-Type': 'application/json'
             },

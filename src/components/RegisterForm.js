@@ -233,8 +233,8 @@ function RegisterForm() {
               <Button
                onClick={() => handleShow()}> 찾기 </Button>
               </div>
-              
             </Form.Group>
+            
             <Button
              className={styles.summit} 
              type="submit" onClick={() => SubmitAccount()}

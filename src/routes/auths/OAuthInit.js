@@ -1,29 +1,16 @@
 /*global kakao*/
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-
-import styles from "../assets/styles/formstyle.module.css"
-import logo from "../assets/images/logo.png"
 
 import Postcode from "@actbase/react-daum-postcode";
 
-import axios from 'axios'
+import logo from "../../assets/images/logo.png"
+import styles from "../../assets/styles/routes/auths/oauthinit.module.css"
+import { useNavigate } from "react-router-dom";
 
-function OAuthLogin () {
-    axios.defaults.withCredentials = true;
-
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-
+function OAuthInit() {
     const navigate = useNavigate();
-    const name = params.get("name");
-    const role = params.get("role");
-    const hash = params.get("hash");
-    const state = params.get("state");
-    const [loading, SetLoading] = useState(false);
-
     
     const [nickname, setNickname] = useState("");
     const [isValidNickname, setValidNickname] = useState(false);
@@ -72,29 +59,6 @@ function OAuthLogin () {
         return isRegex;
     }
 
-    useEffect(() => {
-        var data = JSON.stringify({
-            "email" : name,
-            "role" : role,
-            "hash" : hash
-        });
-        var config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-login`,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data : data
-        };
-        
-        axios(config)
-        .then(function (response) {
-            SetLoading(response.data);
-        })
-        .catch(function (error) {
-        });
-    }, [name, role, hash])
 
     const SetAddress = (input) => {
         console.log(input)
@@ -148,17 +112,16 @@ function OAuthLogin () {
           
     }
 
-    useEffect(() => {
-        if(state === "true") navigate("/")
-    }, [loading])
-
     return (
         <div className={styles.wrapper}>
-            <div className={styles.formbox}>
-            <img src={logo} style={{width:"220px"}} alt="logo"/>
-            <p className={styles.title}>처음오신 것을 환영합니다</p>
+            <div className={styles.box}>
+            <div className={styles.logo}>
+              <img src={logo} style={{width:"220px"}} alt="logo"/>
+            </div>
+
+            <div className={styles.headtext}> <span> 처음 오신 것을 환영합니다 </span></div>
             
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Nickname</Form.Label>
              <Form.Control
               value={nickname}
@@ -172,7 +135,7 @@ function OAuthLogin () {
              </Form.Text>
             </Form.Group>
             
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Address</Form.Label>
              <div style={{display:"flex"}}>
              <Form.Control className={styles.address}
@@ -185,13 +148,13 @@ function OAuthLogin () {
               </div>
             </Form.Group>
 
-            <Button
-             className={styles.summit} 
+            <button
+             className= {dupleNickname||!settedAddress ? styles.disabled : styles.summit }
              type="submit" onClick={() => SubmitInfo()}
-             disabled={dupleNickname||!settedAddress}
+             disabled= {dupleNickname||!settedAddress}
             >
-            가입하기
-            </Button>
+            등록하기
+            </button>
 
             <Modal show={show} onHide={handleClose}>
             <Modal.Body style={{height:"540px"}}>
@@ -209,18 +172,6 @@ function OAuthLogin () {
 
             </div>
         </div>
-
-        // <div>
-        //     {state === "false" && <Postcode
-        //         style={{ width: 460, height: 320 }}
-        //         jsOptions={{ animation: true, hideMapBtn: true }}
-        //         onSelected={data => {
-        //             SetAddress(data.address);
-        //             navigate("/");
-        //         }}
-        //         />}
-        // </div>
     );
 }
-
-export default OAuthLogin;
+export default OAuthInit;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import styles from "../assets/styles/postforminlist.module.css"
+import styles from "../assets/styles/components/postforminlist.module.css"
 
 
 function PostBoxInList(props) {

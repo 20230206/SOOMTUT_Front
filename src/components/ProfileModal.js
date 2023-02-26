@@ -1,4 +1,4 @@
-import styles from "../assets/styles/mypage.module.css"
+import styles from "../assets/styles/routes/mypage/mypage.module.css"
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

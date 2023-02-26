@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "googleJua";
+    src: url(./assets/fonts/Jua/Jua-Regular.ttf);
+}
+
+:root {
+    --font-googleJua: "googleJua";
+}
+
+body {
+    background-color: #4E57DE;
+}

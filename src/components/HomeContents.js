@@ -1,4 +1,4 @@
-import styles from "../assets/styles/homecontents.module.css"
+import styles from "../assets/styles/components/homecontents.module.css"
 import { Button } from "react-bootstrap"
 import { Link } from "react-router-dom";
 

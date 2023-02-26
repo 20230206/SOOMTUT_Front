@@ -3,6 +3,7 @@
     border: 2px solid;
     border-radius: 5px;
 
+    background-color: white;
     margin: auto;
 }
 
@@ -45,3 +46,11 @@
 
 }
 
+.pagination{
+    width: 700px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

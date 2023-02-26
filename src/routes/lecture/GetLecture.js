@@ -4,17 +4,18 @@ import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import SoomtutNavbar from "../../components/SoomtutNavbar";
-import styles from "../../assets/styles/poststyle.module.css"
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
+import CustomNavbar from "../../components/CustomNavbar";
 
 function GetLecture() {
     const lectureId = useParams().id;
     const [lecturedata, setPostdata] = useState(null)
     const [isMy, setIsMy] = useState(false);
     const [fav, setFav] = useState(false);
+    
 
-    const [View, token, member] = SoomtutNavbar();
+    const [View, token, member] = CustomNavbar();
 
     const GetLectureInfo = useCallback(() => {
                 

@@ -1,15 +1,15 @@
 /*global kakao*/
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Postcode from '@actbase/react-daum-postcode';
 
-import styles from "../assets/styles/formstyle.module.css"
-import logo from "../assets/images/logo.png"
-import { useNavigate } from "react-router-dom";
+import styles from "../../assets/styles/routes/auths/register.module.css"
+import logo from "../../assets/images/logo.png"
 
-function RegisterForm() {
+function Register () {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -175,11 +175,13 @@ function RegisterForm() {
 
     return (
         <div className={styles.wrapper}>
-         <div className={styles.formbox}>
-          <img src={logo} style={{width:"220px"}} alt="logo" />
-          <p className={styles.title}>회원가입</p>
-           <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles.Group}>
+            <div className={styles.box}>
+                <div className={styles.logo}>
+                    <img src={logo} style={{width:"220px"}} alt="logo"/>
+                </div>
+                <div className={styles.headtext}> <span> 회원 가입 </span></div>
+                <Form onSubmit={handleSubmit}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Email</Form.Label>
              <Form.Control
               value={email}
@@ -193,7 +195,7 @@ function RegisterForm() {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Nickname</Form.Label>
              <Form.Control
               value={nickname}
@@ -207,7 +209,7 @@ function RegisterForm() {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Password</Form.Label>
              <Form.Control
               value={password}
@@ -221,10 +223,11 @@ function RegisterForm() {
              </Form.Text>
             </Form.Group>
             
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Address</Form.Label>
              <div style={{display:"flex"}}>
-             <Form.Control className={styles.address}
+             <Form.Control
+              className={styles.address}
               value={location ? location : ""}
               type="text"
               placeholder="주소를 입력하세요"
@@ -234,15 +237,15 @@ function RegisterForm() {
               </div>
             </Form.Group>
             
-            <Button
-             className={styles.summit} 
+            <button
+             className= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation ? styles.disabled : styles.summit }
              type="submit" onClick={() => SubmitAccount()}
-             disabled={dupleEmail||dupleNickname||!isValidPassword||!settedlocation}
+             disabled= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation}
             >
             가입하기
-            </Button>
+            </button>
            </Form>
-           
+
            <Modal show={show} onHide={handleClose}>
             <Modal.Body style={{height:"540px"}}>
                 <Postcode
@@ -258,9 +261,10 @@ function RegisterForm() {
             </Modal.Body>
             </Modal>
 
-         </div>
+
+            </div>
         </div>
     );
 }
 
-export default RegisterForm;
+export default Register;

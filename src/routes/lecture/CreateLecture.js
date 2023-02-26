@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import styles from "../../assets/styles/poststyle.module.css"
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-import SoomtutNavbar from "../../components/SoomtutNavbar";
+import CustomNavbar from "../../components/CustomNavbar";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },
@@ -22,7 +22,7 @@ const Category_List = [
 
 function CreateLecture() {
     
-    const [View, token, member] = SoomtutNavbar();
+    const [View, token] = CustomNavbar();
 
     const navigate = useNavigate();
 
@@ -74,7 +74,7 @@ function CreateLecture() {
           
           axios(config)
           .then(function (response) {
-            // navigate("/posts/"+response.data.postId)
+            navigate("/lecture/"+response.data.data.postId)
           })
           .catch(function (error) {
             console.log(error);

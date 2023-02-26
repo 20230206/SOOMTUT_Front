@@ -10,17 +10,19 @@ import {
     Card,
     Modal
 } from "react-bootstrap";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
-import styles from "../../assets/styles/mypage.module.css"
+import styles from "../../assets/styles/routes/mypage/mypage.module.css"
 import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
-import SoomtutNavbar from "../../components/SoomtutNavbar";
 import ProfileModal from "../../components/ProfileModal";
+import CustomNavbar from "../../components/CustomNavbar";
 
 function MyPage() {
-    const [View, token, member] = SoomtutNavbar()
+    const navigate = useNavigate();
+
+    const [View, token] = CustomNavbar()
 
     const [myInfo, setMyInfo] = useState([]);
   
@@ -32,14 +34,13 @@ function MyPage() {
     const handleProfileClose = () => setProfileShow(false);
     const handleProfileShow = () => setProfileShow(true);
     
-    const [locationshow, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [locationshow, setLocationShow] = useState(false);
+    const handleLocationClose = () => setLocationShow(false);
+    const handleLocationShow = () => setLocationShow(true);
 
 
     const GetMyInfo = useCallback(async() => {
         axios.defaults.withCredentials = true;
-                
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -54,9 +55,10 @@ function MyPage() {
             const response = await axios(config);
             setMyInfo(response.data.data);
             setLocation(response.data.data.address)
-          } catch (error) {
+            } catch (error) {
             console.log(error);
         }
+
     }, [])
     
     useEffect(() => {
@@ -126,6 +128,35 @@ function MyPage() {
           });
           
     }
+    
+    const [showSuspend, setShowSuspend] = useState(false);
+
+    const handleSuspendClose = () => setShowSuspend(false);
+    const handleSuspendShow = () => setShowSuspend(true);
+
+    const RequestAccountSuspend = () => {
+        handleSuspendClose();
+                
+        var config = {
+            method: 'put',
+        maxBodyLength: Infinity,
+            url: 'http://localhost:8080/member/suspend',
+            headers: { 
+                'Authorization': token
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data.data));
+            alert("회원 탈퇴 되었습니다.")
+            navigate("/")
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+    }
 
     return (
         <div>
@@ -156,13 +187,13 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 프로필 보기 </Link></li>
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/favlist"> 관심 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/bookmark"> 관심 목록 </Link></li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclassedlist"> 수강한 수업 목록 </Link></li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
 
-                    <Modal show={locationshow} onHide={handleClose}>
+                    <Modal show={locationshow} onHide={handleLocationClose}>
                     <Modal.Body style={{height:"540px"}}>
                         <Postcode
                         style={{ width: 460, height: 320 }}
@@ -172,7 +203,7 @@ function MyPage() {
                             setLocation(data.address)
                             ChangeLocation(data.address)
                             
-                            handleClose();
+                            handleLocationClose();
                         }}
                         />
                     </Modal.Body>
@@ -183,7 +214,7 @@ function MyPage() {
                         <Card.Header className={styles.locationtitle}> 내 활동 지역 
                             <Button
                              className={styles.locationbutton}
-                             onClick={() => handleShow()}
+                             onClick={() => handleLocationShow()}
                              > 위치 수정 </Button>
                         </Card.Header>
                         <Card.Body>
@@ -207,9 +238,27 @@ function MyPage() {
 
                     </div>
 
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 회원 탈퇴 </Link></li>
-
-
+                    <button 
+                     className={styles.suspendbutton}
+                     onClick={() => handleSuspendShow() }
+                    >
+                        회원 탈퇴
+                    </button>
+               
+                    <Modal show={showSuspend} onHide={handleSuspendClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title> 정말 숨튜를 떠나실 건가요? </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body> 숨튜를 떠나신다고 하셔도 7일동안 다시 돌아올 수 있어요 </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleSuspendClose}>
+                        아니오
+                    </Button>
+                    <Button variant="primary" onClick={RequestAccountSuspend}>
+                       네
+                    </Button>
+                    </Modal.Footer>
+                    </Modal>
                 </div>
             </div>
         </div>

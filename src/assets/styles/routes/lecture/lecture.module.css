@@ -5,6 +5,7 @@
     border: 2px solid;
     border-radius: 5px;
 
+    background-color: white;
     margin: auto;
 }
 
@@ -161,6 +162,8 @@
     border: 2px solid black;
     border-radius: 5px;
     
+    background-color: white;
+
     display: flex;
     justify-content: center;
     align-items: center;

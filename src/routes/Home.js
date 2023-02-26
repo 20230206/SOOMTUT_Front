@@ -1,13 +1,14 @@
-import SoomtutNavbar from "../components/SoomtutNavbar";
-import HomeContents from "../components/HomeContents";
+import React from "react";
+import CustomNavbar from "../components/CustomNavbar";
+import HomeContents from "../components/HomeContents"
 
 function Home() {
-    const [View, token, member] = SoomtutNavbar();
+    const [Model] = CustomNavbar();
 
     return (
         <div>
-         <View />
-         <HomeContents />
+            <Model />
+            <HomeContents />
         </div>
     );
 }

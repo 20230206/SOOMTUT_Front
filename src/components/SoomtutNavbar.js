@@ -32,6 +32,11 @@ function SoomtutNavbar() {
       setMemberdata(null);
     }
   }, []);
+  
+  useEffect(() => {
+    getAccessToken();
+  }, [getAccessToken])
+
 
   const handleLogout = async () => {
     const config = {
@@ -51,10 +56,6 @@ function SoomtutNavbar() {
 
     window.location.reload();
   }
-
-  useEffect(() => {
-    getAccessToken();
-  }, [getAccessToken])
 
   useEffect(() => {
     const fetchUserData = async () => {

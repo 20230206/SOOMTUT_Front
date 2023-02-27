@@ -1,5 +1,6 @@
 .wrapper {
     width: 94vw;
+    background-color: white;
 
     margin: 2px auto 2px auto;
 }
@@ -19,6 +20,7 @@
 
 .chatbox{
     width: 94vw;
+    min-height: 400px;
     height: 83vh;
 
     border: 2px solid;
@@ -39,7 +41,7 @@
 .inputgroup {
     width: 94vw;
     min-width: 280px;
-
+    min-height: 54px;
 }
 
 .inputbutton {

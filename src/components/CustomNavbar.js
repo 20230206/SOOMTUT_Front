@@ -82,6 +82,7 @@ function CustomNavbar() {
       setLoginState(response.data.data);
       setToken(null)
       setMemberdata(null);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

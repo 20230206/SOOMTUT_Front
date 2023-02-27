@@ -18,6 +18,8 @@ import MyBookmarkList from "./routes/mypage/MyBookmarkList";
 import MyClassedList from "./routes/mypage/MyClassedList";
 import MyClassList from "./routes/mypage/MyClassList";
 
+import FindTutor from "./routes/findtutor/FindTutor"
+import ChatRoom from "./components/ChatRoom";
 
 
 function App() {
@@ -39,6 +41,9 @@ function App() {
           <Route path="/lecture/:id" element={<GetLecture />} />
           <Route path="/lecture/create" element={<CreateLecture />} />
 
+          <Route path="/findtutor" element={<FindTutor />} />
+
+          <Route path="/chat/:id" element={<ChatRoom />} />
       </Routes>
     </Router>
   );

@@ -11,6 +11,7 @@ import styles from "../../assets/styles/routes/auths/login.module.css";
 
 
 function Login () {
+  axios.defaults.withCredentials=true;
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

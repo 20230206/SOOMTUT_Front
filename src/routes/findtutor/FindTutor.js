@@ -2,11 +2,11 @@
 import React, 
 { useEffect,useState } from "react";
 
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Card } from "react-bootstrap";
 
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
-import FindTutorM from "../../assets/styles/findTutor.css"
+import styles from "../../assets/styles/findTutor.module.css"
 
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 
@@ -86,10 +86,7 @@ function FindTutor() {
                 } : {
 
                 }} 
-                style= {{
-                    width: "100%",
-                    height: "100vh"
-                }} >
+                className={styles.map} >
 
                 <MapMarker key="myMarker"
                 position={member ? { 
@@ -126,13 +123,23 @@ function FindTutor() {
 
     const Details = () => {
         return (
-            <Modal show={showDetails} onHide={() => setShowDetails(false)}>
+            <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
             <Modal.Header closeButton>
                 {/* 튜터 이름 */}
             <Modal.Title> { details.nickname } </Modal.Title>
             </Modal.Header>
                 {/* 튜터 정보 + 글 나오게 하기 */}
-            <Modal.Body> { details.address } </Modal.Body>
+            <Modal.Body > <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Body>
+        <Card.Title>Card Title</Card.Title>
+        <Card.Text>
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </Card.Text>
+        <Button variant="primary">Go somewhere</Button>
+      </Card.Body>
+    </Card> </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowDetails(false)}>
                 Close

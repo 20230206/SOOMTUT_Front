@@ -7,8 +7,10 @@ import { Modal, Button, Card } from "react-bootstrap";
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
 import styles from "../../assets/styles/findTutor.module.css"
+import stylesProfile from "../../assets/styles/routes/mypage/mypage.module.css"
 
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
+import { Link } from "react-router-dom";
 
 function FindTutor() {
 
@@ -56,27 +58,37 @@ function FindTutor() {
         const MakeOtherMarkers = (props) => {
             const map = useMap();
             const [isVisible, setIsVisible] = useState(false);
-            return (
-                <MapMarker
-                    key={props.index}
-                    position= {{
-                    lat: props.item.vectorX,
-                    lng: props.item.vectorY
-                    }}
-                    clickable={true}
-                    onClick={(marker) => {
-                        // 맵의 중앙 좌표를 현제 마커의 좌표로 변경시킨다.
-                        setMapCenterX(marker.getPosition().Ma);
-                        setMapCenterY(marker.getPosition().La);
-                        setShowDetails(true);
-                        setDetails(props.item);
-                    }}
-                    onMouseOver={() => setIsVisible(true)}
-                    onMouseOut={() => setIsVisible(false)}
-                    >
-                        {isVisible && props.item.nickname}
-                </MapMarker>
-            );
+            var markerPosition =  new kakao.maps.LatLng(member.vectorX, member.vectorY);
+            var v = new kakao.maps.Polyline({
+             path: [markerPosition, new kakao.maps.LatLng(props.item.vectorX, props.item.vectorY)]
+            });
+            console.log(props.item.vectorX,props.item.vectorY,v.getLength());
+            if(v.getLength()<=50000){
+
+                return (
+                    <MapMarker
+                        key={props.index}
+                        position= {{
+                        lat: props.item.vectorX,
+                        lng: props.item.vectorY
+                        }}
+                        clickable={true}
+                        onClick={(marker) => {
+                            // 맵의 중앙 좌표를 현제 마커의 좌표로 변경시킨다.
+                            setMapCenterX(marker.getPosition().Ma);
+                            setMapCenterY(marker.getPosition().La);
+                            setShowDetails(true);
+                            setDetails(props.item);
+                        }}
+                        onMouseOver={() => setIsVisible(true)}
+                        onMouseOut={() => setIsVisible(false)}
+                        >
+                            {isVisible && props.item.nickname}
+                    </MapMarker>
+                );
+
+            }
+            
         }
 
         return (
@@ -117,38 +129,39 @@ function FindTutor() {
                     ))
                     : null
                 }
+
+               
             </Map>
         )
     }
 
-    const Details = () => {
+    const Details = (props) => {
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
-            <Modal.Header closeButton>
-                {/* 튜터 이름 */}
-            <Modal.Title> { details.nickname } </Modal.Title>
-            </Modal.Header>
-                {/* 튜터 정보 + 글 나오게 하기 */}
-            <Modal.Body > <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card> </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowDetails(false)}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={() => setShowDetails(false)}>
-                Save Changes
-            </Button>
-            </Modal.Footer>
+              <Modal.Body>
+            <div className={stylesProfile.modalprofile}>
+                <div className={stylesProfile.modalprofilebox}>
+                    <span> 프로필 </span>
+                </div>
+                <div className={stylesProfile.profilebox}>
+                    <div className={stylesProfile.imagebox}>
+                        <img src={props.item.image} alt="profileImage"/>
+                    </div>
+                    <div >
+                        <div> <span> {props.item.nickname} </span></div>
+                        <div> <span> 이메일이 들어갈 공간 </span></div>
+                        <div> <span> 2023년2월18일부터 활동중 </span></div>
+                        <div> <span> {props.item.address} </span></div>
+                    </div>
+                </div>
+                <div className={stylesProfile.modalprofileinfobox}>
+                    <div> <li> 등록한 수강강좌 N개 <Link to="/"> ➡️ </Link> </li></div>
+                    <div> <li> 받은 수강 후기 N개  <Link to="/"> ➡️ </Link></li></div>
+                </div>
+            </div>
+        </Modal.Body>
         </Modal>
+        
         )
     }
 
@@ -156,7 +169,7 @@ function FindTutor() {
     <div>
         <Navbar />
         { loading && <CreateMap /> }
-        { showDetails && <Details /> }
+        { showDetails && <Details item={details} /> }
     </div>
     )
 }

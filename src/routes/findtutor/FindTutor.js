@@ -4,16 +4,12 @@ import React,
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
 import FindTutorM from "../../assets/styles/findTutor.css"
-import { over } from "stompjs";
 
-
-function overLayMake(nearLocations,map,markTmp){
+function overLayMake(nearLocations,map,markTmp, isOpen){
 
    
 
     return function(){
-
-        const [isOpen,setIsOpen] = useState(false);
        
         var content = `<div class="wrap"> 
             <div class="info"> 
@@ -42,14 +38,8 @@ function overLayMake(nearLocations,map,markTmp){
     if (!isOpen) {
         overlay.setMap(map);
         
-        setIsOpen(true);
-        
-        
     } else {
         overlay.setMap(null);
-        
-        setIsOpen(false);
-        
     }
 
 }
@@ -60,6 +50,8 @@ function overLayMake(nearLocations,map,markTmp){
 function FindTutor() {
 
     const [View, token, member] = CustomNavbar();
+
+    const [isOpen, setIsOpen] = useState(false);
 
     const KakaoMap = () => {
     
@@ -130,9 +122,10 @@ function FindTutor() {
                     if(v.getLength()<=radius){
     
                             markTmp.setMap(map);
-                             
-                            var isOpen = false;
-                            kakao.maps.event.addListener(markTmp, 'click', overLayMake(nearLocations[i],map,markTmp))
+                            
+                            kakao.maps.event.addListener(markTmp, 'click', overLayMake(nearLocations[i],map,markTmp, isOpen));
+                            
+                            setIsOpen(!isOpen);
 
                                   
                     }

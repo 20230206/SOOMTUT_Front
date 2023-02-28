@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+/*global kakao*/
+import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Postcode from '@actbase/react-daum-postcode';
 
-import styles from "../assets/styles/formstyle.module.css"
-import logo from "../assets/images/logo.png"
-import { useNavigate } from "react-router-dom";
+import styles from "../../assets/styles/routes/auths/register.module.css"
+import logo from "../../assets/images/logo.png"
 
-function SignupForm() {
+function Register () {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -22,7 +23,9 @@ function SignupForm() {
     const [dupleEmail, setDupleEmail] = useState(false);
     const [dupleNickname, setDupleNickname] = useState(false);
 
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState(null);
+    const [posX, setPosX] = useState();
+    const [posY, setPosY] = useState();
     const [settedlocation, setSettedlocation] = useState(false);
     
     const [show, setShow] = useState(false);
@@ -76,14 +79,15 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://3.35.187.107:8080/auth/register/check?email=${input}`,
+            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?email=${input}`,
             headers: { },
             data : data
         };
 
         axios(config)
         .then(function (response) {
-            setDupleEmail(response.data)
+            console.log(response);
+            setDupleEmail(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
@@ -96,7 +100,7 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localh3.35.187.107ost:8080/auth/register/check?nickname=${input}`,
+            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -104,11 +108,32 @@ function SignupForm() {
         axios(config)
         .then(function (response) {
             console.log("response.data : " + response.data)
-            setDupleNickname(response.data)
+            setDupleNickname(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
         });
+    }
+
+    const SetLocation = (input) => {
+        setLocation(input);
+    }
+
+    useEffect(() => {
+        const AddressToMapXY = async () => {
+            var geocoder = new kakao.maps.services.Geocoder();
+            await geocoder.addressSearch(location, callback);
+        };
+
+        if(location) AddressToMapXY();
+    }, [location])
+
+    const callback = async(result, status) => {
+        if(status === kakao.maps.services.Status.OK) {
+            console.log(result[0].y, result[0].x);
+            setPosX(result[0].y);
+            setPosY(result[0].x);
+        }
     }
 
     function SubmitAccount() {
@@ -117,14 +142,14 @@ function SignupForm() {
             "email": email,
             "password": password,
             "address": location,
-            "vectorX": 0,
-            "vectorY": 0
+            "vectorX": posX,
+            "vectorY": posY
           });
           
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://3.35.187.107:8080/auth/register',
+            url: `http://${process.env.REACT_APP_HOST}/auth/register`,
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -150,11 +175,13 @@ function SignupForm() {
 
     return (
         <div className={styles.wrapper}>
-         <div className={styles.formbox}>
-          <img src={logo} style={{width:"220px"}} alt="logo" />
-          <p className={styles.title}>회원가입</p>
-           <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles.Group}>
+            <div className={styles.box}>
+                <div className={styles.logo}>
+                    <img src={logo} style={{width:"220px"}} alt="logo"/>
+                </div>
+                <div className={styles.headtext}> <span> 회원 가입 </span></div>
+                <Form onSubmit={handleSubmit}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Email</Form.Label>
              <Form.Control
               value={email}
@@ -168,7 +195,7 @@ function SignupForm() {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Nickname</Form.Label>
              <Form.Control
               value={nickname}
@@ -182,7 +209,7 @@ function SignupForm() {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Password</Form.Label>
              <Form.Control
               value={password}
@@ -196,36 +223,36 @@ function SignupForm() {
              </Form.Text>
             </Form.Group>
             
-            <Form.Group className={styles.Group}>
+            <Form.Group className={styles.group}>
              <Form.Label className={styles.label}>Address</Form.Label>
              <div style={{display:"flex"}}>
-             <Form.Control className={styles.address}
-              value={location}
+             <Form.Control
+              className={styles.address}
+              value={location ? location : ""}
               type="text"
               placeholder="주소를 입력하세요"
               disabled={true} />
               <Button
                onClick={() => handleShow()}> 찾기 </Button>
               </div>
-              
             </Form.Group>
-            <Button
-             className={styles.summit} 
+            
+            <button
+             className= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation ? styles.disabled : styles.summit }
              type="submit" onClick={() => SubmitAccount()}
-             disabled={dupleEmail||dupleNickname||!isValidPassword||!settedlocation}
+             disabled= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation}
             >
             가입하기
-            </Button>
+            </button>
            </Form>
-           
+
            <Modal show={show} onHide={handleClose}>
             <Modal.Body style={{height:"540px"}}>
                 <Postcode
                 style={{ width: 460, height: 320 }}
                 jsOptions={{ animation: true, hideMapBtn: true }}
                 onSelected={data => {
-                    console.log(JSON.stringify(data));
-                    setLocation(data.address);
+                    SetLocation(data.address)
                     setSettedlocation(true);
                     
                     handleClose();
@@ -234,9 +261,10 @@ function SignupForm() {
             </Modal.Body>
             </Modal>
 
-         </div>
+
+            </div>
         </div>
     );
 }
 
-export default SignupForm;
+export default Register;

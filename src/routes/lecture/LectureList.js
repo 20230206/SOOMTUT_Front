@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { Button, Dropdown } from "react-bootstrap";
 
-import styles from "../../assets/styles/listpage.module.css"
+import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import axios from "axios"
 
 import { Link } from "react-router-dom";
 import PostBoxInList from "../../components/PostBoxInList";
+import CustomNavbar from "../../components/CustomNavbar";
+import CustomPagination from "../../components/CustomPagination";
 
 const Category_List = [ 
     { id:0, name:"전체" },
@@ -22,46 +24,80 @@ const Category_List = [
     { id:10, name:"운동" }
 ];
 
-function PostList() {
-    const [res, setRes] = useState([])
+function LectureList() {
+    const [View, token] = CustomNavbar()
+    const [loading, setLoading] = useState(false);
+    const [curPage, setCurPage] = useState(1);
 
-    const getPosts = (category) => {
+    const GetPosts = (category, page) => {
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
-            url: `http://3.35.187.107:8080/boardAll?category=${category.id}`,
+            maxBodyLength: Infinity,
+            url: `http://${process.env.REACT_APP_HOST}/lecture?category=${category.id}&page=${page-1}&size=5`,
             headers: { 
-            'Authorization': localStorage.getItem("Authorization")
+                "Authorization" : token
             }
         };
         
         axios(config)
         .then(function (response) {
-            const data = response.data;
-            setRes(data);
+            setLectures(response.data.data.content);
+            setPages(response.data.data.totalPages);
+            SetLoading();
         })
         .catch(function (error) {
-            console.log(error);
         });
-  
     }
+
+    const SetLoading = () => { setLoading(true); }
     
+    // 토큰 정보 생성 시, 포스트 내용 조회
+    useEffect(() => {
+        if(token) GetPosts(Category_List[0], 1);
+    }, [token])
+    const [pages, setPages] = useState(null);
+
+    const [Paging, selected] = CustomPagination(curPage, pages);
+    useEffect(() => {
+        if(selected) SetCurPage(selected);
+    }, [selected])
+    
+    const SetCurPage = (event) => {
+        setCurPage(event);
+        GetPosts(curCategory, event);
+    }
+
     const [curCategory, setCurCategory] = useState(Category_List[0])
     const SelectCategory = (type) => {
         setCurCategory(Category_List[type])
     }
 
     useEffect(() => {
-        getPosts(Category_List[0]);
-    }, [])
-
-
-    useEffect(() => {
-        getPosts(curCategory);
+        if(loading===true) GetPosts(curCategory, 1);
     }, [curCategory])
+
+    const [lectures, setLectures] = useState(null)
+
+    const CreatePost = (props) => {
+        // 강의가 존재하면 조회해옴
+        if(lectures)  {
+            return props.posts.map((post, index) => (
+                <PostBoxInList 
+                    key={index}
+                    postId={post.postId} 
+                    image={post.image} 
+                    tutorNickname={post.tutorNickname} 
+                    title={post.title} 
+                    location={post.location} 
+                    fee={post.fee} />
+                )
+            );
+        }
+    }
 
     return (
         <div>
+            <View />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
@@ -84,18 +120,19 @@ function PostList() {
                     </Dropdown.Menu>
                     </Dropdown>
                     </div> 
-                    <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                    <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
-                    { res.length >= 1  ? <PostBoxInList data={res[0]} /> : null }
-                    { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
-                    { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
-                    { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                    { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
+                    <CreatePost posts={lectures}></CreatePost>
+                </div>
+
+                <div className={styles.pagination}>
+                    <Paging /> 
                 </div>
             </div>
+
         </div>
     );
 }
 
-export default PostList;
+export default LectureList;

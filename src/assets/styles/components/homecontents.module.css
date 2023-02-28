@@ -1,8 +1,10 @@
 .wrapper {
     width: 1080px;
-    min-height: 680px;
+    min-height: 880px;
     border: 1px solid;
     border-radius: 5px;
+
+    background-color: white;
 
     margin: auto;
 }
@@ -18,8 +20,6 @@
 }
 
 .buttonbox {
-    border: 1px solid;
-    border-radius: 5px;
 
     width: 600px;
     height: 100px;

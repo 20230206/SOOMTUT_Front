@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import styles from "../../assets/styles/poststyle.module.css"
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+
+import CustomNavbar from "../../components/CustomNavbar";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },
@@ -18,7 +20,10 @@ const Category_List = [
     { id:10, name:"운동" }
 ];
 
-function CreatePost() {
+function CreateLecture() {
+    
+    const [View, token] = CustomNavbar();
+
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
@@ -59,9 +64,9 @@ function CreatePost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://3.35.187.107:8080/createpost',
+            url: `http://${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
-              'Authorization': localStorage.getItem("Authorization"),
+              'Authorization': token,
               'Content-Type': 'application/json'
             },
             data : data
@@ -69,7 +74,7 @@ function CreatePost() {
           
           axios(config)
           .then(function (response) {
-            navigate("/posts/"+response.data.postId)
+            navigate("/lecture/"+response.data.data.postId)
           })
           .catch(function (error) {
             console.log(error);
@@ -78,9 +83,11 @@ function CreatePost() {
     }
 
     return (
+        <div>
+        <View />
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
-                <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
                 <div className={styles.headboxtext}><span> 글쓰기 </span></div>
                 <Button
                  className={styles.headboxbutton}
@@ -144,7 +151,8 @@ function CreatePost() {
                 />
             </div>
         </div>
+        </div>
     );
 }
 
-export default CreatePost;
+export default CreateLecture;

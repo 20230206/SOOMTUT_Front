@@ -112,5 +112,3 @@ function SoomtutNavbar() {
     </div>
   );
 }
-
-export default SoomtutNavbar;

@@ -4,6 +4,7 @@
     border: 2px solid;
     border-radius: 5px;
 
+    background-color: white;
     margin: auto;
 }
 
@@ -47,6 +48,9 @@
     align-items: center;
 }
 
+.images{
+    width: 196px;
+}
 .profiles{
     width: 560px;
     height: 196px;
@@ -108,4 +112,33 @@
 .locationbutton {
     position: relative;
     transform: translateX(500%);
+}
+
+.modalprofilebox{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.modalprofileinfobox {
+    width: 800px;
+    min-height: 160px;
+
+    border: 2px solid;
+    margin: 5px auto 0px auto;
+}
+
+.suspendbutton {
+    width: 100px;
+    height: 50px;
+    
+    background-color:#4E57De;
+    color: #FFFFFF;
+
+    font-size: 16px;
+
+    border: 0px;
+    border-radius: 10px;
+
+    margin: 20px 0px 10px 650px;
+
 }

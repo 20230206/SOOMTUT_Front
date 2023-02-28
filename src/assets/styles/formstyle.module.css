@@ -5,21 +5,6 @@
     margin: auto;
 }
 
-.formbox {
-    position: relative;
-    transform: translateX(15%) translateY(8%);
-            
-    display: grid;
-    place-items: center;
-
-    width: 300px;
-
-    border: 2px solid;
-    border-radius: 5px;
-
-    padding-top: 5vh;
-}
-
 .title{
     font-size : 25px;
     font-weight: 1000;

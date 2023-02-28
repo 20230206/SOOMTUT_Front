@@ -44,7 +44,26 @@ function UpdateProfileModal (props) {
     }
 
     const SaveNickname = () => {
-
+                
+        var config = {
+            method: 'put',
+        maxBodyLength: Infinity,
+            url: `http://${process.env.REACT_APP_HOST}/member/info?nickname=${nickname}`,
+            headers: { 
+            'Authorization': props.token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            alert("닉네임 변경에 성공했습니다.")
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  
     }
 
     const [imgFile, setImgFile] = useState(null);
@@ -81,6 +100,8 @@ function UpdateProfileModal (props) {
           })
           .then(response => {
             console.log(response.data);
+            alert("프로필 이미지 변경에 성공했습니다.")
+            window.location.reload();
           })
           .catch(error => {
             console.error(error);

@@ -9,12 +9,12 @@ import PostBoxInList from "../../components/PostBoxInList";
 
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
+import CustomPagination from "../../components/CustomPagination";
 
 
 function MyClassedList() {
     const [View, token] = CustomNavbar();
     const [lectures, setLectures] = useState(null);
-    const [pages, setPages] = useState(null);
     const [curPage, setCurPage] = useState(1);
 
     const getPosts = (page) => {
@@ -43,6 +43,17 @@ function MyClassedList() {
         if(token) getPosts(1);
     }, [token])
     
+    const [pages, setPages] = useState(null);
+    const [Paging, selected] = CustomPagination(curPage, pages);
+    useEffect(() => {
+        if(selected) SetCurPage(selected);
+    }, [selected])
+
+    const SetCurPage = (event) => {
+        setCurPage(event);
+        getPosts(event);
+    }
+
     const CreatePost = (props) => 
     {
         if(lectures.length >= 1)  {
@@ -59,120 +70,6 @@ function MyClassedList() {
         }
     }
     
-    const SetCurPage = (event) => {
-        console.log(event);
-        setCurPage(event);
-        getPosts(event);
-    }
-
-
-    const CreatePagination = () => {
-        let middleLast = pages - (pages % 5);
-        
-        if (curPage <= 5) {
-            let active = curPage;
-            let items = [];
-            for(let number = 1; number <= 5; number++){
-                if(number <= pages)
-                items.push(
-                    <Pagination.Item
-                     key={number}
-                     active={number===active}
-                     onClick={() => SetCurPage(number)}
-                    >
-                        {number}
-                    </Pagination.Item>
-                )
-            };
-            items.push(
-                <Pagination.Ellipsis/>  
-            )
-            items.push(
-                <Pagination.Next onClick={() => SetCurPage(6)}/>
-            )
-            items.push(
-                <Pagination.Last onClick={() => SetCurPage(pages)}/>
-            )
-
-            return items;
-        }
-
-        else if (curPage > 5 && curPage <= middleLast)
-        {
-            let active = curPage;
-            let items = [];
-            let startnum = parseInt(curPage / 5);
-            if(curPage%5 == 0) startnum = startnum -1;
-            items.push(
-                <Pagination.First onClick={() => SetCurPage(1)} />
-            )
-            items.push(
-                <Pagination.Prev onClick={() => SetCurPage(startnum*5 - 5)} />
-            )
-            items.push(
-              <Pagination.Ellipsis />
-            )
-            for(let number = (startnum*5) + 1;
-                         number <= (startnum*5) +5; number++ )
-            {
-                if(number <= pages)
-                    items.push(
-                        <Pagination.Item
-                     key={number}
-                     active={number===active}
-                     onClick={() => SetCurPage(number)}
-                    >
-                        {number}
-                    </Pagination.Item>
-                    )
-
-            };
-            items.push(
-                <Pagination.Ellipsis />
-            )
-            items.push(
-                <Pagination.Next  onClick={() => SetCurPage(startnum*5+6)}/>
-            )
-            items.push(
-                <Pagination.Last />
-            )
-
-            return items;
-        }
-
-        if (curPage > middleLast) {
-            let active = curPage;
-            let items = [];
-            let startnum = parseInt(curPage / 5);
-            if(curPage%5 == 0) startnum = startnum -1;
-            items.push(
-                <Pagination.First onClick={() => SetCurPage(1)} />
-            )
-            items.push(
-                <Pagination.Prev onClick={() => SetCurPage(startnum*5 - 4)} />
-            )
-            items.push(
-              <Pagination.Ellipsis />
-            )
-            for(let number = (startnum*5) + 1;
-            number <= (startnum*5) +5; number++ )
-            {
-                if(number <= pages)
-                items.push(
-                <Pagination.Item
-                key={number}
-                active={number===active}
-                onClick={() => SetCurPage(number)}
-                >
-                    {number}
-                </Pagination.Item>
-            )
-            };
-
-            return items;
-        }
-    }
-
     return (
         <div>
             <View />
@@ -188,8 +85,8 @@ function MyClassedList() {
                     <CreatePost posts={lectures} />
                 </div>
                 
-            <div className={styles.pagination}> 
-                 <Pagination > <CreatePagination /> </Pagination> 
+                <div className={styles.pagination}> 
+                    <Paging />
                 </div>
             </div>
         </div>

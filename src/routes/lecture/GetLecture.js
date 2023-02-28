@@ -14,7 +14,6 @@ function GetLecture() {
     const [isMy, setIsMy] = useState(false);
     const [fav, setFav] = useState(false);
     
-
     const [View, token, member] = CustomNavbar();
 
     const GetLectureInfo = useCallback(() => {

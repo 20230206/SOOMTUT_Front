@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Dropdown, Pagination } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import axios from "axios"
@@ -8,6 +8,7 @@ import axios from "axios"
 import { Link } from "react-router-dom";
 import PostBoxInList from "../../components/PostBoxInList";
 import CustomNavbar from "../../components/CustomNavbar";
+import CustomPagination from "../../components/CustomPagination";
 
 const Category_List = [ 
     { id:0, name:"전체" },
@@ -26,7 +27,6 @@ const Category_List = [
 function LectureList() {
     const [View, token] = CustomNavbar()
     const [loading, setLoading] = useState(false);
-
     const [curPage, setCurPage] = useState(1);
 
     const GetPosts = (category, page) => {
@@ -55,18 +55,28 @@ function LectureList() {
     useEffect(() => {
         if(token) GetPosts(Category_List[0], 1);
     }, [token])
-
-    const [lectures, setLectures] = useState(null)
     const [pages, setPages] = useState(null);
+
+    const [Paging, selected] = CustomPagination(curPage, pages);
+    useEffect(() => {
+        if(selected) SetCurPage(selected);
+    }, [selected])
     
+    const SetCurPage = (event) => {
+        setCurPage(event);
+        GetPosts(curCategory, event);
+    }
+
     const [curCategory, setCurCategory] = useState(Category_List[0])
     const SelectCategory = (type) => {
         setCurCategory(Category_List[type])
     }
 
     useEffect(() => {
-        if(loading===true) GetPosts(curCategory);
+        if(loading===true) GetPosts(curCategory, 1);
     }, [curCategory])
+
+    const [lectures, setLectures] = useState(null)
 
     const CreatePost = (props) => {
         // 강의가 존재하면 조회해옴
@@ -85,117 +95,6 @@ function LectureList() {
         }
     }
 
-    const SetCurPage = (event) => {
-        setCurPage(event);
-        GetPosts(curCategory, event);
-    }
-
-    const CreatePagination = () => {
-        let middleLast = pages - (pages % 5);
-        
-        if (curPage <= 5) {
-            let active = curPage;
-            let items = [];
-            for(let number = 1; number <= 5; number++){
-                if(number <= pages)
-                items.push(
-                    <Pagination.Item
-                     key={number}
-                     active={number===active}
-                     onClick={() => SetCurPage(number)}
-                    >
-                        {number}
-                    </Pagination.Item>
-                )
-            };
-            items.push(
-                <Pagination.Ellipsis/>  
-            )
-            items.push(
-                <Pagination.Next onClick={() => SetCurPage(6)}/>
-            )
-            items.push(
-                <Pagination.Last onClick={() => SetCurPage(pages)}/>
-            )
-
-            return items;
-        }
-
-        else if (curPage > 5 && curPage <= middleLast)
-        {
-            let active = curPage;
-            let items = [];
-            let startnum = parseInt(curPage / 5);
-            if(curPage%5 == 0) startnum = startnum -1;
-            items.push(
-                <Pagination.First onClick={() => SetCurPage(1)} />
-            )
-            items.push(
-                <Pagination.Prev onClick={() => SetCurPage(startnum*5 - 4)} />
-            )
-            items.push(
-              <Pagination.Ellipsis />
-            )
-            for(let number = (startnum*5) + 1;
-                         number <= (startnum*5) +5; number++ )
-            {
-                if(number <= pages)
-                    items.push(
-                        <Pagination.Item
-                     key={number}
-                     active={number===active}
-                     onClick={() => SetCurPage(number)}
-                    >
-                        {number}
-                    </Pagination.Item>
-                    )
-
-            };
-            items.push(
-                <Pagination.Ellipsis />
-            )
-            items.push(
-                <Pagination.Next  onClick={() => SetCurPage(startnum*5+6)}/>
-            )
-            items.push(
-                <Pagination.Last />
-            )
-
-            return items;
-        }
-
-        if (curPage > middleLast) {
-            let active = curPage;
-            let items = [];
-            let startnum = parseInt(curPage / 5);
-            if(curPage%5 == 0) startnum = startnum -1;
-            items.push(
-                <Pagination.First onClick={() => SetCurPage(1)} />
-            )
-            items.push(
-                <Pagination.Prev onClick={() => SetCurPage(startnum*5 - 4)} />
-            )
-            items.push(
-              <Pagination.Ellipsis />
-            )
-            for(let number = (startnum*5) + 1;
-            number <= (startnum*5) +5; number++ )
-            {
-                if(number <= pages)
-                items.push(
-                <Pagination.Item
-                key={number}
-                active={number===active}
-                onClick={() => SetCurPage(number)}
-                >
-                    {number}
-                </Pagination.Item>
-            )
-            };
-
-            return items;
-        }
-    }
     return (
         <div>
             <View />
@@ -227,8 +126,8 @@ function LectureList() {
                     <CreatePost posts={lectures}></CreatePost>
                 </div>
 
-                <div className={styles.pagination}> 
-                 <Pagination > <CreatePagination /> </Pagination> 
+                <div className={styles.pagination}>
+                    <Paging /> 
                 </div>
             </div>
 

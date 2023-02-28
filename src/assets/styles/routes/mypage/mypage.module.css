@@ -48,6 +48,9 @@
     align-items: center;
 }
 
+.images{
+    width: 196px;
+}
 .profiles{
     width: 560px;
     height: 196px;

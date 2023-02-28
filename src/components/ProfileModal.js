@@ -11,7 +11,7 @@ function ProfileModal(props) {
                 </div>
                 <div className={styles.profilebox}>
                     <div className={styles.imagebox}>
-                        <img src={props.info.profileImage} alt="profileImage"/>
+                        <img src={props.info.profileImage} className={styles.images} alt="profileImage"/>
                     </div>
                     <div >
                         <div> <span> {props.info.nickname} </span></div>

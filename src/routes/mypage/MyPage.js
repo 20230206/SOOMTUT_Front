@@ -18,11 +18,12 @@ import axios from "axios"
 import Postcode from '@actbase/react-daum-postcode';
 import ProfileModal from "../../components/ProfileModal";
 import CustomNavbar from "../../components/CustomNavbar";
+import UpdateProfileModal from "../../components/mypage/UpdateProfileModal";
 
 function MyPage() {
     const navigate = useNavigate();
 
-    const [View, token] = CustomNavbar()
+    const [View, token, member] = CustomNavbar()
 
     const [myInfo, setMyInfo] = useState([]);
   
@@ -158,6 +159,10 @@ function MyPage() {
         
     }
 
+    const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+    const handleUpdateProfileClose = () => setShowUpdateProfile(false);
+    const handleUpdateProfileOpen = () => setShowUpdateProfile(true);
+
     return (
         <div>
             <View />
@@ -167,14 +172,13 @@ function MyPage() {
                 </div>
                 <div className={styles.profilebox}>
                     <div className={styles.imagebox}>
-                        <img src={myInfo.profileImage} alt="profileImage"/>
+                        <img src={myInfo.profileImage} className={styles.images} alt="profileImage"/>
                     </div>
                     <div className={styles.profiles}>
                         <div className={styles.profilename}> <span> {myInfo.nickname} </span></div>
                         <div className={styles.profileemail}> <span> {myInfo.email} </span></div>
                         <br></br>
                         <Button onClick={() => handleProfileShow()}> 프로필 보기 </Button>
-
                         <Modal show={profileshow} onHide={handleProfileClose} size="xl">
                         <ProfileModal info={myInfo} location={location} />
                         </Modal>
@@ -183,8 +187,17 @@ function MyPage() {
                 </div>
                 <div className={styles.infobox}>
                     <br /><br />
-                    <span className={styles.infotextfont}> 나의 프로필 </span> 
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 프로필 보기 </Link></li>
+                    <span className={styles.infotextfont}> 나의 정보 </span> 
+                    <br />
+                    <button
+                     className={`${styles.infotextfont} ${styles.textmarginleft}`}
+                     onClick={()=> handleUpdateProfileOpen()}>
+                     정보 수정 
+                    </button>
+                    {member ? <Modal key="updateProfile" show={showUpdateProfile} onHide={handleUpdateProfileClose}> 
+                        <UpdateProfileModal nickname={member.nickname} handler={handleUpdateProfileClose} token={token}/> 
+                    </Modal> : null}
+                    <button className={`${styles.infotextfont} ${styles.textmarginleft}`}> 비밀번호 수정 </button>
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/bookmark"> 관심 목록 </Link></li>

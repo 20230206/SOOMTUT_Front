@@ -1,26 +1,70 @@
 /*global kakao*/
 import React, 
-{ useEffect } from "react";
+{ useEffect,useState } from "react";
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
+import FindTutorM from "../../assets/styles/findTutor.css"
+import { over } from "stompjs";
 
 
-function makeClickListener(map,markTmp,infowindow){
+function overLayMake(nearLocations,map,markTmp){
 
-    return function() {
-        infowindow.open(map, markTmp);
-        };
+   
+
+    return function(){
+
+        const [isOpen,setIsOpen] = useState(false);
+       
+        var content = `<div class="wrap"> 
+            <div class="info"> 
+            <div class="title">  
+                ${nearLocations.nickname}
+            </div>  
+            <div class="body"> 
+                <div class="img">
+                    <img src="${nearLocations.image}" width="73" height="70"/>
+            </div>
+                <div class="desc">
+                    <div class="ellipsis">${nearLocations.address}</div>
+                    <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>
+                </div>
+            </div>
+        </div> 
+    </div>`
+ // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+
+        var overlay = new kakao.maps.CustomOverlay({
+        content : content,
+        position: markTmp.getPosition(),
+        });
+
+    if (!isOpen) {
+        overlay.setMap(map);
+        
+        setIsOpen(true);
+        
+        
+    } else {
+        overlay.setMap(null);
+        
+        setIsOpen(false);
+        
+    }
 
 }
+    }
+
+    
 
 function FindTutor() {
-
 
     const [View, token, member] = CustomNavbar();
 
     const KakaoMap = () => {
     
         useEffect(()=>{
+            
 
             if(member) {
 
@@ -34,18 +78,20 @@ function FindTutor() {
                 var config = {
                     method: 'get',
                     maxBodyLength: Infinity,
-                    url: `http://localhost:8080/location/showNearTutor`,
+                    url: 'http://localhost:8080/location/showNearTutor',
                     headers: { 
                       'Authorization': token,
-                      'Content-Type': 'application/json'
+                      'Content-Type':'application/json'
                     },
                   };
                   
                   axios(config)
                   .then(function (response) {
+                    
                     var nearLocations = response.data;
                     var radius = 5000;
                     var markTmp;
+                    var overlay;
 
 
 
@@ -84,21 +130,16 @@ function FindTutor() {
                     if(v.getLength()<=radius){
     
                             markTmp.setMap(map);
-                            var iwContent = `<div style="padding:5px;">${nearLocations[i].nickname}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                            iwRemoveable = true;
-                        
-                            var infowindow = new kakao.maps.InfoWindow({
-                            content : iwContent,
-                            removable : iwRemoveable
-                            });
+                             
+                            var isOpen = false;
+                            kakao.maps.event.addListener(markTmp, 'click', overLayMake(nearLocations[i],map,markTmp))
 
-                            kakao.maps.event.addListener(markTmp, 'click', makeClickListener(map, markTmp, infowindow));
-    
+                                  
                     }
+                    
 
                 }
-                    
-                        
+                
 
                   })
                   .catch(function (error) {
@@ -110,18 +151,20 @@ function FindTutor() {
       
           return (
               <div style={{ display:'flex' }}>
-                  <div id="map"  style={{
-                          width:'82%',
-                          height:'85vh',
+                  <div id='map'  style={{
+                          width:'100%',
+                          height:'100vh',
                   }}> </div>
                   
-                  <div  style={{
-                      minWidth: '330px',
-                      height:'85vh',
-                      backgroundColor:"aqua"
-                  }}>
+                  {/* <div  id=“tutorList”style={{
+                      minWidth: ‘330px’,
+                      height:‘85vh’,
+                      backgroundColor:“white”
+                      
+                  }}> */}
+                    
       
-                  </div>
+                  {/* </div> */}
               </div>
           );
       }

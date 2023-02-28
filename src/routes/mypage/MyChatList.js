@@ -5,16 +5,16 @@ import { Link } from "react-router-dom";
 
 import styles from "../../assets/styles/listpage.module.css"
 
-import SoomtutNavbar from "../../components/SoomtutNavbar";
 import ChatBoxInList from "../../components/ChatBoxInList";
 
 import axios from "axios";
+import CustomNavbar from "../../components/CustomNavbar";
 
 
 function MyChatList() {
     axios.defaults.withCredentials=true;    
     
-    const [View, token, member] = SoomtutNavbar();
+    const [View, token, member] = CustomNavbar();
 
     const [chatlist, setChatList] = useState([]);
 

@@ -53,6 +53,7 @@ function CreateLecture() {
     }
 
     const RequestCreatePost = () => {
+        axios.defaults.withCredentials = true;
         var data = JSON.stringify({
             "title": title,
             "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPple0XLVI1C5Qk6WZRtHEvgc8Ns7_CW09qeC3IlzUIw&s",
@@ -74,7 +75,7 @@ function CreateLecture() {
           
           axios(config)
           .then(function (response) {
-            navigate("/lecture/"+response.data.data.postId)
+            navigate("/lecture/"+response.data.data.lectureId)
           })
           .catch(function (error) {
             console.log(error);

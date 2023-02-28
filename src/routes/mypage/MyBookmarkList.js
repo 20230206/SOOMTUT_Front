@@ -4,7 +4,7 @@ import React, {
 } from "react";
 
 import { Link } from "react-router-dom";
-import { Button, Pagination } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import PostBoxInList from "../../components/PostBoxInList";
 

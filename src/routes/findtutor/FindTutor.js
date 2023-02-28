@@ -1,176 +1,156 @@
 /*global kakao*/
 import React, 
 { useEffect,useState } from "react";
+
+import { Modal, Button } from "react-bootstrap";
+
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
 import FindTutorM from "../../assets/styles/findTutor.css"
 
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-
-// function overLayMake(nearLocations, map, markTmp, isOpen){
-
-//     var ret = false;
-
-//     const visibleHandler = (event) => {
-//         console.log(event.target);
-//     }
-
-//     const Marker = () => {
-//         var content =(
-//             `<div className="wrap" onClick={(event) => visibleHandler(event)}> 
-//                 <div className="info"> 
-//                     <div className="title">  
-//                         ${nearLocations.nickname}
-//                     </div>  
-//                     <div className="body"> 
-//                         <div className="img">
-//                             <img src="${nearLocations.image}" style={{width:"73px", height:"70px"}}/>
-//                         </div>
-//                         <div className="desc">
-//                             <div className="ellipsis">${nearLocations.address}</div>
-//                             <div><a href="https://www.kakaocorp.com/main" target="_blank" className="link">홈페이지</a></div>
-//                         </div>
-//                     </div>
-//                 </div> 
-//             </div>`)
-//         ;
-//  // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-
-
-//         var overlay = new kakao.maps.CustomOverlay({
-//         content : content,
-//         position: markTmp.getPosition(),
-//         });
-//         if (!isOpen) {overlay.setMap(map); ret = true;} 
-//         else {overlay.setMap(null); ret = false;}
-//     }       
-
-//     return [Marker, ret]
-// }
-
-
-    
+import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 
 function FindTutor() {
 
-    const [View, token, member] = CustomNavbar();
-
+    const [Navbar, token, member] = CustomNavbar();
     const [loading, setLoading] = useState(false);
-
-    const [isOpen, setIsOpen] = useState(false);
     const [otherMarkers, setOtherMarkers] = useState(null);
 
-    const KakaoMap = () => {
+    const [mapCenterX, setMapCenterX] = useState(null);
+    const [mapCenterY, setMapCenterY] = useState(null);
 
-        useEffect(() => {
-            if(!loading) GetMarkerInfo()
-        }, [member, token] )
-
-        const GetMarkerInfo = () => {
-            var config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `http://localhost:8080/location/showNearTutor`,
-                headers: { 
-                'Authorization': token,
-                'Content-Type':'application/json'
-                },
-            };
-            
-            axios(config)
-            .then(function (response) {
-                console.log(response.data)
-                setOtherMarkers(response.data)
-                setLoading(true);
-
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-        }
-
-        const MakeOtherMarkers = () => {
-            if(otherMarkers) {
-                return (
-                    otherMarkers.map((item, index) => item.nickname === member.nickname ? 
-                        null :
-                        <MapMarker
-                         key={index}
-                         position= {{
-                            lat: item.vectorX,
-                            lng: item.vectorY
-                         }}
-                         clickable={true}
-                         onClick={() => setIsOpen(true)}
-                         >
-                            {isOpen && <div style={{ padding: "5px", color: "#000" }}>
-                            Hello World! <br />
-                            <a
-                                href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667"
-                                style={{ color: "blue" }}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                큰지도보기
-                            </a>{" "}
-                            <a
-                                href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667"
-                                style={{ color: "blue" }}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                길찾기
-                            </a>
-                            </div>}
-                        </MapMarker>)
-                );
-            }
-        }
-
-        useEffect(() => {
-            if(otherMarkers) { MakeOtherMarkers() }
-        }, [otherMarkers])
+    const [showDetails, setShowDetails] = useState(false);
+    const [details, setDetails] = useState(null);
+    
+    const GetMarkerInfo = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `http://localhost:8080/location/showNearTutor`,
+            headers: { 
+            'Authorization': token,
+            'Content-Type':'application/json'
+            },
+        };
         
+        axios(config)
+        .then(function (response) {
+            console.log(response.data)
+            setOtherMarkers(response.data);
+            setMapCenterX(member.vectorX);
+            setMapCenterY(member.vectorY);
+            setLoading(true);
 
-        if(member) {
-            return (
-                <Map center={{
-                    lat: member.vectorX,
-                    lng: member.vectorY
-                }} style= {{
-                    width: "100%",
-                    height: "100vh"
-                }}>
-                  <MapMarker key="myMarker"
-                   position={{ lat: member.vectorX, lng: member.vectorY }}
-                   image={{
-                    src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
-                    size: {
-                      width: 64,
-                      height: 69,
-                    }, // 마커이미지의 크기입니다
-                    options: {
-                      offset: {
-                        x: 27,
-                        y: 69,
-                      }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-                    },
-                  }}
-                  > 
-                   </MapMarker>
-                   <MakeOtherMarkers />
-
-                    
-                </Map>
-            )
-        }
+        })
+        .catch(function (error) {
+        });
     }
 
-      return (
-        <div>
-            <View />
-            <KakaoMap />
-        </div>
-      )
+    useEffect(() => {
+        if(!loading) GetMarkerInfo()
+    }, [member, token] )
+
+
+    const CreateMap = () => {
+
+        const MakeOtherMarkers = (props) => {
+            const map = useMap();
+            const [isVisible, setIsVisible] = useState(false);
+            return (
+                <MapMarker
+                    key={props.index}
+                    position= {{
+                    lat: props.item.vectorX,
+                    lng: props.item.vectorY
+                    }}
+                    clickable={true}
+                    onClick={(marker) => {
+                        // 맵의 중앙 좌표를 현제 마커의 좌표로 변경시킨다.
+                        setMapCenterX(marker.getPosition().Ma);
+                        setMapCenterY(marker.getPosition().La);
+                        setShowDetails(true);
+                        setDetails(props.item);
+                    }}
+                    onMouseOver={() => setIsVisible(true)}
+                    onMouseOut={() => setIsVisible(false)}
+                    >
+                        {isVisible && props.item.nickname}
+                </MapMarker>
+            );
+        }
+
+        return (
+            <Map center={member ? {
+                    lat: mapCenterX,
+                    lng: mapCenterY
+                } : {
+
+                }} 
+                style= {{
+                    width: "100%",
+                    height: "100vh"
+                }} >
+
+                <MapMarker key="myMarker"
+                position={member ? { 
+                    lat: member.vectorX, 
+                    lng: member.vectorY 
+                } : {
+
+                }}
+
+                image={{
+                    src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
+                    size: {
+                    width: 64,
+                    height: 69,
+                    }, // 마커이미지의 크기입니다
+                    options: {
+                    offset: {
+                        x: 27,
+                        y: 69,
+                    }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                    },
+                }}
+                > 
+                </MapMarker>
+
+                { otherMarkers ? otherMarkers.map((item, index) => (
+                        <MakeOtherMarkers item={item} index={index} />
+                    ))
+                    : null
+                }
+            </Map>
+        )
+    }
+
+    const Details = () => {
+        return (
+            <Modal show={showDetails} onHide={() => setShowDetails(false)}>
+            <Modal.Header closeButton>
+                {/* 튜터 이름 */}
+            <Modal.Title> { details.nickname } </Modal.Title>
+            </Modal.Header>
+                {/* 튜터 정보 + 글 나오게 하기 */}
+            <Modal.Body> { details.address } </Modal.Body>
+            <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDetails(false)}>
+                Close
+            </Button>
+            <Button variant="primary" onClick={() => setShowDetails(false)}>
+                Save Changes
+            </Button>
+            </Modal.Footer>
+        </Modal>
+        )
+    }
+
+    return (
+    <div>
+        <Navbar />
+        { loading && <CreateMap /> }
+        { showDetails && <Details /> }
+    </div>
+    )
 }
 export default FindTutor

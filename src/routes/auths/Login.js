@@ -31,7 +31,7 @@ function Login () {
     var config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://${process.env.REACT_APP_HOST}/auth/login`,
+    url: `${process.env.REACT_APP_HOST}/auth/login`,
     headers: { 
         'Content-Type': 'application/json'
     },
@@ -115,8 +115,8 @@ function Login () {
             </div>
 
             <div className={styles.socials}>
-                <Link to={`http://${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} ><img src={kakao} alt="kakao" style={{width:"220px", marginTop:"10px"}}/></Link>
-                <Link to={`http://${process.env.REACT_APP_HOST}/oauth2/authorization/google`} ><img src={google} alt="google" style={{width:"220px", height:"34px",marginTop:"10px", marginLeft:"10px"}}/></Link>
+                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} ><img src={kakao} alt="kakao" style={{width:"220px", marginTop:"10px"}}/></Link>
+                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} ><img src={google} alt="google" style={{width:"220px", height:"34px",marginTop:"10px", marginLeft:"10px"}}/></Link>
             </div>
             
           </Form>

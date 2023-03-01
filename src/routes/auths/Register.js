@@ -79,7 +79,7 @@ function Register () {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?email=${input}`,
+            url: `${process.env.REACT_APP_HOST}/auth/register/check?email=${input}`,
             headers: { },
             data : data
         };
@@ -100,7 +100,7 @@ function Register () {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
+            url: `${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -149,7 +149,7 @@ function Register () {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/register`,
+            url: `${process.env.REACT_APP_HOST}/auth/register`,
             headers: { 
               'Content-Type': 'application/json'
             },

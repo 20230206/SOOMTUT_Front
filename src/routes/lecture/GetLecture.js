@@ -21,7 +21,7 @@ function GetLecture() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
             headers: { 
             'Authorization': token
             }
@@ -45,7 +45,7 @@ function GetLecture() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token
             }

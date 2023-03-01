@@ -22,7 +22,7 @@ function MyClassList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
             }

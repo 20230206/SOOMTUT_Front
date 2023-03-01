@@ -47,7 +47,7 @@ const ChatRoom = () => {
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
+            url: `${process.env.REACT_APP_HOST}/getmyinfo`,
             headers: {
               'Authorization': token
             }

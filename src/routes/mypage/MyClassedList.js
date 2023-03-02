@@ -21,7 +21,7 @@ function MyClassedList() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/getCompletePost?page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/getCompletePost?page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
             }
@@ -79,7 +79,7 @@ function MyClassedList() {
                     <div className={styles.headtextbox}> 
                         <span className={styles.headtext}> 내가 받은 수업 목록 </span>
                     </div> 
-                    <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                    <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
                     <CreatePost posts={lectures} />

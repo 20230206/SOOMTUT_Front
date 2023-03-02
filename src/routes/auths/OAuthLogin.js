@@ -26,7 +26,7 @@ function OAuthLogin () {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-login`,
+            url: `${process.env.REACT_APP_HOST}/auth/oauth-login`,
             headers: {
                 "Content-Type": "application/json"
             },

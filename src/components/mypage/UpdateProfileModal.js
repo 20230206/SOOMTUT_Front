@@ -23,7 +23,7 @@ function UpdateProfileModal (props) {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?nickname=${nickname}`,
+            url: `${process.env.REACT_APP_HOST}/auth/register/check?nickname=${nickname}`,
         };
         
         axios(config)
@@ -48,7 +48,7 @@ function UpdateProfileModal (props) {
         var config = {
             method: 'put',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/member/info?nickname=${nickname}`,
+            url: `${process.env.REACT_APP_HOST}/member/info?nickname=${nickname}`,
             headers: { 
             'Authorization': props.token, 
             }
@@ -92,7 +92,7 @@ function UpdateProfileModal (props) {
         var data = new FormData();
         data.append("file", imgFile);
         
-        axios.post( `http://${process.env.REACT_APP_HOST}/image/member`, data, {
+        axios.post( `${process.env.REACT_APP_HOST}/image/member`, data, {
             headers: {
               'Authorization' : props.token,
               'Content-Type': 'multipart/form-data'

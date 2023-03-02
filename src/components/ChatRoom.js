@@ -29,7 +29,7 @@ const ChatRoom = () => {
         const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
+        url: `${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
         headers: {}
         };
         try {
@@ -47,7 +47,7 @@ const ChatRoom = () => {
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/getmyinfo`,
+            url: `${process.env.REACT_APP_HOST}/getmyinfo`,
             headers: {
               'Authorization': token
             }
@@ -74,7 +74,7 @@ const ChatRoom = () => {
     }, [])
 
     const SetStompClient = () => {
-        const socket = new SockJS(`http://${process.env.REACT_APP_HOST}/connect`);
+        const socket = new SockJS(`${process.env.REACT_APP_HOST}/connect`);
         const stompClient = Stomp.over(socket);
 
         var headers = {'Authorization': token};
@@ -118,7 +118,7 @@ const ChatRoom = () => {
         var config = {
             method: 'post',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/chat_room/${postId}`,
+            url: `${process.env.REACT_APP_HOST}/chat_room/${postId}`,
             headers: { 
                 'Authorization' : token
             }

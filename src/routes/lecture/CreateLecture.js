@@ -65,7 +65,7 @@ function CreateLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture`,
+            url: `${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
               'Authorization': token,
               'Content-Type': 'application/json'

@@ -45,7 +45,7 @@ function MyPage() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/member/info/myinfo`,
+            url: `${process.env.REACT_APP_HOST}/member/info/myinfo`,
             headers: { 
                 "Authrorization": token,
                 "Content-Type": "application/json"
@@ -113,7 +113,7 @@ function MyPage() {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/location/updatelocation`,
+            url: `${process.env.REACT_APP_HOST}/location/updatelocation`,
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -141,7 +141,7 @@ function MyPage() {
         var config = {
             method: 'put',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/member/suspend',
+            url: `${process.env.REACT_APP_HOST}/member/suspend`,
             headers: { 
                 'Authorization': token
             }

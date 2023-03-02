@@ -9,20 +9,18 @@ import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 
 function GetLecture() {
+    const [View, token, member] = CustomNavbar();
+
     const lectureId = useParams().id;
     const [lecturedata, setPostdata] = useState(null)
     const [isMy, setIsMy] = useState(false);
-    const [fav, setFav] = useState(false);
+    const [bookmarked, setBookmarked] = useState(false);
     
-    const [View, token, member] = CustomNavbar();
-
-
     const GetLectureInfo = useCallback(() => {
-                
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
             headers: { 
             'Authorization': token
             }
@@ -30,12 +28,12 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
+            console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
         });
-        
     }, [lectureId])
 
     const GetPostIsMy = useCallback(() => {
@@ -47,7 +45,7 @@ function GetLecture() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token
             }
@@ -55,7 +53,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data);
+            setBookmarked(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -81,7 +79,7 @@ function GetLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token, 
               'Content-Type': 'application/json'
@@ -91,8 +89,8 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log("favfav"+data);
-            setFav(response.data.data)
+            console.log(data);
+            setBookmarked(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -104,7 +102,7 @@ function GetLecture() {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
             headers: { 
                 'Authorization': token
             }
@@ -119,16 +117,94 @@ function GetLecture() {
         });
   
     }
-
-    const CreateChatRoom = () => {
-        const windowWidth = 370;
-        const windowHeight = 500;
-        const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
-        const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
-        const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`http://localhost:3000/chat/${lectureId}`, "_blank", windowFeatures);
-
+    
+    const [isLecreq, setIsLecreq] = useState(false);
+    const GetIsLecreq = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}/existsLectureRequest`,
+            headers: { 
+            'Authorization': token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            setIsLecreq(response.data.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  
     }
+    useEffect(() => {
+        GetIsLecreq();
+    }, [])
+
+    const [lecreqInfo, setLecreqInfo] = useState(null);
+    const GetLecreqInfo = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}`,
+            headers: { 
+              'Authorization': token, 
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(response.data);
+            setLecreqInfo(response.data.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+    }
+
+    useEffect(() => {
+        if(isLecreq === true ) { GetLecreqInfo() }
+        console.log(isLecreq);
+    }, [isLecreq])
+
+    const CreateLecreq = () => {
+        var data = "";
+
+        var config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}`,
+            headers: { 
+                'Authorization': token
+            },
+            data: data
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setIsLecreq(true);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+    }
+
+    const [createChat, setCreateChat] = useState(false);
+    const CreateChatRoom = () => {
+        if(isLecreq === false) { CreateLecreq() }
+        setCreateChat(true);
+    }
+
+    useEffect(() => {
+        if(createChat === true) {
+            // 채팅방을 새로 만들거나, 채팅방의 정보를 찾거나
+        }
+    }, [createChat])
+
 
     const SetPost = () => {
         if(lecturedata) {
@@ -179,8 +255,7 @@ function GetLecture() {
                     </Button> :
                     <Button
                      className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {fav ? "❤" : "🤍"} 
-
+                     onClick={() => RequestBookmark() }> {bookmarked ? "❤" : "🤍"} 
                     </Button>
                     }
                     <Button className={styles.chatbutton}

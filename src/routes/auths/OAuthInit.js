@@ -31,7 +31,7 @@ function OAuthInit() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
+            url: `${process.env.REACT_APP_HOST}/auth/register/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -93,7 +93,7 @@ function OAuthInit() {
           var config = {
             method: 'put',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/auth/oauth-updateinfo`,
+            url: `${process.env.REACT_APP_HOST}/auth/oauth-updateinfo`,
             headers: { 
               'Content-Type': 'application/json', 
               'Cookie': 'Cookie_1=value'

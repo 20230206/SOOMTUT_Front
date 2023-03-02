@@ -18,7 +18,7 @@ function CustomNavbar() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
+      url: `${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
       headers: {}
     };
     try {
@@ -43,7 +43,7 @@ function CustomNavbar() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://${process.env.REACT_APP_HOST}/member/info/myinfo`,
+        url: `${process.env.REACT_APP_HOST}/member/info/myinfo`,
         headers: {
           'Authorization': token
         }
@@ -74,7 +74,7 @@ function CustomNavbar() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://${process.env.REACT_APP_HOST}/auth/logout`
+      url: `${process.env.REACT_APP_HOST}/auth/logout`
     };
 
     try {

@@ -22,6 +22,7 @@ import MyClassList from "./routes/mypage/MyClassList";
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
+import MyChatList from "./routes/mypage/MyChatList";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/mypage/bookmark" element={<MyBookmarkList />} />
           <Route path="/mypage/myclassedlist" element={<MyClassedList />} />
           <Route path="/mypage/myclasslist" element={<MyClassList />} />
+          <Route path="/mypage/chat" element={<MyChatList />} />
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />
@@ -47,7 +49,7 @@ function App() {
 
           <Route path="/findtutor" element={<FindTutor />} />
 
-          <Route path="/chat/:id" element={<ChatRoom />} />
+          <Route path="/chat" element={<ChatRoom />} />
       </Routes>
     </Router>
   );

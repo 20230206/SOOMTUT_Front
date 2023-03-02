@@ -82,7 +82,7 @@ function MyClassList() {
                     <div className={styles.headtextbox}> 
                         <span className={styles.headtext}> 나의 수업 목록 </span>
                     </div> 
-                    <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                    <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
                     <CreatePost posts={lectures} />

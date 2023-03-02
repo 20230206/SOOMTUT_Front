@@ -2,7 +2,7 @@
 import React, 
 { useEffect,useState } from "react";
 
-import { Modal, Button, Card } from "react-bootstrap";
+import { Modal} from "react-bootstrap";
 
 import axios from "axios"
 import CustomNavbar from "../../components/CustomNavbar";
@@ -11,6 +11,7 @@ import stylesProfile from "../../assets/styles/routes/mypage/mypage.module.css"
 
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 function FindTutor() {
 
@@ -136,6 +137,14 @@ function FindTutor() {
     }
 
     const Details = (props) => {
+
+        const navigate = useNavigate();
+        const toGetTutorPost=()=>{
+            
+            navigate("/lectureList/member/" + props.item.memberId)
+
+
+        }
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
               <Modal.Body>
@@ -149,13 +158,13 @@ function FindTutor() {
                     </div>
                     <div >
                         <div> <span> {props.item.nickname} </span></div>
-                        <div> <span> 이메일이 들어갈 공간 </span></div>
-                        <div> <span> 2023년2월18일부터 활동중 </span></div>
+                        <div> <span> {props.item.email} </span></div>
+                        <div> <span> {props.item.createdAt} 부터 활동중 </span></div>
                         <div> <span> {props.item.address} </span></div>
                     </div>
                 </div>
                 <div className={stylesProfile.modalprofileinfobox}>
-                    <div> <li> 등록한 수강강좌 N개 <Link to="/"> ➡️ </Link> </li></div>
+                    <div> <li onClick={() => toGetTutorPost()}>등록한 수강강좌 N개</li></div>
                     <div> <li> 받은 수강 후기 N개  <Link to="/"> ➡️ </Link></li></div>
                 </div>
             </div>

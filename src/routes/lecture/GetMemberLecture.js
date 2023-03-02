@@ -55,7 +55,7 @@ function GetMemberLecture() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data.data)
+            setFav(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -135,7 +135,7 @@ function GetMemberLecture() {
             return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Link to={`/lectureList/member/${lecturedata.memberId}`}> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                    <Link to={`/lectureList/member/${lecturedata.member}`}> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     

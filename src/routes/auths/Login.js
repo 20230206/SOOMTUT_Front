@@ -56,7 +56,6 @@ function Login () {
       }
 
       if(state === "ACTIVE") {
-        console.log("Account is ACTIVE")
         navigate("/");
       }
 

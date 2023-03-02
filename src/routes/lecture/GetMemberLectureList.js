@@ -38,7 +38,7 @@ function GetMemberLectureList(){
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/${memberId}/all?category=${category.id}&page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/lecture/${memberId}/all?category=${category.id}&page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
             }

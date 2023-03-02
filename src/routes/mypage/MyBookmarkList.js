@@ -31,6 +31,7 @@ function MyBookmarkList() {
         
         axios(config)
         .then(function (response) {
+            console.log(response);
             setLectures(response.data.data.content);
             setPages(response.data.data.totalPages);
         })
@@ -64,7 +65,7 @@ function MyBookmarkList() {
             return props.posts.map((post, index) => (
                 <PostBoxInList 
                     key={index}
-                    postId={post.postId} 
+                    postId={post.lectureId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
                     title={post.title} 

@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import styles from "../../assets/styles/listpage.module.css"
-
-import ChatBoxInList from "../../components/ChatBoxInList";
+import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
+
+import ChatBoxInList from "../../components/ChatBoxInList";
 
 
 function MyChatList() {
@@ -16,7 +16,7 @@ function MyChatList() {
     
     const [View, token, member] = CustomNavbar();
 
-    const [chatlist, setChatList] = useState([]);
+    const [chatlist, setChatList] = useState(null);
 
     useEffect(()=> {
         if(token) {
@@ -40,15 +40,19 @@ function MyChatList() {
     }, [token])
 
     const CreateChatBox = () => {
-        if(chatlist.length>0) {
-            console.log(chatlist);
-            return (<ChatBoxInList
-                id={chatlist[0].id}
+        console.log(chatlist);
+        console.log(member);
+        if(chatlist && member) {
+            return chatlist.map((item, index) => (<ChatBoxInList
+                key={index}
+                id={item.lecreqId}
                 opponent={
-                    chatlist[0].tutee.nickname === member.nickname ? 
-                    chatlist[0].tutor.nickname : chatlist.tutee.nickname
+                    item.tutee.nickname === member.nickname ? 
+                    item.tutor.nickname : item.tutee.nickname
                 }
+                role={ item.tutee.nickname === member.nickname ? "tutee" : "tutor" }
             />)
+            )
         }
     }
 

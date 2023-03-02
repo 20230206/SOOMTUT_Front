@@ -206,7 +206,7 @@ function GetLecture() {
         const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
         const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
         const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`http://localhost:3000/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
+        window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
         setCreateChat(false);
     }
 

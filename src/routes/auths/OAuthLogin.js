@@ -9,7 +9,7 @@ function OAuthLogin () {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-
+    // baseURL / URI ? query string -> 
     const navigate = useNavigate();
     const name = params.get("name");
     const role = params.get("role");

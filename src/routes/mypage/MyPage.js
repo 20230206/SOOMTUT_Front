@@ -103,11 +103,15 @@ function MyPage() {
 
     }, [posX, posY])
 
-    const ChangeLocation = (address) => {
+    useEffect(() => {
+        if(locationshow===false) ChangeLocation();
+    }, [posX, posY])
+
+    const ChangeLocation = () => {
         var data = JSON.stringify({
             "vectorX": posX,
             "vectorY": posY,
-            "address": address
+            "address": location
           });
           
           var config = {
@@ -214,7 +218,6 @@ function MyPage() {
                         onSelected={data => {
                             console.log(JSON.stringify(data))
                             setLocation(data.address)
-                            ChangeLocation(data.address)
                             
                             handleLocationClose();
                         }}

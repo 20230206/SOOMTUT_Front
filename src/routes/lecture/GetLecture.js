@@ -28,7 +28,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data)
+            //console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
@@ -53,7 +53,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log("Bookmark :" + response.data)
+            //console.log("Bookmark :" + response.data)
             setBookmarked(response.data)
           })
           .catch(function (error) {
@@ -90,7 +90,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log(data);
+            //console.log(data);
             setBookmarked(response.data.data)
           })
           .catch(function (error) {
@@ -111,7 +111,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data.data));
+            //console.log(JSON.stringify(response.data.data));
         })
         .catch(function (error) {
             console.log(error);
@@ -132,7 +132,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            //console.log(JSON.stringify(response.data));
             setIsLecreq(response.data.data)
         })
         .catch(function (error) {
@@ -157,7 +157,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
             setLecreqInfo(response.data.data);
           })
           .catch(function (error) {
@@ -168,7 +168,7 @@ function GetLecture() {
 
     useEffect(() => {
         if(isLecreq === true ) { GetLecreqInfo() }
-        console.log(isLecreq);
+        //console.log(isLecreq);
     }, [isLecreq])
 
     const CreateLecreq = () => {
@@ -200,12 +200,19 @@ function GetLecture() {
         setCreateChat(true);
     }
 
-    useEffect(() => {
-        if(createChat === true) {
-            // 채팅방을 새로 만들거나, 채팅방의 정보를 찾거나
-        }
-    }, [createChat])
+    const createChatRoomWindow = () => {
+        const windowWidth = 370;
+        const windowHeight = 500;
+        const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
+        const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
+        const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
+        window.open(`http://localhost:3000/chat/${lecreqInfo.lectureRequestId}`, "_blank", windowFeatures);
+        setCreateChat(false);
+    }
 
+    useEffect(()=> {
+        if(createChat) {createChatRoomWindow()}
+    }, [createChat])
 
     const SetPost = () => {
         if(lecturedata) {

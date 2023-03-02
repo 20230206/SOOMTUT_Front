@@ -37,6 +37,7 @@ function GetLecture() {
     }
 
     const GetPostIsMy = useCallback(() => {
+
         if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
     }, [lecturedata])
 

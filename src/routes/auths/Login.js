@@ -40,11 +40,12 @@ function Login () {
     
     axios(config)
     .then(function (response) {
-        console.log(response.data.data);
-        setState(response.data.data.state)
+      console.log(response.data.data);
+      setState(response.data.data.state)
     })
     .catch(function (error) {
-    console.log(error);
+      alert("로그인에 실패했습니다. \n 아이디나 비밀번호를 다시 확인해주세요.")
+      console.log(error);
     });
   }
 

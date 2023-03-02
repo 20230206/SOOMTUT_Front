@@ -76,7 +76,6 @@ function MyBookmarkList() {
     }
 
 
-
     return (
     <div>
         <View />

@@ -16,6 +16,7 @@ function GetLecture() {
     
     const [View, token, member] = CustomNavbar();
 
+
     const GetLectureInfo = useCallback(() => {
                 
         var config = {
@@ -38,6 +39,7 @@ function GetLecture() {
     }, [lectureId])
 
     const GetPostIsMy = useCallback(() => {
+
         if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
     }, [lecturedata])
 
@@ -53,7 +55,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data.data)
+            setFav(response.data);
           })
           .catch(function (error) {
             console.log(error);
@@ -62,6 +64,7 @@ function GetLecture() {
     }, [lectureId])
 
     useEffect(() => {
+
         GetLectureInfo();
         GetFav();
     }, [GetLectureInfo, GetFav])
@@ -88,7 +91,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log(data);
+            console.log("favfav"+data);
             setFav(response.data.data)
           })
           .catch(function (error) {
@@ -177,6 +180,7 @@ function GetLecture() {
                     <Button
                      className={styles.favbutton} 
                      onClick={() => RequestBookmark() }> {fav ? "❤" : "🤍"} 
+
                     </Button>
                     }
                     <Button className={styles.chatbutton}

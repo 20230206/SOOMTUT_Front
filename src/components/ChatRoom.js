@@ -141,14 +141,16 @@ const ChatRoom = () => {
           headers: { 
               'Authorization' : token
           }
-      };
+        };
       
-      axios(config)
-      .then(function (response) {
-        setRoomInfo(response.data.data);
-      })
-      .catch(function (error) {
-      });
+        axios(config)
+        .then(function (response) {
+          console.log(response)
+          setRoomInfo(response.data.data);
+        })
+        .catch(function (error) {
+          console.log(error)
+        });
       }
     }
 

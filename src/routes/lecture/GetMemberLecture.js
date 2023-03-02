@@ -22,7 +22,7 @@ function GetMemberLecture() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
             headers: { 
             'Authorization': token
             }
@@ -47,7 +47,7 @@ function GetMemberLecture() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token
             }
@@ -80,7 +80,7 @@ function GetMemberLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token, 
               'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ function GetMemberLecture() {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
             headers: { 
                 'Authorization': token
             }

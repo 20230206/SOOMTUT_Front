@@ -23,7 +23,7 @@ function MyChatList() {
             var config = {
                 method: 'get',
             maxBodyLength: Infinity,
-                url: `http://${process.env.REACT_APP_HOST}/chat_room?page=0&size=5`,
+                url: `${process.env.REACT_APP_HOST}/chat_room?page=0&size=5`,
                 headers: { 
                     'Authorization': token, 
                 }

@@ -9,19 +9,18 @@ import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 
 function GetLecture() {
+    const [View, token, member] = CustomNavbar();
+
     const lectureId = useParams().id;
     const [lecturedata, setPostdata] = useState(null)
     const [isMy, setIsMy] = useState(false);
-    const [fav, setFav] = useState(false);
+    const [bookmarked, setBookmarked] = useState(false);
     
-    const [View, token, member] = CustomNavbar();
-
     const GetLectureInfo = useCallback(() => {
-                
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
             headers: { 
             'Authorization': token
             }
@@ -29,23 +28,53 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
+            console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
         });
-        
     }, [lectureId])
 
     const GetPostIsMy = useCallback(() => {
         if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
     }, [lecturedata])
 
+    const [isLecreq, setIsLecreq] = useState(false);
+    const GetIsLecreq = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}/existsLectureRequest`,
+            headers: { 
+            'Authorization': token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            setIsLecreq(response.data.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  
+    }
+    useEffect(() => {
+        GetIsLecreq();
+    }, [])
+
+    const [lecreqInfo, setLecreqInfo] = useState(null);
+    const GetLecreqInfo = () => {
+
+    }
+
     const GetFav = useCallback(() => {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token
             }
@@ -53,7 +82,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            setFav(response.data.data)
+            setBookmarked(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -78,7 +107,7 @@ function GetLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': token, 
               'Content-Type': 'application/json'
@@ -89,7 +118,7 @@ function GetLecture() {
           axios(config)
           .then(function (response) {
             console.log(data);
-            setFav(response.data.data)
+            setBookmarked(response.data.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -101,7 +130,7 @@ function GetLecture() {
         var config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
             headers: { 
                 'Authorization': token
             }
@@ -176,7 +205,7 @@ function GetLecture() {
                     </Button> :
                     <Button
                      className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {fav ? "❤" : "🤍"} 
+                     onClick={() => RequestBookmark() }> {bookmarked ? "❤" : "🤍"} 
                     </Button>
                     }
                     <Button className={styles.chatbutton}

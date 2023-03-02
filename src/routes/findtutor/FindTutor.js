@@ -29,7 +29,7 @@ function FindTutor() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://${process.env.REACT_APP_HOST}/location/showNearTutor`,
+            url: `${process.env.REACT_APP_HOST}/location/showNearTutor`,
             headers: { 
             'Authorization': token,
             'Content-Type':'application/json'

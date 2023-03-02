@@ -16,7 +16,7 @@ function GetLecture() {
     const [isMy, setIsMy] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     
-    const GetLectureInfo = useCallback(() => {
+    const GetLectureInfo = () => {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
@@ -34,13 +34,13 @@ function GetLecture() {
         .catch(function (error) {
             console.log(error);
         });
-    }, [lectureId])
+    }
 
     const GetPostIsMy = useCallback(() => {
         if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
     }, [lecturedata])
 
-    const GetFav = useCallback(() => {
+    const GetFav = () => {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
@@ -52,26 +52,28 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            setBookmarked(response.data.data)
+            console.log("Bookmark :" + response.data)
+            setBookmarked(response.data)
           })
           .catch(function (error) {
             console.log(error);
           });
           
-    }, [lectureId])
+    }
 
     useEffect(() => {
-        GetLectureInfo();
-        GetFav();
-    }, [GetLectureInfo, GetFav])
+        if(token) GetLectureInfo();
+        if(token) GetFav();
+    }, [token])
 
     useEffect(() => {
         if(lecturedata) { GetPostIsMy() }
     }, [lecturedata])
 
     const RequestBookmark = () => {
+        console.log(bookmarked)
         var data = JSON.stringify({
-            "curfav": true
+            "curfav": bookmarked
           });
           
           var config = {
@@ -234,17 +236,7 @@ function GetLecture() {
                     </div>
                 </div>
 
-            </div>
-            )
-        }
-    }
-
-    return (
-        <div>
-            <View />
-            <SetPost />
-            
-            <div className={styles.menubox}>
+                <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
                      isMy ? 
@@ -259,6 +251,16 @@ function GetLecture() {
                     <Button className={styles.chatbutton}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>
                 </div>
+            </div>
+            )
+        }
+    }
+
+    return (
+        <div>
+            <View />
+            <SetPost />
+            
         </div>
     );
 }

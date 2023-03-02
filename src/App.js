@@ -14,12 +14,14 @@ import MyPage from "./routes/mypage/MyPage"
 import LectureList from "./routes/lecture/LectureList"
 import CreateLecture from "./routes/lecture/CreateLecture"
 import GetLecture from "./routes/lecture/GetLecture";
+import GetMemberLecture from "./routes/lecture/GetMemberLecture";
 import MyBookmarkList from "./routes/mypage/MyBookmarkList";
 import MyClassedList from "./routes/mypage/MyClassedList";
 import MyClassList from "./routes/mypage/MyClassList";
 
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
+import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
 
 
 function App() {
@@ -39,7 +41,9 @@ function App() {
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />
+          <Route path="/lecture/member/:id" element={<GetMemberLecture />} />
           <Route path="/lecture/create" element={<CreateLecture />} />
+          <Route path="/lectureList/member/:id" element={<GetMemberLectureList />} />
 
           <Route path="/findtutor" element={<FindTutor />} />
 

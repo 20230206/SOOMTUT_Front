@@ -226,7 +226,7 @@ function GetLecture() {
                 </div>
                     
                 <div className={styles.imagebox}>
-                    <img src={lecturedata.image} alt="postimage"/>
+                    <img src={lecturedata.image} style={{width:"790px", height:"390px"}} alt="postimage"/>
                 </div>
 
                 <div className={styles.tutorinfobox} >

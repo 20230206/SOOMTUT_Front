@@ -8,8 +8,6 @@ import styles from "../assets/styles/chatlist.module.css"
 import axios from "axios";
 
 function ManageBoxInList(props) {
-    console.log(props)
-
     const CreateChat = () => {
         const windowWidth = 370;
         const windowHeight = 500;
@@ -59,9 +57,9 @@ function ManageBoxInList(props) {
         
     }
 
-    const [showReviewModal, setShowReviewModal] = useState(false);
-    const handleshoReviewModalClose = () => setShowReviewModal(false);
-    const handleshoReviewModalOpen = () => setShowReviewModal(true);
+    const [showCreateReviewModal, setShowCreateReviewModal] = useState(false);
+    const handleshowCreateReviewModalClose = () => setShowCreateReviewModal(false);
+    const handleshowCreateReviewModalOpen = () => setShowCreateReviewModal(true);
 
     const [starscore, setStarScore] = useState(0);
     const SetStarScore = (event) => setStarScore(event.target.value);
@@ -71,7 +69,7 @@ function ManageBoxInList(props) {
     const CancleReview = () => {
         setStarScore(0);
         setReviewContent("");
-        handleshoReviewModalClose();
+        handleshowCreateReviewModalClose();
     }
 
     const SendReview = () => {
@@ -83,7 +81,7 @@ function ManageBoxInList(props) {
         var config = {
           method: 'post',
         maxBodyLength: Infinity,
-          url: `${process.env.REACT_APP_HOST}/review/create/${props.lecture.lectureId}`,
+          url: `${process.env.REACT_APP_HOST}/review/create/${props.id}`,
           headers: { 
             'Authrization': props.token, 
           },
@@ -98,7 +96,7 @@ function ManageBoxInList(props) {
           console.log(error);
         });
         
-        handleshoReviewModalClose();
+        handleshowCreateReviewModalClose();
     }
 
     const [reviewed, setReviewed] = useState(false)
@@ -107,14 +105,35 @@ function ManageBoxInList(props) {
     }, [])
     useEffect(() => {
         if(reviewed) {
-
+            GetReview();
         }
     }, [reviewed])
     const [review, setReview] = useState(null);
     const GetReview = () => {
+                
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/review/${props.id}`,
+            headers: { 
+                'Authrization': props.token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setReview(response.data.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         
     }
 
+    
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const handleshowReviewModalClose = () => setShowReviewModal(false);
+    const handleshowReviewModalOpen = () => setShowReviewModal(true);
     return (
         <div>
             <div className={styles.itembox}>
@@ -146,15 +165,19 @@ function ManageBoxInList(props) {
                 { props.requeststate === 'DONE' && <div style={{width:"140px"}}>
                     { !props.reviewed && <div> { props.role === "tutee" && <Button
                     style={{width:"120px", height:"36px"}}
-                    onClick={() => handleshoReviewModalOpen() }>
+                    onClick={() => handleshowCreateReviewModalOpen() }>
                         후기 작성 </Button> }
                     
                    { props.role === "tutor" && <Button style={{width:"120px", height:"36px"}} disabled={true}> 수업 완료 </Button>} </div> }
-                { props.reviewed && <div style={{width:"140px"}}> <Button style={{width:"120px", height:"36px"}}> 후기 보기 </Button> </div>}
+                { props.reviewed && <div style={{width:"140px"}}>
+                     <Button
+                      style={{width:"120px", height:"36px"}}
+                      onClick={()=>handleshowReviewModalOpen()}
+                      > 후기 보기 </Button> </div>}
                 </div>}
 
                             
-                <Modal show={showReviewModal} onHide={handleshoReviewModalClose}>
+                <Modal show={showCreateReviewModal} onHide={handleshowCreateReviewModalClose}>
                     <Modal.Header closeButton>
                     <Modal.Title> 후기 작성 </Modal.Title>
                     </Modal.Header>
@@ -186,7 +209,34 @@ function ManageBoxInList(props) {
                         후기 저장하기
                     </Button>
                     </Modal.Footer>
-                </Modal>
+                    </Modal>
+                { review &&
+                <Modal show={showReviewModal} onHide={handleshowReviewModalClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title> 후기 확인 </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Control 
+                                    placeholder={review.starScore}
+                                    disabled={true}
+                                />
+
+                                <Form.Control
+                                    placeholder={review.content}
+                                    disabled={true}
+                                />
+
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleshowReviewModalClose}>
+                        닫기
+                    </Button>
+                    </Modal.Footer>
+                </Modal>}
             </div>
         </div>
     );

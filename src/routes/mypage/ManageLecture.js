@@ -8,10 +8,10 @@ import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 
-import ChatBoxInList from "../../components/ChatBoxInList";
+import ManageBoxInList from "../../components/ManageBoxInList";
 
 
-function MyChatList() {
+function ManageLecture() {
     axios.defaults.withCredentials=true;    
     
     const [View, token, member] = CustomNavbar();
@@ -41,7 +41,7 @@ function MyChatList() {
 
     const CreateChatBox = () => {
         if(chatlist && member) {
-            return chatlist.map((item, index) => (<ChatBoxInList
+            return chatlist.map((item, index) => (<ManageBoxInList
                 key={index}
                 id={item.lecreqId}
                 opponent={
@@ -67,7 +67,7 @@ function MyChatList() {
                 <div className={styles.headbox}>
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
                     <div className={styles.headtextbox}> 
-                        <span className={styles.headtext}> 나의 채팅 목록 </span>
+                        <span className={styles.headtext}> 수업 관리 </span>
                     </div> 
                 </div>
                 <div className={styles.listbox} id="listbox">
@@ -78,4 +78,4 @@ function MyChatList() {
     );
 }
 
-export default MyChatList;
+export default ManageLecture;

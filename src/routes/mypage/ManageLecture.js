@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
@@ -11,19 +11,26 @@ import CustomNavbar from "../../components/CustomNavbar";
 import ManageBoxInList from "../../components/ManageBoxInList";
 
 
+const LectureState = [ 
+    { id:0, name:"전체" },
+    { id:1, name:"상담중" },
+    { id:2, name:"진행중" },
+    { id:3, name:"완료" }
+];
+
 function ManageLecture() {
     axios.defaults.withCredentials=true;    
     
     const [View, token, member] = CustomNavbar();
-
     const [chatlist, setChatList] = useState(null);
+    const [curState, setCurState] = useState(LectureState[0])
 
     useEffect(()=> {
-        if(token) {
+        if(token, curState) {
             var config = {
                 method: 'get',
             maxBodyLength: Infinity,
-                url: `${process.env.REACT_APP_HOST}/chat_room?page=0&size=5`,
+                url: `${process.env.REACT_APP_HOST}/chat_room?state=${curState.id}&page=0&size=5`,
                 headers: { 
                     'Authorization': token, 
                 }
@@ -37,9 +44,10 @@ function ManageLecture() {
                 console.log(error);
             });
         }
-    }, [token])
+    }, [token, curState])
 
     const CreateChatBox = () => {
+        // console.log(chatlist)
         if(chatlist && member) {
             return chatlist.map((item, index) => (<ManageBoxInList
                 key={index}
@@ -55,10 +63,14 @@ function ManageLecture() {
                 }
                 requeststate={ item.state }
                 token = { token }
+                lecture ={item.lecture}
+                reviewed={item.reviewed}
             />)
             )
         }
     }
+
+
 
     return (
         <div>
@@ -69,6 +81,20 @@ function ManageLecture() {
                     <div className={styles.headtextbox}> 
                         <span className={styles.headtext}> 수업 관리 </span>
                     </div> 
+                                    
+                    <Dropdown className="d-inline mx-2" autoClose="inside">
+                        <Dropdown.Toggle id="dropdown-autoclose-inside" style={{width:"80px"}}>
+                            { curState.name }
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                        <Dropdown.Item onClick={ () => setCurState(LectureState[0]) } > { LectureState[0].name } </Dropdown.Item>
+                        <Dropdown.Item onClick={ () => setCurState(LectureState[1]) } > { LectureState[1].name } </Dropdown.Item>
+                        <Dropdown.Item onClick={ () => setCurState(LectureState[2]) } > { LectureState[2].name } </Dropdown.Item>
+                        <Dropdown.Item onClick={ () => setCurState(LectureState[3]) } > { LectureState[3].name } </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
                 </div>
                 <div className={styles.listbox} id="listbox">
                     <CreateChatBox />

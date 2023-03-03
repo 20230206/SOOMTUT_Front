@@ -1,5 +1,8 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, {
+    useEffect,
+    useState
+} from "react";
+import { Button, Modal, Form } from "react-bootstrap";
 import styles from "../assets/styles/chatlist.module.css"
 
 import axios from "axios";
@@ -28,7 +31,6 @@ function ManageBoxInList(props) {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data);
             window.location.reload()
         })
         .catch(function (error) {
@@ -49,12 +51,67 @@ function ManageBoxInList(props) {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data);
             window.location.reload()
         })
         .catch(function (error) {
             console.log(error);
         });
+        
+    }
+
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const handleshoReviewModalClose = () => setShowReviewModal(false);
+    const handleshoReviewModalOpen = () => setShowReviewModal(true);
+
+    const [starscore, setStarScore] = useState(0);
+    const SetStarScore = (event) => setStarScore(event.target.value);
+    const [reviewContent, setReviewContent] = useState("");
+    const SetReview = (event) => setReviewContent(event.target.value);
+
+    const CancleReview = () => {
+        setStarScore(0);
+        setReviewContent("");
+        handleshoReviewModalClose();
+    }
+
+    const SendReview = () => {
+        var data = {
+            "star_rating" : starscore,
+            "review_content" : reviewContent
+        }
+
+        var config = {
+          method: 'post',
+        maxBodyLength: Infinity,
+          url: `${process.env.REACT_APP_HOST}/review/create/${props.lecture.lectureId}`,
+          headers: { 
+            'Authrization': props.token, 
+          },
+          data: data
+        };
+        
+        axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        
+        handleshoReviewModalClose();
+    }
+
+    const [reviewed, setReviewed] = useState(false)
+    useEffect(() => {
+        setReviewed(props.reviewed)
+    }, [])
+    useEffect(() => {
+        if(reviewed) {
+
+        }
+    }, [reviewed])
+    const [review, setReview] = useState(null);
+    const GetReview = () => {
         
     }
 
@@ -86,10 +143,50 @@ function ManageBoxInList(props) {
                  variant="success"
                  onClick={() => CreateChat()}> 대화 하기 </Button>
                 </div>}
-                { props.requeststate === 'DONE' && <div>
-                   { props.role === "tutee" && <Button> 후기 작성 </Button> }
-                   { props.role === "tutor" && <Button disabled={true}> 수업 완료 </Button>}
+                { props.requeststate === 'DONE' && <div style={{width:"140px"}}>
+                    { !props.reviewed && <div> { props.role === "tutee" && <Button
+                    style={{width:"120px", height:"36px"}}
+                    onClick={() => handleshoReviewModalOpen() }>
+                        후기 작성 </Button> }
+                    
+                   { props.role === "tutor" && <Button style={{width:"120px", height:"36px"}} disabled={true}> 수업 완료 </Button>} </div> }
+                { props.reviewed && <div style={{width:"140px"}}> <Button style={{width:"120px", height:"36px"}}> 후기 보기 </Button> </div>}
                 </div>}
+
+                            
+                <Modal show={showReviewModal} onHide={handleshoReviewModalClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title> 후기 작성 </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Control 
+                                    value={starscore}
+                                    type="number"
+                                    placeholder="별점을 입력하세요" 
+                                    onChange={(event) => SetStarScore(event)}
+                                />
+
+                                <Form.Control
+                                    value={reviewContent}
+                                    type="text"
+                                    placeholder="후기를 입력하세요" 
+                                    onChange={(event) => SetReview(event)}
+                                />
+
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={() => CancleReview()}>
+                        작성 취소하기
+                    </Button>
+                    <Button variant="primary" onClick={() => SendReview()}>
+                        후기 저장하기
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </div>
     );

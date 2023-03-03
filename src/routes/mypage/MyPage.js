@@ -45,7 +45,7 @@ function MyPage() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/member/info/myinfo`,
+            url: `${process.env.REACT_APP_HOST}/member/myInfo`,
             headers: { 
                 "Authrorization": token,
                 "Content-Type": "application/json"
@@ -54,6 +54,7 @@ function MyPage() {
 
         try {
             const response = await axios(config);
+            console.log(response)
             setMyInfo(response.data.data);
             setLocation(response.data.data.address)
             } catch (error) {

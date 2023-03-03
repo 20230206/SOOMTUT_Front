@@ -59,7 +59,7 @@ function MyPage() {
             } catch (error) {
             console.log(error);
         }
-        
+
     }, [])
     
     useEffect(() => {
@@ -204,10 +204,15 @@ function MyPage() {
                     <button className={`${styles.infotextfont} ${styles.textmarginleft}`}> 비밀번호 수정 </button>
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/bookmark"> 관심 목록 </Link></li>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclassedlist"> 수강한 수업 목록 </Link></li>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
+                            <Link to="/mypage/bookmark"> 관심 목록 </Link>
+                        </li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
+                            <Link to="/mypage/myLecturelist"> 나의 수업 목록 </Link>
+                        </li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
+                            <Link to="/mypage/manage"> 수업 관리 </Link>
+                        </li>
                     <br /><br />
 
                     <Modal show={locationshow} onHide={handleLocationClose}>
@@ -216,7 +221,6 @@ function MyPage() {
                         style={{ width: 460, height: 320 }}
                         jsOptions={{ animation: true, hideMapBtn: true }}
                         onSelected={data => {
-                            console.log(JSON.stringify(data))
                             setLocation(data.address)
                             
                             handleLocationClose();

@@ -13,17 +13,16 @@ import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import CustomNavbar from "../../components/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 
-function MyBookmarkList() {
+function MyLectureList() {
     const [View, token] = CustomNavbar();
     const [lectures, setLectures] = useState(null);
     const [curPage, setCurPage] = useState(1);
 
-    const GetFavList = (page) => {
-                
+    const getPosts = (page) => {
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/bookmark?page=${page-1}&size=5`,
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
             }
@@ -31,41 +30,39 @@ function MyBookmarkList() {
         
         axios(config)
         .then(function (response) {
-            console.log(response);
             setLectures(response.data.data.content);
             setPages(response.data.data.totalPages);
         })
         .catch(function (error) {
             console.log(error);
         });
-        
+  
     }
-
-    // 토큰 정보 생성 시, 포스트 내용 조회
+    
+    
     useEffect(() => {
-        if(token) GetFavList(1);
+        if(token) getPosts(1);
     }, [token])
 
     const [pages, setPages] = useState(null);
-
     const [Paging, selected] = CustomPagination(curPage, pages);
+
     useEffect(() => {
         if(selected) SetCurPage(selected);
     }, [selected])
     
     const SetCurPage = (event) => {
         setCurPage(event);
-        GetFavList(event);
+        getPosts(event);
     }
 
-
+    
     const CreatePost = (props) => 
     {
         if(lectures)  {
-            return props.posts.map((post, index) => (
+            return props.posts.map((post) => (
                 <PostBoxInList 
-                    key={index}
-                    postId={post.lectureId} 
+                    postId={post.postId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
                     title={post.title} 
@@ -76,28 +73,27 @@ function MyBookmarkList() {
         }
     }
 
-
     return (
-    <div>
-        <View />
-        <div className={styles.wrapper}>
-            <div className={styles.headbox}>
-                <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
-                <div className={styles.headtextbox}> 
-                    <span className={styles.headtext}> 나의 관심 목록 </span>
-                </div> 
-                <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
-            </div>
-            <div className={styles.listbox} id="listbox">
-                <CreatePost posts={lectures} />
-            </div>
-            
-            <div className={styles.pagination}> 
-                <Paging />
+        <div>
+            <View />
+            <div className={styles.wrapper}>
+                <div className={styles.headbox}>
+                    <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
+                    <div className={styles.headtextbox}> 
+                        <span className={styles.headtext}> 나의 수업 목록 </span>
+                    </div> 
+                    <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
+                </div>
+                <div className={styles.listbox} id="listbox">
+                    <CreatePost posts={lectures} />
+                </div>
+                
+                <div className={styles.pagination}> 
+                    <Paging />
+                </div>
             </div>
         </div>
-    </div>
     );
 }
 
-export default MyBookmarkList;
+export default MyLectureList;

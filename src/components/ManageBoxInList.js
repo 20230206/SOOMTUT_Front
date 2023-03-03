@@ -4,7 +4,7 @@ import styles from "../assets/styles/chatlist.module.css"
 
 import axios from "axios";
 
-function ChatBoxInList(props) {
+function ManageBoxInList(props) {
     console.log(props)
 
     const CreateChat = () => {
@@ -88,10 +88,11 @@ function ChatBoxInList(props) {
                 </div>}
                 { props.requeststate === 'DONE' && <div>
                    { props.role === "tutee" && <Button> 후기 작성 </Button> }
+                   { props.role === "tutor" && <Button disabled={true}> 수업 완료 </Button>}
                 </div>}
             </div>
         </div>
     );
 }
 
-export default ChatBoxInList;
+export default ManageBoxInList;

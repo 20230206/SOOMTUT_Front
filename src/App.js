@@ -15,14 +15,13 @@ import LectureList from "./routes/lecture/LectureList"
 import CreateLecture from "./routes/lecture/CreateLecture"
 import GetLecture from "./routes/lecture/GetLecture";
 import GetMemberLecture from "./routes/lecture/GetMemberLecture";
-import MyBookmarkList from "./routes/mypage/MyBookmarkList";
-import MyClassedList from "./routes/mypage/MyClassedList";
-import MyClassList from "./routes/mypage/MyClassList";
+import Bookmark from "./routes/mypage/Bookmark";
+import MyLectureList from "./routes/mypage/MyLectureList";
 
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
-import MyChatList from "./routes/mypage/MyChatList";
+import ManageLecture from "./routes/mypage/ManageLecture";
 
 
 function App() {
@@ -36,10 +35,9 @@ function App() {
           <Route path="/oauthlogin/init" element={<OAuthInit />} />
 
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/bookmark" element={<MyBookmarkList />} />
-          <Route path="/mypage/myclassedlist" element={<MyClassedList />} />
-          <Route path="/mypage/myclasslist" element={<MyClassList />} />
-          <Route path="/mypage/chat" element={<MyChatList />} />
+          <Route path="/mypage/bookmark" element={<Bookmark />} />
+          <Route path="/mypage/myLecturelist" element={<MyLectureList />} />
+          <Route path="/mypage/manage" element={<ManageLecture />} />
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />

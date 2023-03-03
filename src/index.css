@@ -8,5 +8,6 @@
 }
 
 body {
+    font-family: var(--font-googleJua);
     background-color: #4E57DE;
 }

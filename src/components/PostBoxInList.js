@@ -11,7 +11,7 @@ function PostBoxInList(props) {
     return (
         <div>
             <div className={styles.itembox} onClick={() => ToPost()}>
-                <div className={styles.itemimagebox}> <img src={props.image} alt="discriptionimage" /> </div>
+                <div className={styles.itemimagebox}> <img className={styles.itemimage} src={props.image} alt="discriptionimage" /> </div>
                 <div className={styles.itemdiscriptionbox}> 
                     <span className={styles.discriptiontext}> {props.tutorNickname} </span> <br />
                     <span className={styles.discriptiontext}> {props.title} </span> <br />

@@ -40,8 +40,6 @@ function MyChatList() {
     }, [token])
 
     const CreateChatBox = () => {
-        console.log(chatlist);
-        console.log(member);
         if(chatlist && member) {
             return chatlist.map((item, index) => (<ChatBoxInList
                 key={index}
@@ -51,6 +49,12 @@ function MyChatList() {
                     item.tutor.nickname : item.tutee.nickname
                 }
                 role={ item.tutee.nickname === member.nickname ? "tutee" : "tutor" }
+                image= {
+                    item.tutee.nickname === member.nickname ? 
+                        item.tutor.profileImage : item.tutee.profileImage
+                }
+                requeststate={ item.state }
+                token = { token }
             />)
             )
         }

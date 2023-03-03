@@ -201,19 +201,20 @@ function GetLecture() {
     }
 
     const createChatRoomWindow = () => {
-        const windowWidth = 370;
-        const windowHeight = 500;
-        const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
-        const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
-        const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
-        setCreateChat(false);
-
+        if(lecreqInfo) {
+            const windowWidth = 370;
+            const windowHeight = 500;
+            const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
+            const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
+            const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
+            window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
+            setCreateChat(false);
+        }
     }
 
     useEffect(()=> {
         if(createChat) {createChatRoomWindow()}
-    }, [createChat])
+    }, [createChat, lecreqInfo])
 
     const SetPost = () => {
         if(lecturedata) {

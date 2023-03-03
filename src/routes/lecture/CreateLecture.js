@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dropdown } from "react-bootstrap";
+import { Button, Dropdown,Form } from "react-bootstrap";
 import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -51,16 +51,43 @@ function CreateLecture() {
     const InputContents = (event) => {
         setContents(event.target.value)
     }
+    const [imgState,setImgState] = useState(null);
+    const [imgFile, setImgFile] = useState(null);
+    const [imgBase64, setImgBase64] = useState([]);
+    const handleFileChange = (event) => {
+        setImgFile(event.target.files[0])
+
+        setImgBase64([]);
+        if(event.target.files[0]) {
+            let reader = new FileReader();
+            console.log(event.target.files[0]);
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onloadend = () => {
+                const base64 = reader.result;
+                if(base64) {
+                    var base64Sub = base64.toString();
+                    console.log(base64);
+
+                    setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
+                }
+            }
+        }
+
+        setImgState("up");
+
+    }
+
 
     const RequestCreatePost = () => {
+       
         axios.defaults.withCredentials = true;
-        var data = JSON.stringify({
-            "title": title,
-            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPple0XLVI1C5Qk6WZRtHEvgc8Ns7_CW09qeC3IlzUIw&s",
-            "content": contents,
-            "category": categoryId,
-            "fee": fee
-          });
+        const data = new FormData();
+        data.append('postRequestDto',
+            new Blob([JSON.stringify({"title":title,"content":contents,"category":categoryId,"fee":fee})], { type: "application/json" })
+          );
+       
+        data.append("file", imgFile);
+       
           
           var config = {
             method: 'post',
@@ -68,13 +95,17 @@ function CreateLecture() {
             url: `${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
               'Authorization': token,
-              'Content-Type': 'application/json'
+              'Content-Type': 'multipart/form-data'
+
+
             },
             data : data
           };
           
           axios(config)
           .then(function (response) {
+            console.log(response);
+            alert("게시글 작성에 성공했습니다!");
             navigate("/lecture/"+response.data.data.lectureId)
           })
           .catch(function (error) {
@@ -97,8 +128,34 @@ function CreateLecture() {
                 </Button>
             </div>
 
-            <div className={styles.imagebox}>
-                {/* img */}
+            <div className={styles.imagebox}>{
+                imgState?
+                imgBase64.map((item)=>{
+                    
+                    return (
+                        <img
+                         key="ProfilePreview"
+                         className="d-block w-100"
+                         src={item} 
+                         alt="First slide"
+                         style={{
+                            width:"100%",
+                            height:"100%"
+                         }}
+                        />
+                    )
+                })
+       
+                :
+                    <Form.Group id="up_load" controlId="formFile" className="mb-3">
+                    <Form.Label> </Form.Label>
+                    <Form.Control
+                     type="file" 
+                     onChange={(event)=>handleFileChange(event)}
+                     accept="image/*"
+                     />
+                     </Form.Group>
+        }
             </div>
 
             <div className={styles.titlebox}>

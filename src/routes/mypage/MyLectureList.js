@@ -60,9 +60,10 @@ function MyLectureList() {
     const CreatePost = (props) => 
     {
         if(lectures)  {
-            return props.posts.map((post) => (
+            return props.posts.map((post, index) => (
                 <PostBoxInList 
-                    postId={post.postId} 
+                    key={index}
+                    postId={post.lectureId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
                     title={post.title} 

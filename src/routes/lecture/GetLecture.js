@@ -90,7 +90,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            // console.log(data);
+            console.log(data);
             setBookmarked(response.data.data)
           })
           .catch(function (error) {
@@ -255,7 +255,7 @@ function GetLecture() {
                     </Button> :
                     <Button
                      className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {bookmarked ? "❤" : "🤍"} 
+                     onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
                     </Button>
                     }
                     <Button className={styles.chatbutton}

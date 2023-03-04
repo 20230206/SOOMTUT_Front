@@ -6,6 +6,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import styles from "../assets/styles/chatlist.module.css"
 
 import axios from "axios";
+import ReviewModal from "./modals/ReviewModal";
 
 function ManageBoxInList(props) {
     const CreateChat = () => {
@@ -61,7 +62,7 @@ function ManageBoxInList(props) {
     const handleshowCreateReviewModalClose = () => setShowCreateReviewModal(false);
     const handleshowCreateReviewModalOpen = () => setShowCreateReviewModal(true);
 
-    const [starscore, setStarScore] = useState(0);
+    const [starScore, setStarScore] = useState(0);
     const SetStarScore = (event) => setStarScore(event.target.value);
     const [reviewContent, setReviewContent] = useState("");
     const SetReview = (event) => setReviewContent(event.target.value);
@@ -74,7 +75,7 @@ function ManageBoxInList(props) {
 
     const SendReview = () => {
         var data = {
-            "star_rating" : starscore,
+            "star_rating" : starScore,
             "review_content" : reviewContent
         }
 
@@ -172,71 +173,16 @@ function ManageBoxInList(props) {
                 { props.reviewed && <div style={{width:"140px"}}>
                      <Button
                       style={{width:"120px", height:"36px"}}
-                      onClick={()=>handleshowReviewModalOpen()}
+                      onClick={()=>handleshowCreateReviewModalOpen()}
                       > 후기 보기 </Button> </div>}
                 </div>}
 
                             
                 <Modal show={showCreateReviewModal} onHide={handleshowCreateReviewModalClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title> 후기 작성 </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group>
-                                <Form.Control 
-                                    value={starscore}
-                                    type="number"
-                                    placeholder="별점을 입력하세요" 
-                                    onChange={(event) => SetStarScore(event)}
-                                />
+                      { !review && <ReviewModal mode="create" closeHandler={handleshowCreateReviewModalClose} lectureRequestId={props.id} /> }
+                      { review && <ReviewModal review={review} closeHandler={handleshowCreateReviewModalClose} mode="normal"/> }
+                </Modal>
 
-                                <Form.Control
-                                    value={reviewContent}
-                                    type="text"
-                                    placeholder="후기를 입력하세요" 
-                                    onChange={(event) => SetReview(event)}
-                                />
-
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={() => CancleReview()}>
-                        작성 취소하기
-                    </Button>
-                    <Button variant="primary" onClick={() => SendReview()}>
-                        후기 저장하기
-                    </Button>
-                    </Modal.Footer>
-                    </Modal>
-                { review &&
-                <Modal show={showReviewModal} onHide={handleshowReviewModalClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title> 후기 확인 </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group>
-                                <Form.Control 
-                                    placeholder={review.starScore}
-                                    disabled={true}
-                                />
-
-                                <Form.Control
-                                    placeholder={review.content}
-                                    disabled={true}
-                                />
-
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleshowReviewModalClose}>
-                        닫기
-                    </Button>
-                    </Modal.Footer>
-                </Modal>}
             </div>
         </div>
     );

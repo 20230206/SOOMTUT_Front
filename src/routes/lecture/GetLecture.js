@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 
 function GetLecture() {
+    const navigate = useNavigate();
     const [View, token, member] = CustomNavbar();
 
     const lectureId = useParams().id;
@@ -221,7 +222,10 @@ function GetLecture() {
             return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                    <Button
+                     className={styles.headboxbutton}
+                     onClick={() => navigate(-1)}
+                    > 돌아가기 </Button>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     

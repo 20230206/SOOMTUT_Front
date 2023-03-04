@@ -209,10 +209,13 @@ function MyPage() {
                             <Link to="/mypage/bookmark"> 관심 목록 </Link>
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/myLecturelist"> 나의 수업 목록 </Link>
+                            <Link to="/mypage/myLecture"> 나의 수업 목록 </Link>
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
                             <Link to="/mypage/manage"> 수업 관리 </Link>
+                        </li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
+                            <Link to="/mypage/myreview"> 나의 리뷰 관리 </Link>
                         </li>
                     <br /><br />
 

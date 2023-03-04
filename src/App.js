@@ -17,13 +17,14 @@ import GetLecture from "./routes/lecture/GetLecture";
 import GetMemberLecture from "./routes/lecture/GetMemberLecture";
 import Bookmark from "./routes/mypage/Bookmark";
 import MyLectureList from "./routes/mypage/MyLectureList";
+import ManageLecture from "./routes/mypage/ManageLecture";
+import MyReview from "./routes/mypage/MyReview";
 
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
 import GeLectureKeyword from "./routes/lecture/GeLectureKeyword";
 import GetLectureListByKeyword from "./routes/lecture/GetLectureListByKeyword";
-import ManageLecture from "./routes/mypage/ManageLecture";
 
 
 function App() {
@@ -38,8 +39,9 @@ function App() {
 
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
-          <Route path="/mypage/myLecturelist" element={<MyLectureList />} />
+          <Route path="/mypage/myLecture" element={<MyLectureList />} />
           <Route path="/mypage/manage" element={<ManageLecture />} />
+          <Route path="/mypage/myReview" element={<MyReview />} />
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />

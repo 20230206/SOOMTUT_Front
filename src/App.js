@@ -14,16 +14,18 @@ import MyPage from "./routes/mypage/MyPage"
 import LectureList from "./routes/lecture/LectureList"
 import CreateLecture from "./routes/lecture/CreateLecture"
 import GetLecture from "./routes/lecture/GetLecture";
-import GetMemberLecture from "./routes/lecture/GetMemberLecture";
 import Bookmark from "./routes/mypage/Bookmark";
 import MyLectureList from "./routes/mypage/MyLectureList";
+import ManageLecture from "./routes/mypage/ManageLecture";
+import MyReview from "./routes/mypage/MyReview";
 
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
 import GeLectureKeyword from "./routes/lecture/GeLectureKeyword";
 import GetLectureListByKeyword from "./routes/lecture/GetLectureListByKeyword";
-import ManageLecture from "./routes/mypage/ManageLecture";
+
+import GetMemberReviews from "./routes/reviews/GetMemberReviews";
 
 
 function App() {
@@ -38,12 +40,12 @@ function App() {
 
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
-          <Route path="/mypage/myLecturelist" element={<MyLectureList />} />
+          <Route path="/mypage/myLecture" element={<MyLectureList />} />
           <Route path="/mypage/manage" element={<ManageLecture />} />
+          <Route path="/mypage/myReview" element={<MyReview />} />
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />
-          <Route path="/lecture/member/:id" element={<GetMemberLecture />} />
           <Route path="/lecture/create" element={<CreateLecture />} />
           <Route path="/lectureList/member/:id" element={<GetMemberLectureList />} />
           <Route path="/lecture/search/:keyword" element={<GetLectureListByKeyword />} />
@@ -52,6 +54,8 @@ function App() {
           <Route path="/findtutor" element={<FindTutor />} />
 
           <Route path="/chat" element={<ChatRoom />} />
+
+          <Route path="/reviews" element={<GetMemberReviews />} />
       </Routes>
     </Router>
   );

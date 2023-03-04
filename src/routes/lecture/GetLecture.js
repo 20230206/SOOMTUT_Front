@@ -317,7 +317,7 @@ function GetLecture() {
                     width:"800px",
                     margin:"5px auto 5px auto"
                   }}
-                  hidden={showReviews}
+                  hidden={!showReviews}
                 >
                     <CreateReviews review={reviews}/> 
                     <Paging />

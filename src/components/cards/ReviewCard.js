@@ -75,8 +75,8 @@ function ReviewCard(props) {
         
     }
 
-    const ClickToReviews = (tuteeId) => {
-        console.log(tuteeId);
+    const ClickToReviews = (nickname, tuteeId) => {
+      navigate("/reviews?nickname="+nickname+"&memberId="+tuteeId)
     }
 
     return(
@@ -86,7 +86,7 @@ function ReviewCard(props) {
             {review.lectureRequest.lecture.member.nickname} 강사님 - {review.lectureRequest.lecture.title} { props.mode ==="myReview" && <span onClick={() => ClickToLecture(review.lectureRequest.lecture.id)}>→</span>}
           </Card.Header> }
           { props.mode === "lecture" && <Card.Header>
-            {review.memberNickname} 님의 후기  <span onClick={() => ClickToReviews(review.lectureRequest.tuteeId)}>→</span>
+            {review.memberNickname} 님의 후기  <span onClick={() => ClickToReviews(review.memberNickname, review.lectureRequest.tuteeId)}>→</span>
             </Card.Header>}
           <Card.Body className={styles.cardbody}>
             <div className={styles.contents}>

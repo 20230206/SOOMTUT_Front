@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
-
-import PostBoxInList from "../../components/PostBoxInList";
 
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 import ReviewCard from "../../components/cards/ReviewCard";
-
 
 function MyReview() {
     const [Navbar, token] = CustomNavbar();
@@ -19,22 +16,19 @@ function MyReview() {
     const [curPage, setCurPage] = useState(1);
 
     const navigate = useNavigate();
-    
-    const [memberData, setMemberData] = useState(null)
 
     const getReviews = (page) => {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/review/member?memberId=2&page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/review/myReviews?page=${page-1}&size=5`,
             headers: { 
-            'Authorization': token
+                'Authorization': token
             }
         };
         
         axios(config)
         .then(function (response) {
-            console.log(response)
             setReviews(response.data.data.content);
             setPages(response.data.data.totalPages);
         })
@@ -43,10 +37,9 @@ function MyReview() {
         });
     }
     
-    
     useEffect(() => {
-        if(token && memberData) getReviews(1);
-    }, [token, memberData])
+        if(token) getReviews(1);
+    }, [token])
     
     const [pages, setPages] = useState(null);
     const [Paging, selected] = CustomPagination(curPage, pages);
@@ -59,26 +52,21 @@ function MyReview() {
         getReviews(event);
     }
 
-    // const CreatePost = (props) => 
-    // {
-    //     if(lectures)  {
-    //         return props.posts.map((post) => (
-    //             <PostBoxInList 
-    //                 postId={post.postId} 
-    //                 image={post.image} 
-    //                 tutorNickname={post.tutorNickname} 
-    //                 title={post.title} 
-    //                 location={post.location} 
-    //                 fee={post.fee} />
-    //             )
-    //         );
-    //     }
-    // }
-
     const CreateCards = (props) => {
-
+        const arr = [];
+        if(props.reviews) {
+                props.reviews.map((review, index) => {
+                    arr.push(
+                    <ReviewCard 
+                      key={index}
+                      review={review}
+                    />)
+                }
+            )
+        }
+        return arr;
     }
-    
+
     return (
         <div>
             <Navbar />
@@ -92,7 +80,7 @@ function MyReview() {
                     </div> 
                 </div>
                 <div className={styles.listbox} id="listbox">
-                    {reviews && <ReviewCard review={reviews[0]}/>}
+                    <CreateCards reviews={reviews} />
                 </div>
                 
                 <div className={styles.pagination}> 

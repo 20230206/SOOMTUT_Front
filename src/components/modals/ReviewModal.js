@@ -35,7 +35,7 @@ function ReviewModal(props) {
     const review = props.review;
     const mode = props.mode;
 
-    const [starScore, setStarScore] = useState(review.starScore);
+    const [starScore, setStarScore] = useState(props ? "" : review.starScore);
     const OnChangeStarScore = (event) => setStarScore(event.target.value);
 
     const [contents, setContents] = useState("");
@@ -48,6 +48,7 @@ function ReviewModal(props) {
     }
 
     const SaveReview = (lectureRequestId) => {
+        props.closeHandler();
         var data = {
             "star_rating" : starScore,
             "review_content" : contents
@@ -66,6 +67,7 @@ function ReviewModal(props) {
         axios(config)
         .then(function (response) {
             alert("후기 저장 성공!");
+            window.location.reload();
         })
         .catch(function (error) {
             alert("후기 저장 실패");

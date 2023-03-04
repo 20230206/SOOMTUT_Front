@@ -197,6 +197,7 @@ function GetLecture() {
 
     const [createChat, setCreateChat] = useState(false);
     const CreateChatRoom = () => {
+        console.log(isLecreq)
         if(isLecreq === false) { CreateLecreq() }
         setCreateChat(true);
     }

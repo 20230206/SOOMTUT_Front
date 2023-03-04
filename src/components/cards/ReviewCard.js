@@ -33,7 +33,6 @@ function ReviewCard(props) {
 
     const [review, setReview] = useState(DEFAULT_VALUE);
     useEffect(()=>{
-        console.log(props)
         if(props.review) setReview(props.review);
     }, [props])
 
@@ -49,6 +48,10 @@ function ReviewCard(props) {
     const [showUpdateReviewModal, setShowUpdateReviewModal] = useState(false)
     const UpdateReviewModalOpen = () => setShowUpdateReviewModal(true);
     const UpdateReviewModalClose = () => setShowUpdateReviewModal(false);
+
+    const DeleteReview = () => {
+        
+    }
 
     return(
       <div id="review-card--wrap">
@@ -69,7 +72,11 @@ function ReviewCard(props) {
                className={styles.button}
                onClick={UpdateReviewModalOpen}
               > 후기 수정 </Button>
-              <Button variant="danger" className={styles.button}> 후기 삭제 </Button>
+              <Button
+                variant="danger"
+                className={styles.button}
+                onClick={() => DeleteReview() }
+              > 후기 삭제 </Button>
             </div>
             }
           </Card.Body>

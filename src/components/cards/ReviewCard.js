@@ -9,6 +9,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import ReviewModal from "../modals/ReviewModal";
 
+import axios from "axios";
+
 const DEFAULT_VALUE = {
     id: 1,
     starScore: 1,
@@ -25,6 +27,7 @@ const DEFAULT_VALUE = {
         }
     }
 }
+
 function ReviewCard(props) {
     const navigate = useNavigate();
     const ClickToLecture = (lectureId) => {
@@ -49,7 +52,25 @@ function ReviewCard(props) {
     const UpdateReviewModalOpen = () => setShowUpdateReviewModal(true);
     const UpdateReviewModalClose = () => setShowUpdateReviewModal(false);
 
-    const DeleteReview = () => {
+    const DeleteReview = (reviewId) => {
+        var config = {
+            method: 'delete',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/review/${reviewId}`,
+            headers: { 
+                'Authrization': props.token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            alert("후기가 삭제 되었습니다.")
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         
     }
 
@@ -75,7 +96,7 @@ function ReviewCard(props) {
               <Button
                 variant="danger"
                 className={styles.button}
-                onClick={() => DeleteReview() }
+                onClick={() => DeleteReview(review.id) }
               > 후기 삭제 </Button>
             </div>
             }

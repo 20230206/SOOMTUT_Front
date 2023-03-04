@@ -215,7 +215,7 @@ function MyPage() {
                             <Link to="/mypage/manage"> 수업 관리 </Link>
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/myreview"> 나의 리뷰 관리 </Link>
+                            <Link to="/mypage/myreview"> 나의 후기 관리 </Link>
                         </li>
                     <br /><br />
 

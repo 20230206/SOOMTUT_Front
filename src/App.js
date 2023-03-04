@@ -21,6 +21,7 @@ import MyLectureList from "./routes/mypage/MyLectureList";
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
+import GeLectureKeyword from "./routes/lecture/GeLectureKeyword";
 import GetLectureListByKeyword from "./routes/lecture/GetLectureListByKeyword";
 import ManageLecture from "./routes/mypage/ManageLecture";
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/lecture/create" element={<CreateLecture />} />
           <Route path="/lectureList/member/:id" element={<GetMemberLectureList />} />
           <Route path="/lecture/search/:keyword" element={<GetLectureListByKeyword />} />
+          <Route path="/lecture/search/:id/:keyword" element={<GeLectureKeyword />} />
 
           <Route path="/findtutor" element={<FindTutor />} />
 

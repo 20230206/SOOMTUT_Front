@@ -8,12 +8,13 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
 
 
-import PostBoxInList from "../../components/PostBoxInList";
+import PostBoxInListKeyword from "../../components/PostBoxInListKeyword";
 
 import axios from "axios";
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import CustomNavbar from "../../components/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
+
 
 function GetLectureListByKeyword(){
 
@@ -66,14 +67,15 @@ function GetLectureListByKeyword(){
         // 강의가 존재하면 조회해옴
         if(lectures)  {
             return props.posts.map((post, index) => (
-                <PostBoxInList 
+                <PostBoxInListKeyword 
                     key={index}
                     postId={post.lectureId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
                     title={post.title} 
                     location={post.location} 
-                    fee={post.fee} />
+                    fee={post.fee}
+                    keyword={keyword} />
                 )
             );
         }

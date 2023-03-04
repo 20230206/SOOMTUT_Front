@@ -4,7 +4,7 @@ import React, {
 } from "react";
 
 import { Link } from "react-router-dom";
-import { Button, Pagination } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import PostBoxInList from "../../components/PostBoxInList";
 
@@ -13,7 +13,7 @@ import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import CustomNavbar from "../../components/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 
-function MyClassList() {
+function MyLectureList() {
     const [View, token] = CustomNavbar();
     const [lectures, setLectures] = useState(null);
     const [curPage, setCurPage] = useState(1);
@@ -21,7 +21,7 @@ function MyClassList() {
     const getPosts = (page) => {
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
+            maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
@@ -60,9 +60,10 @@ function MyClassList() {
     const CreatePost = (props) => 
     {
         if(lectures)  {
-            return props.posts.map((post) => (
+            return props.posts.map((post, index) => (
                 <PostBoxInList 
-                    postId={post.postId} 
+                    key={index}
+                    postId={post.lectureId} 
                     image={post.image} 
                     tutorNickname={post.tutorNickname} 
                     title={post.title} 
@@ -96,4 +97,4 @@ function MyClassList() {
     );
 }
 
-export default MyClassList;
+export default MyLectureList;

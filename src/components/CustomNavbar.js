@@ -43,7 +43,7 @@ function CustomNavbar() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `${process.env.REACT_APP_HOST}/member/info/myinfo`,
+        url: `${process.env.REACT_APP_HOST}/member/myInfo`,
         headers: {
           'Authorization': token
         }

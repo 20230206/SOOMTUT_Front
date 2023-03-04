@@ -38,7 +38,6 @@ function FindTutor() {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data)
             setOtherMarkers(response.data);
             setMapCenterX(member.vectorX);
             setMapCenterY(member.vectorY);
@@ -76,8 +75,8 @@ function FindTutor() {
                         clickable={true}
                         onClick={(marker) => {
                             // 맵의 중앙 좌표를 현제 마커의 좌표로 변경시킨다.
-                            setMapCenterX(marker.getPosition().Ma);
-                            setMapCenterY(marker.getPosition().La);
+                            // setMapCenterX(marker.getPosition().Ma);
+                            // setMapCenterY(marker.getPosition().La);
                             setShowDetails(true);
                             setDetails(props.item);
                         }}
@@ -145,29 +144,34 @@ function FindTutor() {
 
 
         }
+        const OnClickReviews = () => {
+            navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.memberId)
+        }
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
               <Modal.Body>
-            <div className={stylesProfile.modalprofile}>
-                <div className={stylesProfile.modalprofilebox}>
-                    <span> 프로필 </span>
-                </div>
-                <div className={stylesProfile.profilebox}>
-                    <div className={stylesProfile.imagebox}>
-                        <img src={props.item.image} alt="profileImage"/>
+                <div className={stylesProfile.modalprofile}>
+                    <div className={stylesProfile.modalprofilebox}>
+                        <span> 프로필 </span>
                     </div>
-                    <div >
-                        <div> <span> {props.item.nickname} </span></div>
-                        <div> <span> {props.item.email} </span></div>
-                        <div> <span> {props.item.createdAt} 부터 활동중 </span></div>
-                        <div> <span> {props.item.address} </span></div>
+                    <div className={stylesProfile.profilebox}>
+                        <div className={stylesProfile.imagebox}>
+                            <img
+                              src={props.item.image} style={{width:"196px", height:"196px"}}
+                              alt="profileImage" />
+                        </div>
+                        <div >
+                            <div> <span> {props.item.nickname} </span></div>
+                            <div> <span> {props.item.email} </span></div>
+                            <div> <span> {props.item.createdAt} 부터 활동중 </span></div>
+                            <div> <span> {props.item.address} </span></div>
+                        </div>
+                    </div>
+                    <div className={stylesProfile.modalprofileinfobox}>
+                        <div> <li> 등록한 수강강좌 보기 <span onClick={()=>toGetTutorPost()} > ➡️ </span></li></div>
+                        <div> <li> 작성한 수강 후기 보기  <span onClick={()=>OnClickReviews()} > ➡️ </span></li></div>
                     </div>
                 </div>
-                <div className={stylesProfile.modalprofileinfobox}>
-                    <div> <li onClick={() => toGetTutorPost()}>등록한 수강강좌 N개</li></div>
-                    <div> <li> 받은 수강 후기 N개  <Link to="/"> ➡️ </Link></li></div>
-                </div>
-            </div>
         </Modal.Body>
         </Modal>
         

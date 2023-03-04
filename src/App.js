@@ -14,15 +14,18 @@ import MyPage from "./routes/mypage/MyPage"
 import LectureList from "./routes/lecture/LectureList"
 import CreateLecture from "./routes/lecture/CreateLecture"
 import GetLecture from "./routes/lecture/GetLecture";
-import GetMemberLecture from "./routes/lecture/GetMemberLecture";
-import MyBookmarkList from "./routes/mypage/MyBookmarkList";
-import MyClassedList from "./routes/mypage/MyClassedList";
-import MyClassList from "./routes/mypage/MyClassList";
+import Bookmark from "./routes/mypage/Bookmark";
+import MyLectureList from "./routes/mypage/MyLectureList";
+import ManageLecture from "./routes/mypage/ManageLecture";
+import MyReview from "./routes/mypage/MyReview";
 
 import FindTutor from "./routes/findtutor/FindTutor"
 import ChatRoom from "./components/ChatRoom";
 import GetMemberLectureList from "./routes/lecture/GetMemberLectureList";
-import MyChatList from "./routes/mypage/MyChatList";
+import GeLectureKeyword from "./routes/lecture/GeLectureKeyword";
+import GetLectureListByKeyword from "./routes/lecture/GetLectureListByKeyword";
+
+import GetMemberReviews from "./routes/reviews/GetMemberReviews";
 
 
 function App() {
@@ -36,20 +39,23 @@ function App() {
           <Route path="/oauthlogin/init" element={<OAuthInit />} />
 
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/bookmark" element={<MyBookmarkList />} />
-          <Route path="/mypage/myclassedlist" element={<MyClassedList />} />
-          <Route path="/mypage/myclasslist" element={<MyClassList />} />
-          <Route path="/mypage/chat" element={<MyChatList />} />
+          <Route path="/mypage/bookmark" element={<Bookmark />} />
+          <Route path="/mypage/myLecture" element={<MyLectureList />} />
+          <Route path="/mypage/manage" element={<ManageLecture />} />
+          <Route path="/mypage/myReview" element={<MyReview />} />
 
           <Route path="/lecture" element={<LectureList />} />
           <Route path="/lecture/:id" element={<GetLecture />} />
-          <Route path="/lecture/member/:id" element={<GetMemberLecture />} />
           <Route path="/lecture/create" element={<CreateLecture />} />
           <Route path="/lectureList/member/:id" element={<GetMemberLectureList />} />
+          <Route path="/lecture/search/:keyword" element={<GetLectureListByKeyword />} />
+          <Route path="/lecture/search/:id/:keyword" element={<GeLectureKeyword />} />
 
           <Route path="/findtutor" element={<FindTutor />} />
 
           <Route path="/chat" element={<ChatRoom />} />
+
+          <Route path="/reviews" element={<GetMemberReviews />} />
       </Routes>
     </Router>
   );

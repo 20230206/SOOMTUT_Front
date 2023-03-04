@@ -1,14 +1,17 @@
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
+
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
-import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
+import ReviewCard from "../../components/cards/ReviewCard";
+import CustomPagination from "../../components/CustomPagination";
 
 function GetLecture() {
+    const navigate = useNavigate();
     const [View, token, member] = CustomNavbar();
 
     const lectureId = useParams().id;
@@ -65,6 +68,7 @@ function GetLecture() {
     useEffect(() => {
         if(token) GetLectureInfo();
         if(token) GetFav();
+        if(token) GetReviews(1);
     }, [token])
 
     useEffect(() => {
@@ -90,7 +94,7 @@ function GetLecture() {
           
           axios(config)
           .then(function (response) {
-            // console.log(data);
+            console.log(data);
             setBookmarked(response.data.data)
           })
           .catch(function (error) {
@@ -196,36 +200,96 @@ function GetLecture() {
 
     const [createChat, setCreateChat] = useState(false);
     const CreateChatRoom = () => {
+        console.log(isLecreq)
         if(isLecreq === false) { CreateLecreq() }
         setCreateChat(true);
     }
 
     const createChatRoomWindow = () => {
-        const windowWidth = 370;
-        const windowHeight = 500;
-        const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
-        const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
-        const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-        window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
-        setCreateChat(false);
-
+        if(lecreqInfo) {
+            const windowWidth = 370;
+            const windowHeight = 500;
+            const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
+            const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
+            const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
+            window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.id}&role=tutee`, "_blank", windowFeatures);
+            setCreateChat(false);
+        }
     }
 
     useEffect(()=> {
         if(createChat) {createChatRoomWindow()}
-    }, [createChat])
+    }, [createChat, lecreqInfo])
+
+    const [showReviews, setShowReviews] = useState(false)
+    const OnClickShowReviewButton = () => setShowReviews(!showReviews);
+
+    const [reviews, setReviews] = useState(null)
+    const [curPage, setCurPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(null);
+    const [Paging, selected] = CustomPagination(curPage, totalPages);
+    useEffect(() => {
+        if(selected) SetCurPage(selected);
+    }, [selected])
+    const SetCurPage = (event) => {
+        setCurPage(event);
+        GetReviews(event);
+    }
+
+
+    const GetReviews = (curPage) => {
+                
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/review/lecture?lectureId=${lectureId}&page=${curPage-1}&size=5`,
+            headers: { 
+                'Authrization': token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setReviews(response.data.data.content);
+            setTotalPages(response.data.data.totalPages);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+    }
+    const CreateReviews = (props) => {
+        const arr = [];
+            if(props.review) {
+                props.review.map((item, index) => {
+                    arr.push(
+                        <div style={{marginTop:"2px", marginBottom:"2px"}}>
+                        <ReviewCard 
+                          key={index}
+                          review={item}
+                          mode="lecture"
+                        />
+                        </div>
+                    )
+                })
+            }
+        return arr;
+    }
 
     const SetPost = () => {
         if(lecturedata) {
             return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                    <Button
+                     className={styles.headboxbutton}
+                     onClick={() => navigate(-1)}
+                    > 돌아가기 </Button>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     
                 <div className={styles.imagebox}>
-                    <img src={lecturedata.image} alt="postimage"/>
+                    <img src={lecturedata.image} style={{width:"790px", height:"390px"}} alt="postimage"/>
                 </div>
 
                 <div className={styles.tutorinfobox} >
@@ -245,6 +309,22 @@ function GetLecture() {
                     </div>
                 </div>
 
+                <Button
+                  style={{marginLeft:"10px"}}
+                  onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
+                <div 
+                  style={{
+                    width:"800px",
+                    margin:"5px auto 5px auto"
+                  }}
+                  hidden={!showReviews}
+                >
+                    <CreateReviews review={reviews}/> 
+                    <Paging />
+                </div>
+                
+
+
                 <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
@@ -254,11 +334,11 @@ function GetLecture() {
                     </Button> :
                     <Button
                      className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {bookmarked ? "❤" : "🤍"} 
+                     onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
                     </Button>
                     }
-                    <Button className={styles.chatbutton}
-                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>
+                    { !isMy && <Button className={styles.chatbutton}
+                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
             </div>
             )

@@ -3,15 +3,15 @@ import { useNavigate } from "react-router";
 import styles from "../assets/styles/components/postforminlist.module.css"
 
 
-function PostBoxInListMember(props) {
+function PostBoxInListKeyword(props) {
     const navigate = useNavigate();
     const ToPost = () => {
-        navigate("/lecture/member/" + props.postId);
+        navigate("/lecture/search/" + props.postId +"/"+ props.keyword)
     }
     return (
         <div>
             <div className={styles.itembox} onClick={() => ToPost()}>
-                <div className={styles.itemimagebox}> <img src={props.image} alt="discriptionimage" /> </div>
+                <div className={styles.itemimagebox}> <img className={styles.itemimage} src={props.image} alt="discriptionimage" /> </div>
                 <div className={styles.itemdiscriptionbox}> 
                     <span className={styles.discriptiontext}> {props.tutorNickname} </span> <br />
                     <span className={styles.discriptiontext}> {props.title} </span> <br />
@@ -23,4 +23,4 @@ function PostBoxInListMember(props) {
     );
 }
 
-export default PostBoxInListMember;
+export default PostBoxInListKeyword;

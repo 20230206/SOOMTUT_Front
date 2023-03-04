@@ -1,0 +1,35 @@
+.itembox {
+    width: 780px;
+    height: 120px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: 5px auto 5px auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemimagebox {
+    width: 100px;
+    height: 100px;
+
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.profileimage {
+    width: 98px;
+    height: 98px;
+    
+    margin: auto;
+    border-radius: 5px;
+}
+
+.itemdiscriptionbox {
+    width: 520px;
+
+    margin: 0px 5px 0px 5px;
+}

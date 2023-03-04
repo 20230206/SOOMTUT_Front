@@ -22,6 +22,11 @@
     justify-content: center;
     align-items: center;
 }
+.itemimage{
+    width: 144px;
+    height: 144px;
+}
+
 
 .itemdiscriptionbox {
     width: 600px;

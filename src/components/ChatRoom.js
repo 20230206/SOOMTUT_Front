@@ -54,7 +54,7 @@ const ChatRoom = () => {
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/member/info/myinfo`,
+            url: `${process.env.REACT_APP_HOST}/member/myInfo`,
             headers: {
               'Authorization': token
             }
@@ -207,6 +207,7 @@ const ChatRoom = () => {
     }, [messageList])
 
     const CreateChat = () => {
+      console.log(messageList)
       if(messageList)  {
         return messageList.map((chat, index) => (
               <div

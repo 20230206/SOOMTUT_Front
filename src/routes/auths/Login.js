@@ -115,8 +115,16 @@ function Login () {
             </div>
 
             <div className={styles.socials}>
-                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} ><img src={kakao} alt="kakao" style={{width:"220px", marginTop:"10px"}}/></Link>
-                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} ><img src={google} alt="google" style={{width:"220px", height:"34px",marginTop:"10px", marginLeft:"10px"}}/></Link>
+                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} >
+                  <img src={kakao} alt="kakao"
+                   style={{
+                    width:"198px", height:"36px",
+                    border:"1px solid tomato",
+                    borderRadius:"5px",
+                    marginTop:"10px"}}/></Link>
+                <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} >
+                  <img src={google} alt="google"
+                   style={{width:"200px", height:"40px", marginTop:"10px", marginLeft:"10px"}}/></Link>
             </div>
             
           </Form>

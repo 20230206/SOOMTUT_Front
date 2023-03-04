@@ -5,9 +5,9 @@ import axios from "axios"
 import { Button, Dropdown } from "react-bootstrap";
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 import { Link } from "react-router-dom";
-import PostBoxInListMember from "../../components/PostBoxInListMember";
 
 import CustomPagination from "../../components/CustomPagination";
+import PostBoxInList from "../../components/PostBoxInList";
 
 
 const Category_List = [ 
@@ -88,7 +88,7 @@ function GetMemberLectureList(){
         // 강의가 존재하면 조회해옴
         if(lectures)  {
             return props.posts.map((post, index) => (
-                <PostBoxInListMember
+                <PostBoxInList
                     key={index}
                     postId={post.lectureId} 
                     image={post.image} 

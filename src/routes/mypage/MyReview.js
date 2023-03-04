@@ -17,7 +17,7 @@ function MyReview() {
 
     const navigate = useNavigate();
 
-    const getReviews = (page) => {
+    const GetReviews = (page) => {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
@@ -38,7 +38,7 @@ function MyReview() {
     }
     
     useEffect(() => {
-        if(token) getReviews(1);
+        if(token) GetReviews(1);
     }, [token])
     
     const [pages, setPages] = useState(null);
@@ -49,7 +49,7 @@ function MyReview() {
 
     const SetCurPage = (event) => {
         setCurPage(event);
-        getReviews(event);
+        GetReviews(event);
     }
 
     const CreateCards = (props) => {
@@ -60,6 +60,7 @@ function MyReview() {
                     <ReviewCard 
                       key={index}
                       review={review}
+                      mode="myReview"
                     />)
                 }
             )

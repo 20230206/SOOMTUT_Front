@@ -36,6 +36,7 @@ function ReviewCard(props) {
 
     const [review, setReview] = useState(DEFAULT_VALUE);
     useEffect(()=>{
+        console.log(props.review);
         if(props.review) setReview(props.review);
     }, [props])
 
@@ -74,12 +75,19 @@ function ReviewCard(props) {
         
     }
 
+    const ClickToReviews = (tuteeId) => {
+        console.log(tuteeId);
+    }
+
     return(
-      <div id="review-card--wrap">
+      <div className={review.wrap}>
         <Card>
-          <Card.Header>
-            {review.lectureRequest.lecture.member.nickname} 강사님 - {review.lectureRequest.lecture.title} <span onClick={() => ClickToLecture(review.lectureRequest.lecture.id)}>→</span>
-          </Card.Header>
+          { props.mode !== "lecture" && <Card.Header>
+            {review.lectureRequest.lecture.member.nickname} 강사님 - {review.lectureRequest.lecture.title} { props.mode ==="myReview" && <span onClick={() => ClickToLecture(review.lectureRequest.lecture.id)}>→</span>}
+          </Card.Header> }
+          { props.mode === "lecture" && <Card.Header>
+            {review.memberNickname} 님의 후기  <span onClick={() => ClickToReviews(review.lectureRequest.tuteeId)}>→</span>
+            </Card.Header>}
           <Card.Body className={styles.cardbody}>
             <div className={styles.contents}>
               <Card.Text>
@@ -87,7 +95,7 @@ function ReviewCard(props) {
                 {review.contents}
               </Card.Text>
             </div>
-            {  props.mode!=="modal" && <div className={styles.buttonbox}>
+            {  props.mode==="myReview" && <div className={styles.buttonbox}>
               <Button
                variant="secondary"
                className={styles.button}

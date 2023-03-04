@@ -1,12 +1,14 @@
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
+
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
-import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
+import ReviewCard from "../../components/cards/ReviewCard";
+import CustomPagination from "../../components/CustomPagination";
 
 function GetLecture() {
     const navigate = useNavigate();
@@ -66,6 +68,7 @@ function GetLecture() {
     useEffect(() => {
         if(token) GetLectureInfo();
         if(token) GetFav();
+        if(token) GetReviews(1);
     }, [token])
 
     useEffect(() => {
@@ -218,6 +221,61 @@ function GetLecture() {
         if(createChat) {createChatRoomWindow()}
     }, [createChat, lecreqInfo])
 
+    const [showReviews, setShowReviews] = useState(false)
+    const OnClickShowReviewButton = () => setShowReviews(!showReviews);
+
+    const [reviews, setReviews] = useState(null)
+    const [curPage, setCurPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(null);
+    const [Paging, selected] = CustomPagination(curPage, totalPages);
+    useEffect(() => {
+        if(selected) SetCurPage(selected);
+    }, [selected])
+    const SetCurPage = (event) => {
+        setCurPage(event);
+        GetReviews(event);
+    }
+
+
+    const GetReviews = (curPage) => {
+                
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/review/lecture?lectureId=${lectureId}&page=${curPage-1}&size=5`,
+            headers: { 
+                'Authrization': token, 
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setReviews(response.data.data.content);
+            setTotalPages(response.data.data.totalPages);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+    }
+    const CreateReviews = (props) => {
+        const arr = [];
+            if(props.review) {
+                props.review.map((item, index) => {
+                    arr.push(
+                        <div style={{marginTop:"2px", marginBottom:"2px"}}>
+                        <ReviewCard 
+                          key={index}
+                          review={item}
+                          mode="lecture"
+                        />
+                        </div>
+                    )
+                })
+            }
+        return arr;
+    }
+
     const SetPost = () => {
         if(lecturedata) {
             return (
@@ -251,6 +309,22 @@ function GetLecture() {
                     </div>
                 </div>
 
+                <Button
+                  style={{marginLeft:"10px"}}
+                  onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
+                <div 
+                  style={{
+                    width:"800px",
+                    margin:"5px auto 5px auto"
+                  }}
+                  hidden={showReviews}
+                >
+                    <CreateReviews review={reviews}/> 
+                    <Paging />
+                </div>
+                
+
+
                 <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
@@ -263,8 +337,8 @@ function GetLecture() {
                      onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
                     </Button>
                     }
-                    <Button className={styles.chatbutton}
-                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>
+                    { !isMy && <Button className={styles.chatbutton}
+                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
             </div>
             )

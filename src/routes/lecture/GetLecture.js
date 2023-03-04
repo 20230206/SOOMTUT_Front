@@ -9,6 +9,8 @@ import axios from "axios";
 import CustomNavbar from "../../components/CustomNavbar";
 import ReviewCard from "../../components/cards/ReviewCard";
 import CustomPagination from "../../components/CustomPagination";
+import ColorHeart from "../../assets/images/color_heart.png";
+import Heart from "../../assets/images/heart.png";
 
 function GetLecture() {
     const navigate = useNavigate();
@@ -332,10 +334,19 @@ function GetLecture() {
                     <Button className={styles.favbutton} >
                         수정 하기
                     </Button> :
-                    <Button
-                     className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
-                    </Button>
+                    // <Button
+                    //  className={styles.favbutton}
+                    //  onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"}
+                    // </Button>
+                        <img
+                        className={bookmarked ? styles.favbutton_active : styles.favbutton_inactive}
+                        onClick={() => RequestBookmark()}
+                        src={bookmarked ? ColorHeart : Heart}
+                        alt="bookmark"
+                        />
+
+
+
                     }
                     { !isMy && <Button className={styles.chatbutton}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}

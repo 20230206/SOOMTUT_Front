@@ -190,3 +190,19 @@
     position:relative;
     transform: translateX(80%);
 }
+
+.favbutton_inactive {
+    width: 30px;
+    height: 30px;
+    /*display: inline-block;*/
+    position:relative;
+    transform: translateX(-200%);
+}
+
+.favbutton_active {
+    width: 30px;
+    height: 30px;
+    /*display: inline-block;*/
+    position:relative;
+    transform: translateX(-200%);
+}

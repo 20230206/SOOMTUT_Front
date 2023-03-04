@@ -8,6 +8,13 @@ import axios from 'axios';
 import Stomp from 'stompjs'
 import SockJS from 'sockjs-client';
 
+
+window.onload = function() {
+    var width = 600; // 창의 너비
+    var height = 900; // 창의 높이
+    window.resizeTo(width, height); // 창 크기 조절
+}
+
 const ChatRoom = () => {
     axios.defaults.withCredentials = true;
 
@@ -108,7 +115,7 @@ const ChatRoom = () => {
           const chatRequest = {
             senderId : response.senderId ,
             roomId: response.roomId,
-            message: response.message 
+            message: response.message
           };
           setMessageList((prevChatMessages) => [...prevChatMessages, chatRequest]);
         });
@@ -192,10 +199,10 @@ const ChatRoom = () => {
         const chatRequest = {
           senderId: userdata.memberId,
           roomId: roomInfo.id,
-          message: message 
+          message: message
         };
         stompClient.send('/publish/message', {}, JSON.stringify(chatRequest));
-        // setMessageList((prevChatMessages) => [...prevChatMessages, chatRequest])
+        //setMessageList((prevChatMessages) => [...prevChatMessages, chatRequest])
         setMessage("");
     }
 
@@ -210,14 +217,23 @@ const ChatRoom = () => {
       console.log(messageList)
       if(messageList)  {
         return messageList.map((chat, index) => (
-              <div
+            <div
                 key={index}
-                className={styles.chatwrapper}
-                style={chat.senderId===userdata.memberId ? 
-                { textAlign:"right", paddingRight:"25px" } : 
-                { textAlign:"left"}}>
-                 <span> {chat.message} </span> 
-               </div>
+                className={`${styles.chatwrapper} 
+          ${chat.senderId === userdata.memberId ? styles.mine : styles.others}`}
+            >
+                <span>{chat.message}</span>
+                <div className={styles.time}>
+                    {new Date(chat.sentAt).toLocaleString('ko-KR', {
+                        hour12: true,
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                    })}
+                </div>
+            </div>
         ))
       }
     }
@@ -231,28 +247,25 @@ const ChatRoom = () => {
         <div>
             <div className={styles.wrapper}>
                 <div className={styles.chatinfobox}>
-                    
+
                 </div>
                 <div ref={listRef} className={styles.chatbox}>
-                    <CreateChat />
+                    {CreateChat()}
                 </div>
 
                 <div className={styles.inputbox}>
-                <Form onSubmit={submitHandler}>
-                  <Form.Group 
-                  
-                    className={styles.inputgroup}
-                    >
-                    <Form.Control
-                     value={message}
-                     placeholder="내용"
-                     aria-label="Recipient's username"
-                     className={styles.input}
-                     onChange={(event) => SetMessage(event)}
-                    />
-                    <Button className={styles.inputbutton} type="submit" onClick={() => SendMessage()}> 전송 </Button>
-                  </Form.Group>
-                </Form>
+                    <Form onSubmit={submitHandler}>
+                        <div className={styles.inputgroup}>
+                            <Form.Control
+                                value={message}
+                                placeholder="내용"
+                                aria-label="Recipient's username"
+                                className={styles.input}
+                                onChange={(event) => SetMessage(event)}
+                            />
+                            <Button className={styles.inputbutton} type="submit" onClick={() => SendMessage()}>전송</Button>
+                        </div>
+                    </Form>
                 </div>
             </div>
         </div>

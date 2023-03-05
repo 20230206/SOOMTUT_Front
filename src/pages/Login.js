@@ -7,8 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import logo from "../assets/images/logo.png";
-import kakao from "../assets/images/kakao_login_large_wide.png";
-import google from "../assets/images/google_signin.png";
+import kakao from "../assets/images/login/kakao.png";
+import google from "../assets/images/login/google.png";
 
 
 function Login () {
@@ -76,6 +76,7 @@ function Login () {
     <div className={styles.wrap}>
       <div className={styles.box}>
         <div className={styles.logo}>
+          <br />
           <img src={logo} style={{width:"220px", height:"32px"}} alt="logo"/>
         </div>
         <div className={styles.headtext}> <span> 로그인 </span></div>
@@ -86,7 +87,7 @@ function Login () {
               <Form.Control
                 value={email}
                 type="email"
-                placeholder="Enter email"
+                placeholder="Enter Email"
                 className={styles.forminput}
                 onChange={InputEmail} />
             </Form.Group>
@@ -97,7 +98,7 @@ function Login () {
               <Form.Control
                 value={pass}
                 type="password"
-                placeholder="Password"
+                placeholder="Enter Password"
                 className={styles.forminput}
                 onChange={InputPass} />
             </Form.Group>
@@ -107,7 +108,7 @@ function Login () {
               type="submit"
               onClick={() => SubmitLogin()}
             >
-                  시작하기
+              시작하기
             </Button>
 
             <div className={styles.accountmenu}>
@@ -120,21 +121,24 @@ function Login () {
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} >
                   <img src={kakao}
                    className={styles.socialimage}
-                   alt="kakao"  /></Link>
+                   alt="kakao"  />
                   <div className={styles.textonsocial}>
-                    <span> 카카오 로그인 </span>
+                     카카오 로그인 
                   </div>
+                </Link>
               </div>
 
               <div className={styles.socialbutton}>
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} >
                   <img src={google} alt="google"
                    className={styles.socialimage}
-                  /></Link>
+                  />
                   <div className={styles.textonsocial}>
                     <span> 구글 로그인 </span>
                   </div>
+                </Link>
               </div>
+              <br />
             </div>
             
           </Form>

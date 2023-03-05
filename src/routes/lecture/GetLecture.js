@@ -282,7 +282,7 @@ function GetLecture() {
                      isMy ? 
                     <Link to={`/lecture/update/${lectureId}`}><Button className={styles.favbutton}>
                         수정 하기
-                    </Button> :
+                    </Button></Link> :
                     <Button
                      className={styles.favbutton} 
                      onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
@@ -292,9 +292,13 @@ function GetLecture() {
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
             </div>
+           
             )
+            
         }
+        
     }
+    
 
     return (
         <div>

@@ -5,11 +5,32 @@
     margin: 0px auto 0px auto;
 }
 
-.cards {
+.footContents {
     width: 1000px;
     min-height: 330px;
 
-    margin: 0px auto 0px auto;
+    margin: 0px auto 20px auto;
     padding-bottom: 10px;
 
+    border: 5px solid;
+    border-radius: 15px;
+}
+
+.footMenuBar {
+    display: flex ;
+    margin-bottom : 10px;
+    border-bottom : 1px solid;
+    padding: 5px 5px 5px;
+}
+
+.footMenuSelector {
+    width: 330px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footMenuButtons {
+    width: 100px;
+    margin: auto;
 }

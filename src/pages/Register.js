@@ -193,7 +193,7 @@ function Register () {
           </div>
         <div className={styles.headtext}> <span> 회원 가입 </span></div>
 
-        <Form onSubmit={handleSubmit}>
+        <Form className={styles.form} onSubmit={handleSubmit}>
           <Form.Group className={styles.formgroup}>
             <Form.Label className={styles.formlabel}>Email</Form.Label>
               <Form.Control

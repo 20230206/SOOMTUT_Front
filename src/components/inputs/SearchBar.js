@@ -3,6 +3,7 @@ import styles from "../../assets/styles/components/inputs/searchbar.module.css"
 import { Button, DropdownButton, Form, InputGroup } from "react-bootstrap";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar () {
     const [dropMenu, setDropMenu] = useState("서울");
@@ -10,10 +11,13 @@ function SearchBar () {
     const [keyword, setKeyword] = useState("");
     const OnChangeKeyword = (e) => setKeyword(e.target.value);
 
+    const navigate = useNavigate();
+
     return(    
-      <Form>
+      <Form className={styles.form}>
         <InputGroup>
         <DropdownButton
+          className={styles.searchbutton}
           title={dropMenu}
           >
           <DropdownItem onClick={() => setDropMenu("서울")} > 서울 </DropdownItem>
@@ -39,7 +43,9 @@ function SearchBar () {
           onChange={OnChangeKeyword}
         />
 
-        <Button>
+        <Button
+          className={styles.searchbutton}
+          onClick={()=>navigate("/lectures")}>
             검색
         </Button>
         </InputGroup>

@@ -35,14 +35,17 @@
     font-weight: bold;
 }
 
-Form{
+.form{
     width: 380px;
     margin: auto;
+
 }
 
 .formgroup{
     width: 360px;
-    margin: 5px auto 5px auto;
+
+    margin: auto;
+
 }
 
 .formlabel{
@@ -59,7 +62,6 @@ Form{
 
     margin: 5px 10px 5px 10px;
     
-    border: 0px;
     border-radius: 25px;
 }
 
@@ -99,6 +101,7 @@ Form{
     width: 360px;
 
     margin: auto;
+
 }
 
 .socialbutton {
@@ -127,6 +130,7 @@ Form{
 
     font-size: 16px;
     font-weight: 100;
+
 }
 
 img:hover{

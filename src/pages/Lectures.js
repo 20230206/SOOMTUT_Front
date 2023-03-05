@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { Button, Dropdown } from "react-bootstrap";
 
-import styles from "../../assets/styles/routes/lecture/listpage.module.css"
+import styles from "../assets/styles/routes/lecture/listpage.module.css"
 import axios from "axios"
 
 import { Link } from "react-router-dom";
-import PostBoxInList from "../../components/PostBoxInList";
-import CustomNavbar from "../../components/navbar/CustomNavbar";
-import CustomPagination from "../../components/CustomPagination";
+import PostBoxInList from "../components/PostBoxInList";
+import CustomNavbar from "../components/navbar/CustomNavbar";
+import CustomPagination from "../components/CustomPagination";
 
 const Category_List = [ 
     { id:0, name:"전체" },
@@ -24,10 +24,11 @@ const Category_List = [
     { id:10, name:"운동" }
 ];
 
-function LectureList() {
-    const [View, token] = CustomNavbar()
+function Lectures() {
     const [loading, setLoading] = useState(false);
     const [curPage, setCurPage] = useState(1);
+
+    const [token, setToken] = useState(localStorage.get("Access"));
 
     const GetPosts = (category, page) => {
         var config = {
@@ -97,7 +98,6 @@ function LectureList() {
 
     return (
         <div>
-            <View />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
@@ -135,4 +135,4 @@ function LectureList() {
     );
 }
 
-export default LectureList;
+export default Lectures;

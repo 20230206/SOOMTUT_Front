@@ -1,4 +1,4 @@
-Form {
+.form {
     padding-top: 40px;
 
     min-width: 500px;
@@ -9,12 +9,12 @@ Form {
     padding-bottom: 20px;
 }
 
-input {
+.inputbox {
     min-width: 400px;
     height: 48px;
 }
 
-button {
+.searchbutton {
     width: 100px;
     height: 48px;
 }

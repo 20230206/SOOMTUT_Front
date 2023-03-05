@@ -91,7 +91,7 @@ function Login () {
           <img src={logo} style={{width:"220px", height:"32px"}} alt="logo"/>
         </div>
         <div className={styles.headtext}> <span> 로그인 </span></div>
-        <Form onSubmit={handleSubmit}>
+        <Form className={styles.form} onSubmit={handleSubmit}>
           <Form.Group className={styles.formgroup} controlId="formBasicEmail">
             <Form.Label className={styles.formlabel}>Email address</Form.Label>
             <Form.Control

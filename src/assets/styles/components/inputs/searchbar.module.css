@@ -1,0 +1,18 @@
+Form {
+    padding-top: 40px;
+
+    min-width: 500px;
+    width: 45vw;
+
+    margin-bottom: 20px;
+}
+
+input {
+    min-width: 400px;
+    height: 48px;
+}
+
+button {
+    width: 100px;
+    height: 48px;
+}

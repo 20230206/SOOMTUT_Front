@@ -4,7 +4,9 @@ Form {
     min-width: 500px;
     width: 45vw;
 
-    margin-bottom: 20px;
+    margin: auto;
+
+    padding-bottom: 20px;
 }
 
 input {

@@ -1,4 +1,4 @@
-import styles from "../../assets/styles/components/carousel/carousel.module.css"
+import styles from "../../assets/styles/components/carousel/homecarousel.module.css"
 
 import React from "react";
 import { Carousel } from "react-bootstrap";
@@ -6,7 +6,7 @@ import slide1 from "../../assets/images/1.png";
 import slide2 from "../../assets/images/2.png";
 import slide3 from "../../assets/images/3.png";
 
-function HomeCarousel() {
+function HomeEventCarousel() {
     return (
     <Carousel variant="dark" className={styles.carousel} >
       <Carousel.Item>
@@ -42,4 +42,4 @@ function HomeCarousel() {
     );
 }
 
-export default HomeCarousel;
+export default HomeEventCarousel;

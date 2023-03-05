@@ -7,6 +7,9 @@ import { useState } from "react";
 function SearchBar () {
     const [dropMenu, setDropMenu] = useState("서울");
 
+    const [keyword, setKeyword] = useState("");
+    const OnChangeKeyword = (e) => setKeyword(e.target.value);
+
     return(    
       <Form>
         <InputGroup>
@@ -30,7 +33,10 @@ function SearchBar () {
         </DropdownButton>
 
         <Form.Control
+          value={keyword}
           className={styles.inputbox}
+          placeholder="키워드 검색하기..."
+          onChange={OnChangeKeyword}
         />
 
         <Button>

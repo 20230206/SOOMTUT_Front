@@ -8,14 +8,23 @@
 .navlogo {
     width : 220px;
     height: 32px;
+
+    margin-left: 10px;
 }
 
-.loginicon {
+.menuicon {
     width: 32px;
 }
 
-.registericon {
-    width: 32px;
+.nickname{
+    width: 100px;
+    height: 48px;
+
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .highlight {

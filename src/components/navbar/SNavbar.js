@@ -7,9 +7,13 @@ import logo from '../../assets/images/logo.png'
 import login from '../../assets/images/navbar/login.png'
 import register from '../../assets/images/navbar/register.png'
 
+import mypage from '../../assets/images/navbar/mypage.png'
+import logout from '../../assets/images/navbar/logout.png'
+
 import axios from 'axios';
 
 function SNavbar() {
+  axios.defaults.withCredentials = true;
 
   // 마우스 오버시 메뉴 하이라이트
   const [onMouseMenu1, setOnMouseMenu1] = useState(false);
@@ -32,8 +36,6 @@ function SNavbar() {
   }, [windowWidth])
 
   // Access Token 관리
-  // localStorage에 저장해서 사용할 것인지 -> 이경우면 페이지 로드마다 새로운 jwt 토큰 발급 X
-  // 스크립트에 저장해서 변수로 쓸 것인지 -> 현재 구조
   const [accessToken, setAccessToken] = useState(localStorage.getItem("Access"));
   useEffect(() => {
     if(!accessToken) {
@@ -41,12 +43,19 @@ function SNavbar() {
         GetAccessToken();
     }
     else {
-        console.log("Access Token Expire time left : ")
+        // 만료 시간 계산후, 만료 시 자동으로 새로운 Access Token 요청
+        var ExpireDate = new Date(localStorage.getItem("ExpireDate"));
+        var curDate = new Date();
+        var left = (ExpireDate - curDate);
+        if (left < 0) {
+            GetAccessToken();
+        }
+        setLoginState(true);
     }
-
   }, [accessToken])
 
   const [loginState, setLoginState] = useState(false);
+  // Access Token 획득 및 로컬 저장소로 저장
   const GetAccessToken = () => {
     const config = {
         method: 'get',
@@ -57,10 +66,13 @@ function SNavbar() {
 
     axios(config)
     .then(function (response) {
-        console.log(response)
         if(response.data.data) {
+            console.log("로그인이 된 상태입니다.")
             setAccessToken("Bearer " + response.headers.get("Authorization"));
             localStorage.setItem("Access", "Bearer " + response.headers.get("Authorization"));
+            var tDate = new Date();
+            tDate.setMinutes(tDate.getMinutes() + 25);
+            localStorage.setItem("ExpireDate", tDate);
             setLoginState(true);
         }
         else {
@@ -74,20 +86,53 @@ function SNavbar() {
     })
   }
 
+  // 로그인 정보 획득
+  const [memberName, setMemberName] = useState(localStorage.getItem("nickname"));
+  useEffect(() => {
+    console.log("Login State " + loginState + " Member Name : " + memberName);
+    if(loginState && !memberName) {
+        console.log("Get My Name")
+        GetMyName()
+    }
+  }, [memberName, loginState])
 
+  const GetMyName = () => {
+    const config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${process.env.REACT_APP_HOST}/member/myInfo`,
+        headers: {
+          'Authorization': accessToken
+        }
+      };
+      axios(config)
+      .then(function(response) {
+        console.log(response.data)
+        setMemberName(response.data.data.nickname);
+        localStorage.setItem("nickname", response.data.data.nickname);
+      })
+      .catch(function(error) {
+
+      })
+       
+  }
+
+  const LogOut = () => {
+
+  }
 
   return (
    <>
    <Navbar className={styles.wrap} collapseOnSelect expand="lg">
-      <Container>
+      <Container style={ collapsed ? null : {justifyContent:"left"}} >
+        <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Brand href="/">
             <img src={logo} className={styles.navlogo} alt="logo" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
           </Nav>
-          <Nav>
+          { !loginState && <Nav>
               { !collapsed &&
                 <>
                   <Nav.Link href="/register">Register</Nav.Link>
@@ -98,7 +143,7 @@ function SNavbar() {
                   <Nav.Link href="/register">
                   <img
                    src={register}
-                   className={`${styles.registericon} ${onMouseMenu1 ? styles.highlight : null}`}
+                   className={`${styles.menuicon} ${onMouseMenu1 ? styles.highlight : null}`}
                    alt="register"
                    onMouseEnter={() => setOnMouseMenu1(true)}
                    onMouseOut={() => setOnMouseMenu1(false)} />
@@ -107,14 +152,45 @@ function SNavbar() {
                   <Nav.Link eventKey={2} href="/login"> 
                     <img
                      src={login} 
-                     className={`${styles.registericon} ${onMouseMenu2 ? styles.highlight : null}`}
+                     className={`${styles.menuicon} ${onMouseMenu2 ? styles.highlight : null}`}
                      alt="login"
                      onMouseEnter={() => setOnMouseMenu2(true)}
                      onMouseOut={() => setOnMouseMenu2(false)}  />
                   </Nav.Link>
                 </>
               }
-            </Nav>
+            </Nav>}
+            { loginState && <Nav>
+              { !collapsed &&
+                <>
+                  <Nav.Link href="/register">Register</Nav.Link>
+                  <Nav.Link eventKey={2} href="/login">Login</Nav.Link>
+                </> }
+              { collapsed && 
+                <>
+                  <div className={styles.nickname}>
+                    <span> {memberName} 님 </span>
+                  </div>
+                  <Nav.Link href="/mypage">
+                  <img
+                   src={mypage}
+                   className={`${styles.menuicon} ${onMouseMenu1 ? styles.highlight : null}`}
+                   alt="mypage"
+                   onMouseEnter={() => setOnMouseMenu1(true)}
+                   onMouseOut={() => setOnMouseMenu1(false)} />
+                  </Nav.Link>
+    
+                  <Nav.Link eventKey={2} onClick={() => LogOut()}> 
+                    <img
+                     src={logout} 
+                     className={`${styles.menuicon} ${onMouseMenu2 ? styles.highlight : null}`}
+                     alt="logout"
+                     onMouseEnter={() => setOnMouseMenu2(true)}
+                     onMouseOut={() => setOnMouseMenu2(false)}  />
+                  </Nav.Link>
+                </>
+              }
+            </Nav>}
         </Navbar.Collapse>
         
       </Container>

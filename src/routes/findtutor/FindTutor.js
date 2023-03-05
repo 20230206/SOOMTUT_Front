@@ -5,7 +5,7 @@ import React,
 import { Modal} from "react-bootstrap";
 
 import axios from "axios"
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import styles from "../../assets/styles/findTutor.module.css"
 import stylesProfile from "../../assets/styles/routes/mypage/mypage.module.css"
 
@@ -144,6 +144,9 @@ function FindTutor() {
 
 
         }
+        const OnClickReviews = () => {
+            navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.memberId)
+        }
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
               <Modal.Body>
@@ -165,8 +168,8 @@ function FindTutor() {
                         </div>
                     </div>
                     <div className={stylesProfile.modalprofileinfobox}>
-                        <div> <li onClick={() => toGetTutorPost()}>등록한 수강강좌 N개</li></div>
-                        <div> <li> 받은 수강 후기 N개  <Link to="/"> ➡️ </Link></li></div>
+                        <div> <li> 등록한 수강강좌 보기 <span onClick={()=>toGetTutorPost()} > ➡️ </span></li></div>
+                        <div> <li> 작성한 수강 후기 보기  <span onClick={()=>OnClickReviews()} > ➡️ </span></li></div>
                     </div>
                 </div>
         </Modal.Body>

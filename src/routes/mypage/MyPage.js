@@ -17,7 +17,7 @@ import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
 import ProfileModal from "../../components/ProfileModal";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import UpdateProfileModal from "../../components/mypage/UpdateProfileModal";
 
 function MyPage() {
@@ -209,10 +209,13 @@ function MyPage() {
                             <Link to="/mypage/bookmark"> 관심 목록 </Link>
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/myLecturelist"> 나의 수업 목록 </Link>
+                            <Link to="/mypage/myLecture"> 나의 수업 목록 </Link>
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
                             <Link to="/mypage/manage"> 수업 관리 </Link>
+                        </li>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
+                            <Link to="/mypage/myreview"> 나의 후기 관리 </Link>
                         </li>
                     <br /><br />
 

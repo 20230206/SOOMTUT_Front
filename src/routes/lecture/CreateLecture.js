@@ -4,7 +4,7 @@ import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },

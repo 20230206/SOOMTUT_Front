@@ -1,8 +1,9 @@
+import styles from "../../assets/styles/components/customnavbar.module.css"
 import React, { useCallback, useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap"
 
-import styles from "../assets/styles/components/customnavbar.module.css"
-import logo from "../assets/images/logo.png"
+
+import logo from "../../assets/images/logo.png"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

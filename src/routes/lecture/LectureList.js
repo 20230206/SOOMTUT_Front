@@ -7,7 +7,7 @@ import axios from "axios"
 
 import { Link } from "react-router-dom";
 import PostBoxInList from "../../components/PostBoxInList";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 
 const Category_List = [ 

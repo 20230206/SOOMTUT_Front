@@ -1,14 +1,20 @@
+import styles from "../../assets/styles/routes/lecture/lecture.module.css"
+
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
 
-import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
+import ReviewCard from "../../components/cards/ReviewCard";
+import CustomPagination from "../../components/CustomPagination";
+import ColorHeart from "../../assets/images/color_heart.png";
+import Heart from "../../assets/images/heart.png";
 
 function GetLecture() {
+    const navigate = useNavigate();
     const [View, token, member] = CustomNavbar();
 
     const lectureId = useParams().id;
@@ -65,6 +71,7 @@ function GetLecture() {
     useEffect(() => {
         if(token) GetLectureInfo();
         if(token) GetFav();
+        if(token) GetReviews(1);
     }, [token])
 
     useEffect(() => {
@@ -196,6 +203,7 @@ function GetLecture() {
 
     const [createChat, setCreateChat] = useState(false);
     const CreateChatRoom = () => {
+        console.log(isLecreq)
         if(isLecreq === false) { CreateLecreq() }
         setCreateChat(true);
     }
@@ -207,7 +215,7 @@ function GetLecture() {
             const windowLeft = window.screenLeft + window.innerWidth / 2 - windowWidth / 2;
             const windowTop = window.screenTop + window.innerHeight / 2 - windowHeight / 2;
             const windowFeatures = `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
-            window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.lectureRequestId}&role=tutee`, "_blank", windowFeatures);
+            window.open(`${process.env.REACT_APP_FRONT}/chat?id=${lecreqInfo.id}&role=tutee`, "_blank", windowFeatures);
             setCreateChat(false);
         }
     }
@@ -215,8 +223,6 @@ function GetLecture() {
     useEffect(()=> {
         if(createChat) {createChatRoomWindow()}
     }, [createChat, lecreqInfo])
-
-    
 
     const SetPost = () => {
 
@@ -226,7 +232,10 @@ function GetLecture() {
             return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                    <Button
+                     className={styles.headboxbutton}
+                     onClick={() => navigate(-1)}
+                    > 돌아가기 </Button>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     
@@ -251,20 +260,36 @@ function GetLecture() {
                     </div>
                 </div>
 
+                <Button
+                  style={{marginLeft:"10px"}}
+                  onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
+                <div 
+                  style={{
+                    width:"800px",
+                    margin:"5px auto 5px auto"
+                  }}
+                  hidden={!showReviews}
+                >
+                    <CreateReviews review={reviews}/> 
+                    <Paging />
+                </div>
+                
+
+
                 <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
                      isMy ? 
                     <Link to={`/lecture/update/${lectureId}`}><Button className={styles.favbutton}>
                         수정 하기
-                    </Button></Link> :
+                    </Button> :
                     <Button
                      className={styles.favbutton} 
                      onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
                     </Button>
                     }
-                    <Button className={styles.chatbutton}
-                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>
+                    { !isMy && <Button className={styles.chatbutton}
+                        onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
             </div>
             )

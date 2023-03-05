@@ -1,13 +1,14 @@
+import styles from "../assets/styles/routes/auths/login.module.css";
+
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import logo from "../../assets/images/logo.png";
-import kakao from "../../assets/images/kakao_login_large_wide.png";
-import google from "../../assets/images/google_signin.png";
-import styles from "../../assets/styles/routes/auths/login.module.css";
+import logo from "../assets/images/logo.png";
+import kakao from "../assets/images/kakao_login_large_wide.png";
+import google from "../assets/images/google_signin.png";
 
 
 function Login () {
@@ -72,59 +73,68 @@ function Login () {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrap}>
       <div className={styles.box}>
         <div className={styles.logo}>
-          <img src={logo} style={{width:"220px"}} alt="logo"/>
+          <img src={logo} style={{width:"220px", height:"32px"}} alt="logo"/>
         </div>
         <div className={styles.headtext}> <span> 로그인 </span></div>
         <div className={styles.form}>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles.group} controlId="formBasicEmail">
-              <Form.Label className={styles.labelfont}>Email address</Form.Label>
+            <Form.Group className={styles.formgroup} controlId="formBasicEmail">
+              <Form.Label className={styles.formlabel}>Email address</Form.Label>
               <Form.Control
                 value={email}
                 type="email"
                 placeholder="Enter email"
+                className={styles.forminput}
                 onChange={InputEmail} />
             </Form.Group>
 
             <Form.Group
-              className={styles.group} controlId="formBasicPassword">
-              <Form.Label className={styles.labelfont}>Password</Form.Label>
+              className={styles.formgroup} controlId="formBasicPassword">
+              <Form.Label className={styles.formlabel}>Password</Form.Label>
               <Form.Control
                 value={pass}
                 type="password"
                 placeholder="Password"
+                className={styles.forminput}
                 onChange={InputPass} />
             </Form.Group>
+            
+            <Button
+              className={styles.formbutton}
+              type="submit"
+              onClick={() => SubmitLogin()}
+            >
+                  시작하기
+            </Button>
 
-            <div className={styles.menu}>
-              <div className={styles.menutextbox}>
-                <div className={styles.menutext}> <span> 이메일 찾기 </span> </div>
-                <div className={styles.menutext}> <span> 비밀번호 찾기 </span> </div>
-              </div>
-              
-              <button
-                className={styles.button}
-                type="submit"
-                onClick={() => SubmitLogin()}
-                >
-                  Submit
-              </button>
+            <div className={styles.accountmenu}>
+              <Link className={styles.menutext} to="/register"> 회원 가입 </Link> |
+              <Link className={styles.menutext}> 비밀번호 찾기 </Link> 
             </div>
 
             <div className={styles.socials}>
+              <div className={styles.socialbutton}>
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} >
-                  <img src={kakao} alt="kakao"
-                   style={{
-                    width:"198px", height:"36px",
-                    border:"1px solid tomato",
-                    borderRadius:"5px",
-                    marginTop:"10px"}}/></Link>
+                  <img src={kakao}
+                   className={styles.socialimage}
+                   alt="kakao"  /></Link>
+                  <div className={styles.textonsocial}>
+                    <span> 카카오 로그인 </span>
+                  </div>
+              </div>
+
+              <div className={styles.socialbutton}>
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} >
                   <img src={google} alt="google"
-                   style={{width:"200px", height:"40px", marginTop:"10px", marginLeft:"10px"}}/></Link>
+                   className={styles.socialimage}
+                  /></Link>
+                  <div className={styles.textonsocial}>
+                    <span> 구글 로그인 </span>
+                  </div>
+              </div>
             </div>
             
           </Form>

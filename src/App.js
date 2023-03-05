@@ -16,7 +16,7 @@ import CreateLecture from "./routes/lecture/CreateLecture"
 import GetLecture from "./routes/lecture/GetLecture";
 import Bookmark from "./routes/mypage/Bookmark";
 import MyLectureList from "./routes/mypage/MyLectureList";
-import ManageLecture from "./routes/mypage/ManageLecture";
+
 import MyReview from "./routes/mypage/MyReview";
 
 import FindTutor from "./routes/findtutor/FindTutor"

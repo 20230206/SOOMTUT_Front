@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import { Button } from "react-bootstrap";
 
 import axios from "axios";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import ReviewCard from "../../components/cards/ReviewCard";
 import CustomPagination from "../../components/CustomPagination";
 import ColorHeart from "../../assets/images/color_heart.png";

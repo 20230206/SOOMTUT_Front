@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import axios from "axios"
 import { Button, Dropdown } from "react-bootstrap";
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"

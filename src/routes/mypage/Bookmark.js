@@ -10,7 +10,7 @@ import PostBoxInList from "../../components/PostBoxInList";
 
 import axios from "axios";
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 
 function Bookmark() {

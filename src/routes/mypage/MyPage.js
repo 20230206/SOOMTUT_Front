@@ -17,7 +17,7 @@ import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
 import ProfileModal from "../../components/ProfileModal";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import UpdateProfileModal from "../../components/mypage/UpdateProfileModal";
 
 function MyPage() {

@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../../assets/styles/routes/lecture/listpage.module.css"
 
 import axios from "axios";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import CustomPagination from "../../components/CustomPagination";
 import ReviewCard from "../../components/cards/ReviewCard";
 

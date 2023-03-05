@@ -5,7 +5,7 @@ import React,
 import { Modal} from "react-bootstrap";
 
 import axios from "axios"
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../../components/navbar/CustomNavbar";
 import styles from "../../assets/styles/findTutor.module.css"
 import stylesProfile from "../../assets/styles/routes/mypage/mypage.module.css"
 

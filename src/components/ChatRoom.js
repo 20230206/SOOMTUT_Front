@@ -109,13 +109,15 @@ const ChatRoom = () => {
 
     useEffect(() => {
       if (stompClient && roomInfo) {
+        const curDate = new Date();
         stompClient.subscribe(`/subscribe/room/${roomInfo.id}`, async (message) => {
           const response = await JSON.parse(message.body);
-          console.log(JSON.parse(message.body));
+          // console.log(JSON.parse(message.body));
           const chatRequest = {
             senderId : response.senderId ,
             roomId: response.roomId,
-            message: response.message
+            message: response.message,
+            sentAt: curDate
           };
           setMessageList((prevChatMessages) => [...prevChatMessages, chatRequest]);
         });

@@ -40,7 +40,7 @@ function Register () {
     }
 
     const CheckEmail = (event) => {
-        var regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3,3}$/
+        var regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,4}$/
         var isRegex =  regex.test(event.target.value);
         if(isRegex) { 
             EmailDupleCheck(event.target.value);
@@ -56,7 +56,7 @@ function Register () {
     }
 
     const CheckNickname = (event) => {
-        const regex = /^[가-힣a-zA-Z0-9]{4,10}$/
+        const regex = /^[가-힣a-zA-Z0-9]{2,12}$/
         var isRegex =  regex.test(event.target.value);
         if(isRegex) { 
             isRegex = isRegex && !NicknameDupleCheck(event.target.value)
@@ -217,7 +217,7 @@ function Register () {
               placeholder="Enter your nickname"
               required
               minLength={"2"}
-              maxLength={"4"}
+              maxLength={"12"}
               className={styles.forminput}
               onChange={InputNickname} />
              <Form.Text
@@ -254,7 +254,7 @@ function Register () {
               required
               disabled={true} />
               <Button
-               className={styles.addresbtn}
+               className={styles.addressbtn}
                onClick={() => handleShow()}> 찾기 </Button>
               </div>
             </Form.Group>

@@ -15,6 +15,8 @@ import axios from 'axios';
 function SNavbar() {
   axios.defaults.withCredentials = true;
 
+  const currentURI = window.location.pathname;
+  
   // 마우스 오버시 메뉴 하이라이트
   const [onMouseMenu1, setOnMouseMenu1] = useState(false);
   const [onMouseMenu2, setOnMouseMenu2] = useState(false);
@@ -38,6 +40,7 @@ function SNavbar() {
   // Access Token 관리
   const [accessToken, setAccessToken] = useState(localStorage.getItem("Access"));
   useEffect(() => {
+    if(currentURI ==="/login" || currentURI === "/register") return;
     if(!accessToken) {
         console.log("Access Token has null");
         GetAccessToken();
@@ -87,7 +90,7 @@ function SNavbar() {
   }
 
   // 로그인 정보 획득
-  const [memberName, setMemberName] = useState(localStorage.getItem("nickname"));
+  const [memberName, setMemberName] = useState(localStorage.getItem("Nickname"));
   useEffect(() => {
     if(loginState && !memberName) {
         console.log("Get My Name")
@@ -116,8 +119,27 @@ function SNavbar() {
        
   }
 
-  const LogOut = () => {
-
+  const LogoutHandler = () => {
+    const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `${process.env.REACT_APP_HOST}/auth/logout`
+      };
+  
+      try {
+        const response = axios(config);
+        setAccessToken(null);
+        setLoginState(false);
+        setMemberName(null);
+        localStorage.removeItem("Access");
+        localStorage.removeItem("ExpireDate");
+        localStorage.removeItem("Nickname");
+        
+      } catch (error) {
+        console.log(error);
+      }
+  
+      window.location.reload();
   }
 
   return (
@@ -179,7 +201,7 @@ function SNavbar() {
                    onMouseOut={() => setOnMouseMenu1(false)} />
                   </Nav.Link>
     
-                  <Nav.Link eventKey={2} onClick={() => LogOut()}> 
+                  <Nav.Link eventKey={2} onClick={() => LogoutHandler()}> 
                     <img
                      src={logout} 
                      className={`${styles.menuicon} ${onMouseMenu2 ? styles.highlight : null}`}

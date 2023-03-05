@@ -1,12 +1,14 @@
 /*global kakao*/
+import styles from "../assets/styles/routes/auths/oauthinit.module.css"
+
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 
 import Postcode from "@actbase/react-daum-postcode";
 
-import logo from "../../assets/images/logo.png"
-import styles from "../../assets/styles/routes/auths/oauthinit.module.css"
+import logo from "../assets/images/logo.png"
+import backgroundImage from "../assets/images/background.png"
 import { useNavigate } from "react-router-dom";
 
 function OAuthInit() {
@@ -82,6 +84,9 @@ function OAuthInit() {
         }
     }
 
+    console.log(posX)
+    console.log(posY)
+
     const SubmitInfo = () => {
         var data = JSON.stringify({
             "nickname": nickname,
@@ -103,8 +108,8 @@ function OAuthInit() {
           
           axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
             navigate("/");
+            window.location.reload();
           })
           .catch(function (error) {
             console.log(error);
@@ -112,7 +117,17 @@ function OAuthInit() {
           
     }
 
+    const backgroundstyles = {
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        width: "100vw",
+    };
+
     return (
+        <><div style={backgroundstyles}>
+            
         <div className={styles.wrapper}>
             <div className={styles.box}>
             <div className={styles.logo}>
@@ -144,17 +159,18 @@ function OAuthInit() {
               placeholder="주소를 입력하세요"
               disabled={true} />
               <Button
-               onClick={() => handleShow()}> 찾기 </Button>
+                className={styles.addressbtn}
+                onClick={() => handleShow()}> 찾기 </Button>
               </div>
             </Form.Group>
 
-            <button
-             className= {dupleNickname||!settedAddress ? styles.disabled : styles.summit }
+            <Button
+             className= {styles.summit}
              type="submit" onClick={() => SubmitInfo()}
              disabled= {dupleNickname||!settedAddress}
             >
             등록하기
-            </button>
+            </Button>
 
             <Modal show={show} onHide={handleClose}>
             <Modal.Body style={{height:"540px"}}>
@@ -172,6 +188,7 @@ function OAuthInit() {
 
             </div>
         </div>
+        </div></>
     );
 }
 export default OAuthInit;

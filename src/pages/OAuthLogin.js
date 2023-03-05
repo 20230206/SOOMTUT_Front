@@ -35,18 +35,23 @@ function OAuthLogin () {
         
         axios(config)
         .then(function (response) {
-            SetLoading(response.data);
+            SetLoading(response.data.data);
         })
         .catch(function (error) {
         });
     }, [name, role, hash])
     
     useEffect(() => {
-        if(state === "ACTIVE") navigate("/")
-        if(state === "INIT") navigate("/oauthlogin/init")
-        if(state === "SUSPEND") {
-            alert("회원 탈퇴 요청된 계정입니다.")
-            navigate("/")
+        if(loading === true) {
+            if(state === "ACTIVE") { 
+                navigate("/")
+                window.location.reload();
+            }
+            if(state === "INIT") { navigate("/oauthlogin/init") }
+            if(state === "SUSPEND") {
+                alert("회원 탈퇴 요청된 계정입니다.")
+                navigate("/")
+            }
         }
     }, [loading])
 

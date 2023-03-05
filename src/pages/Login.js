@@ -59,6 +59,7 @@ function Login () {
 
       if(state === "ACTIVE") {
         navigate("/");
+        window.location.reload();
       }
 
       if(state === "SUSPEND") {

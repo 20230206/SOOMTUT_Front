@@ -1,0 +1,23 @@
+.wrap {    
+    border-bottom: 2px solid;
+    margin-bottom: 2px;
+
+    background-color: white;
+}
+
+.navlogo {
+    width : 220px;
+    height: 32px;
+}
+
+.loginicon {
+    width: 32px;
+}
+
+.registericon {
+    width: 32px;
+}
+
+.highlight {
+    filter: opacity(0.2) drop-shadow(0 0 0 #00FF00);
+}

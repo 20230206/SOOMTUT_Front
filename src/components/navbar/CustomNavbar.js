@@ -8,7 +8,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CustomNavbar() {
-  const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
   const [token, setToken] = useState(null);
@@ -64,7 +63,6 @@ function CustomNavbar() {
 
   useEffect(() => {
     if(memberdata) {
-      if(memberdata.state === "INIT") navigate("/oauthlogin/init")
       if(memberdata.state === "SUSPEND") {
         handleLogout();
       }
@@ -83,7 +81,6 @@ function CustomNavbar() {
       setLoginState(response.data.data);
       setToken(null)
       setMemberdata(null);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }

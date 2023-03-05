@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
+import { Link,useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import CustomNavbar from "../../components/navbar/CustomNavbar";
@@ -33,7 +34,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            //console.log(response.data)
+          //  console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
@@ -138,7 +139,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data);
+            console.log("come in :"+response.data);
             setIsLecreq(response.data.data)
         })
         .catch(function (error) {
@@ -223,62 +224,10 @@ function GetLecture() {
         if(createChat) {createChatRoomWindow()}
     }, [createChat, lecreqInfo])
 
-    const [showReviews, setShowReviews] = useState(false)
-    const OnClickShowReviewButton = () => setShowReviews(!showReviews);
-
-    const [reviews, setReviews] = useState(null)
-    const [curPage, setCurPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(null);
-    const [Paging, selected] = CustomPagination(curPage, totalPages);
-    useEffect(() => {
-        if(selected) SetCurPage(selected);
-    }, [selected])
-    const SetCurPage = (event) => {
-        setCurPage(event);
-        GetReviews(event);
-    }
-
-
-    const GetReviews = (curPage) => {
-                
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/review/lecture?lectureId=${lectureId}&page=${curPage-1}&size=5`,
-            headers: { 
-                'Authrization': token, 
-            }
-        };
-        
-        axios(config)
-        .then(function (response) {
-            setReviews(response.data.data.content);
-            setTotalPages(response.data.data.totalPages);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-        
-    }
-    const CreateReviews = (props) => {
-        const arr = [];
-            if(props.review) {
-                props.review.map((item, index) => {
-                    arr.push(
-                        <div style={{marginTop:"2px", marginBottom:"2px"}}>
-                        <ReviewCard 
-                          key={index}
-                          review={item}
-                          mode="lecture"
-                        />
-                        </div>
-                    )
-                })
-            }
-        return arr;
-    }
-
     const SetPost = () => {
+
+       
+
         if(lecturedata) {
             return (
             <div className={styles.wrapper}> 
@@ -331,30 +280,25 @@ function GetLecture() {
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
                      isMy ? 
-                    <Button className={styles.favbutton} >
+                    <Link to={`/lecture/update/${lectureId}`}><Button className={styles.favbutton}>
                         수정 하기
-                    </Button> :
-                    // <Button
-                    //  className={styles.favbutton}
-                    //  onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"}
-                    // </Button>
-                        <img
-                        className={bookmarked ? styles.favbutton_active : styles.favbutton_inactive}
-                        onClick={() => RequestBookmark()}
-                        src={bookmarked ? ColorHeart : Heart}
-                        alt="bookmark"
-                        />
-
-
-
+                    </Button></Link> :
+                    <Button
+                     className={styles.favbutton} 
+                     onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
+                    </Button>
                     }
                     { !isMy && <Button className={styles.chatbutton}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
             </div>
+           
             )
+            
         }
+        
     }
+    
 
     return (
         <div>

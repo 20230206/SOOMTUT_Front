@@ -1,0 +1,12 @@
+.carousel {
+    width: 1000px;
+    height: 320px;
+
+    margin: 5px auto 5px auto;
+}
+
+.carouselSlide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

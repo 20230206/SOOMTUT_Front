@@ -1,18 +1,17 @@
 import styles from "../assets/styles/routes/home.module.css"
 
 import React from "react";
-import HomeEventCarousel from "../components/carousels/HomeEventCarousel";
+import HomeFrontCarousel from "../components/carousels/HomeFrontCarousel";
 import SearchBar from "../components/inputs/SearchBar";
 import { Button, Card } from "react-bootstrap";
 
 import example from "../assets/images/example.jpg"
-import HomeCardCarousel from "../components/carousels/HomeCardCarousel";
+import HomeFootCarousel from "../components/carousels/HomeFootCarousel";
 
 const Home = () => {
-
     return (
         <div className={styles.wrap}>
-            <HomeEventCarousel />
+            <HomeFrontCarousel />
             <SearchBar />
             <div className={styles.cards}>
             <div style={{display:"flex", marginBottom:"10px", borderBottom:"1px solid"}}>
@@ -22,7 +21,7 @@ const Home = () => {
                 <div style={{width:"600px"}}></div>
                 <Button style={{width:"180px",justifyContent:"flex-end"}}>내 주변 튜터 찾기</Button>
             </div>
-                <HomeCardCarousel />
+                <HomeFootCarousel />
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router";
 
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
@@ -28,7 +28,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            //console.log(response.data)
+          //  console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
@@ -132,7 +132,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data);
+            console.log("come in :"+response.data);
             setIsLecreq(response.data.data)
         })
         .catch(function (error) {
@@ -216,7 +216,12 @@ function GetLecture() {
         if(createChat) {createChatRoomWindow()}
     }, [createChat, lecreqInfo])
 
+    
+
     const SetPost = () => {
+
+       
+
         if(lecturedata) {
             return (
             <div className={styles.wrapper}> 
@@ -250,9 +255,9 @@ function GetLecture() {
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
                      isMy ? 
-                    <Button className={styles.favbutton} >
+                    <Link to={`/lecture/update/${lectureId}`}><Button className={styles.favbutton}>
                         수정 하기
-                    </Button> :
+                    </Button></Link> :
                     <Button
                      className={styles.favbutton} 
                      onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 

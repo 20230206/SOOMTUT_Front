@@ -33,12 +33,11 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    font-family: var(--font-googleJua);
 }
 
-.form {
+Form{
     width: 380px;
-    margin: 0px auto 10px auto;
+    margin: auto;
 }
 
 .formgroup{
@@ -49,6 +48,7 @@
 .formlabel{
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 0px;
 }
 
 .formbutton {

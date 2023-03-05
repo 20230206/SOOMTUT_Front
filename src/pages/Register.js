@@ -1,4 +1,6 @@
 /*global kakao*/
+import styles from "../assets/styles/routes/auths/register.module.css"
+
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -6,8 +8,8 @@ import axios from "axios";
 
 import Postcode from '@actbase/react-daum-postcode';
 
-import styles from "../../assets/styles/routes/auths/register.module.css"
-import logo from "../../assets/images/logo.png"
+import logo from "../assets/images/logo.png"
+import backgroundImage from "../assets/images/background.png"
 
 function Register () {
     const navigate = useNavigate();
@@ -69,7 +71,7 @@ function Register () {
     }
 
     const CheckPassword = (event) => {
-        var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]).*$/;
+        var regex = /^.*(?=.{8,20})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]).*$/;
         return regex.test(event.target.value);
     }
 
@@ -173,21 +175,33 @@ function Register () {
         event.preventDefault();
     }
 
+    const backgroundstyles = {
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        width: "100vw",
+      };
+
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.box}>
-                <div className={styles.logo}>
-                    <img src={logo} style={{width:"220px"}} alt="logo"/>
-                </div>
-                <div className={styles.headtext}> <span> 회원 가입 </span></div>
-                <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles.group}>
-             <Form.Label className={styles.label}>Email</Form.Label>
-             <Form.Control
+    <>
+      <div style={backgroundstyles}>
+      <div className={styles.wrapper}>
+        <div className={styles.box}>
+          <div className={styles.logo}>
+            <img src={logo} style={{width:"220px"}} alt="logo"/>
+          </div>
+        <div className={styles.headtext}> <span> 회원 가입 </span></div>
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className={styles.formgroup}>
+            <Form.Label className={styles.formlabel}>Email</Form.Label>
+              <Form.Control
               value={email}
               type="email"
-              placeholder="Email을 입력해 주세요"
-              className={styles.input}
+              placeholder="Enter Email"
+              required
+              className={styles.forminput}
               onChange={InputEmail} />
              <Form.Text
               style={isValidEmail && !dupleEmail ? {color:"green"} : {color:"red"}}>
@@ -195,13 +209,16 @@ function Register () {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.group}>
-             <Form.Label className={styles.label}>Nickname</Form.Label>
+            <Form.Group className={styles.formgroup}>
+             <Form.Label className={styles.formlabel}>Nickname</Form.Label>
              <Form.Control
               value={nickname}
               type="text"
-              placeholder="4~10자 사이의 한글, 영문, 숫자"
-              className={styles.input}
+              placeholder="Enter your nickname"
+              required
+              minLength={"2"}
+              maxLength={"4"}
+              className={styles.forminput}
               onChange={InputNickname} />
              <Form.Text
               style={isValidNickname && !dupleNickname ? {color:"green"} : {color:"red"}}>
@@ -209,13 +226,16 @@ function Register () {
              </Form.Text>
             </Form.Group>
     
-            <Form.Group className={styles.group}>
-             <Form.Label className={styles.label}>Password</Form.Label>
+            <Form.Group className={styles.formgroup}>
+             <Form.Label className={styles.formlabel}>Password</Form.Label>
              <Form.Control
               value={password}
               type="password"
-              placeholder="6~20자 사이의 영문, 숫자, 특수문자"
-              className={styles.input}
+              placeholder="Enter your password"
+              required
+              minLength={"8"}
+              maxLength={"20"}
+              className={styles.forminput}
               onChange={InputPassword} />
              <Form.Text
               style={isValidPassword ? {color:"green"} : {color:"red"}}>
@@ -223,27 +243,29 @@ function Register () {
              </Form.Text>
             </Form.Group>
             
-            <Form.Group className={styles.group}>
-             <Form.Label className={styles.label}>Address</Form.Label>
+            <Form.Group className={styles.formgroup}>
+             <Form.Label className={styles.formlabel}>Address</Form.Label>
              <div style={{display:"flex"}}>
              <Form.Control
               className={styles.address}
               value={location ? location : ""}
               type="text"
-              placeholder="주소를 입력하세요"
+              placeholder=""
+              required
               disabled={true} />
               <Button
+               className={styles.addresbtn}
                onClick={() => handleShow()}> 찾기 </Button>
               </div>
             </Form.Group>
             
-            <button
-             className= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation ? styles.disabled : styles.summit }
+            <Button
+             className= {styles.summit}
              type="submit" onClick={() => SubmitAccount()}
              disabled= {dupleEmail||dupleNickname||!isValidPassword||!settedlocation}
             >
             가입하기
-            </button>
+            </Button>
            </Form>
 
            <Modal show={show} onHide={handleClose}>
@@ -260,10 +282,10 @@ function Register () {
                 />
             </Modal.Body>
             </Modal>
-
-
             </div>
         </div>
+        </div>
+    </>
     );
 }
 

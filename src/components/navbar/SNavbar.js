@@ -89,7 +89,6 @@ function SNavbar() {
   // 로그인 정보 획득
   const [memberName, setMemberName] = useState(localStorage.getItem("nickname"));
   useEffect(() => {
-    console.log("Login State " + loginState + " Member Name : " + memberName);
     if(loginState && !memberName) {
         console.log("Get My Name")
         GetMyName()

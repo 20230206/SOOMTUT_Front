@@ -119,10 +119,10 @@ function Login () {
             <div className={styles.socials}>
               <div className={styles.socialbutton}>
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/kakao`} >
-                  <img src={kakao}
+                  <img id="social" src={kakao}
                    className={styles.socialimage}
                    alt="kakao"  />
-                  <div className={styles.textonsocial}>
+                  <div className={styles.textonsocial} style={{color:"#43201C"}} >
                      카카오 로그인 
                   </div>
                 </Link>
@@ -130,18 +130,17 @@ function Login () {
 
               <div className={styles.socialbutton}>
                 <Link to={`${process.env.REACT_APP_HOST}/oauth2/authorization/google`} >
-                  <img src={google} alt="google"
+                  <img id="social" src={google} alt="google"
                    className={styles.socialimage}
                   />
-                  <div className={styles.textonsocial}>
+                  <div className={styles.textonsocial} style={{color:"#FFFFFF"}} >
                     <span> 구글 로그인 </span>
                   </div>
                 </Link>
               </div>
-              <br />
             </div>
-            
           </Form>
+            <br />
         </div>
       </div>
     </div>

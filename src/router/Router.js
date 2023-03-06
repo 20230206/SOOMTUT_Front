@@ -6,12 +6,15 @@ import {
 
 import Header from "../components/header/Header";
 
-import { Home,
+import { 
+    Home,
     Login,
-OAuthInit,
-OAuthLogin,
-Register} from "../pages"; 
+    OAuthInit,
+    OAuthLogin,
+    Register
+} from "../pages"; 
 import CreateLecture from "../pages/CreateLecture";
+import GetLecture from "../pages/GetLecture";
 
 import Lectures from "../pages/Lectures";
 
@@ -28,6 +31,7 @@ const Router = () => {
 
                 <Route path="/lectures" element={<Lectures />} />
                 <Route path="/lectures/create" element={<CreateLecture />} />
+                <Route path="/lectures/:id" element={<GetLecture />} />
             </Routes>
         </BrowserRouter>
     )

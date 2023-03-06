@@ -134,7 +134,10 @@ function CreateLecture() {
         <div>
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
-                <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
+                <Button
+                  className={styles.headboxbutton}
+                  onClick={() => navigate(-1)}
+                > 돌아가기 </Button>
                 <div className={styles.headboxtext}><span> 글쓰기 </span></div>
                 <Button
                  className={styles.headboxbutton}

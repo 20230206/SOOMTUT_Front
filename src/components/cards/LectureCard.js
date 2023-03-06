@@ -39,7 +39,7 @@ function LectureCard(props) {
     const [lectureURI, setLectureURI] = useState(null);
     useEffect(() => {
         if(lecture) {
-            setLectureURI("/lecture/"+lecture.id); 
+            setLectureURI("/lectures/"+lecture.id); 
         }
     }, [lecture])
 

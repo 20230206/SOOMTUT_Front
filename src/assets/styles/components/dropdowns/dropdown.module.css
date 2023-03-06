@@ -1,0 +1,26 @@
+.wrap {
+    width: 250px;
+
+    background-color: bisque;
+
+}
+
+
+.toggleButton {
+    width: 250px;
+    height: 48px;
+
+    font-size: 22px;
+
+    border: 0px;
+    border-top: 1px solid;
+    border-bottom: 1px solid black;
+    background-color: grey;
+}
+
+.categoryButton {
+    width: 230px;
+
+    margin: 1px 0px 1px 20px;
+    background-color: grey;
+}

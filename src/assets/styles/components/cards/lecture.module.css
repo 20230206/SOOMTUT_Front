@@ -1,0 +1,38 @@
+.wrap {
+    max-width: 600px;
+    max-height: 180px;
+
+    background-color: white;
+}
+
+.cardId {
+    width: 20px;
+    height: 180px;
+    border: 1px solid;
+}
+
+.cardImage {
+    width: 320px;
+    height: 180px;
+}
+.cardBody {
+    width: 200px;
+    height: 180px;
+    border: 1px solid;
+}
+
+.cardFooter{
+    width: 40px;
+    height: 180px;
+    border: 1px solid;
+    text-align: center;
+    
+    display:grid;
+    place-content: center;
+}
+
+.heartImg {
+    width: 16px;
+
+    margin: auto;
+}

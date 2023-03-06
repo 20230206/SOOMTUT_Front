@@ -17,6 +17,7 @@ const DEFAULT_VALUE = {
         categoryId: "1",
         content: "무엇이든 가르칩니다",
         favorit: 555,
+        fee: 10000,
         member: {
             id: "1",
             nickname: "테스트1"
@@ -27,13 +28,14 @@ const DEFAULT_VALUE = {
 function HomeFootCard (props) {
     const [lecture, setLecture] = useState(null);
     useEffect(() => {
-        if(!lecture)
-            if(Object.keys(props).length==0) {
+        if(!lecture) {
+            if(Object.keys(props).length === 0) {
                 setLecture(DEFAULT_VALUE.lecture);
             }
             else{
                 setLecture(props.lecture);
             }
+        }
     }, [])
 
     const navigate = useNavigate();

@@ -1,0 +1,39 @@
+.wrap {
+    width: 1400px;
+    height: 830px;
+
+    border: 2px solid;
+    background-color: wheat;
+
+    margin: auto;
+
+    display: flex;
+}
+
+.leftMenu {
+    
+    overflow: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+.backButton {
+    width: 250px;
+    margin: 0px 0px 5px 0px;
+}
+
+.searchBar {
+    width: 250px;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 75%;
+}
+
+.searchButton{
+    width: 25%;
+}

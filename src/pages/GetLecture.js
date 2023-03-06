@@ -1,4 +1,4 @@
-import styles from "../../assets/styles/routes/lecture/lecture.module.css"
+import styles from "../assets/styles/routes/lecture/lecture.module.css"
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -7,13 +7,37 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 import axios from "axios";
-import CustomNavbar from "../../components/navbar/CustomNavbar";
-import ReviewCard from "../../components/cards/ReviewCard";
-import CustomPagination from "../../components/CustomPagination";
+import CustomNavbar from "../components/navbar/CustomNavbar";
+import ReviewCard from "../components/cards/ReviewCard";
+import CustomPagination from "../components/CustomPagination";
 
 function GetLecture() {
+    axios.defaults.withCredentials = true;
     const navigate = useNavigate();
-    const [View, token, member] = CustomNavbar();
+
+    const [loginState, setLoginState] = useState(false)
+    const GetLoginState = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/valid`,
+            headers: {
+                'Authorization':localStorage.getItem("Access")
+            }
+        }
+        axios(config)
+        .then(function(response) {
+            setLoginState(true);
+        })
+        .catch(function(error) {
+            console.log(error)
+            setLoginState(false);
+        }) 
+    }
+
+    useEffect(() => {
+
+    }, [])
 
     const lectureId = useParams().id;
     const [lecturedata, setPostdata] = useState(null)
@@ -24,9 +48,9 @@ function GetLecture() {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/${lectureId}`,
+            url: `${process.env.REACT_APP_HOST}/lecture/public/${lectureId}`,
             headers: { 
-            'Authorization': token
+            'Authorization': localStorage.getItem("Access")
             }
         };
         
@@ -42,7 +66,7 @@ function GetLecture() {
 
     const GetPostIsMy = useCallback(() => {
 
-        if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
+        // if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
     }, [lecturedata])
 
     const GetFav = () => {
@@ -51,7 +75,7 @@ function GetLecture() {
           maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
-              'Authorization': token
+              'Authorization': localStorage.getItem("Access")
             }
           };
           
@@ -67,10 +91,10 @@ function GetLecture() {
     }
 
     useEffect(() => {
-        if(token) GetLectureInfo();
-        if(token) GetFav();
-        if(token) GetReviews(1);
-    }, [token])
+        if(localStorage.getItem("Access")) GetLectureInfo();
+        if(localStorage.getItem("Access")) GetFav();
+        if(localStorage.getItem("Access")) GetReviews(1);
+    }, [localStorage.getItem("Access")])
 
     useEffect(() => {
         if(lecturedata) { GetPostIsMy() }
@@ -87,7 +111,7 @@ function GetLecture() {
           maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
-              'Authorization': token, 
+              'Authorization': localStorage.getItem("Access"), 
               'Content-Type': 'application/json'
             },
             data : data
@@ -110,7 +134,7 @@ function GetLecture() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
             headers: { 
-                'Authorization': token
+                'Authorization': localStorage.getItem("Access")
             }
         };
         
@@ -131,7 +155,7 @@ function GetLecture() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}/existsLectureRequest`,
             headers: { 
-            'Authorization': token, 
+            'Authorization': localStorage.getItem("Access"), 
             }
         };
         
@@ -156,7 +180,7 @@ function GetLecture() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}`,
             headers: { 
-              'Authorization': token, 
+              'Authorization': localStorage.getItem("Access"), 
             }
           };
           
@@ -184,7 +208,7 @@ function GetLecture() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture-request/${lectureId}`,
             headers: { 
-                'Authorization': token
+                'Authorization': localStorage.getItem("Access")
             },
             data: data
         };
@@ -245,7 +269,7 @@ function GetLecture() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/review/lecture?lectureId=${lectureId}&page=${curPage-1}&size=5`,
             headers: { 
-                'Authrization': token, 
+                'Authrization': localStorage.getItem("Access"), 
             }
         };
         
@@ -348,7 +372,6 @@ function GetLecture() {
 
     return (
         <div>
-            <View />
             <SetPost />
             
         </div>

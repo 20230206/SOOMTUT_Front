@@ -50,7 +50,6 @@ function SNavbar() {
       await AccessToken.GetAccessToken();
       setAccessToken(localStorage.getItem("Access"))
     }
-      console.log("Access Token is null");
     fetchAccessToken();
 
   }, [])
@@ -65,9 +64,7 @@ function SNavbar() {
   const [memberName, setMemberName] = useState(localStorage.getItem("Nickname"));
   useEffect(() => {
     if(loginState === true)
-      console.log("Call By LogIn Success")
     if(loginState && !memberName) {
-        console.log("Get My Name")
         GetMyName()
     }
   }, [loginState])
@@ -83,7 +80,6 @@ function SNavbar() {
       };
       axios(config)
       .then(function(response) {
-        console.log(response.data)
         setMemberName(response.data.data.nickname);
         localStorage.setItem("Nickname", response.data.data.nickname);
       })

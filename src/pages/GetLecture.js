@@ -337,37 +337,55 @@ function GetLecture() {
                 </div>
 
                 <div className={styles.menubox}>
-                    {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
-                                       주인이 아니라면 -> 북마크 버튼 */
-                        !isMy && (
-                            <Link to={`/lecture/update/${lectureId}`}>
-                                <Button className={styles.update_button}>
-                                    수정 하기
-                                </Button>
-                            </Link>
-                        )
-                    }
+                    { isMy && <Link to={`/lecture/update/${lectureId}`}>
+                                <Button className={styles.update_button}>수정 하기</Button></Link>}
                     
                     { !isMy && <Button className={styles.chat_button}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
-
-                {/*수정 예정*/}
-                <Button
-                    style={{marginLeft:"10px"}}
-                    onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
+                
             </div>
-                
-                
                 
             )
         }
     }
 
+
+    const SetReview = () => {
+            return (
+                <div className={styles.review_wrapper}>
+                    <ul className={styles.reviewList}>
+                        <li>
+                            <div className={styles.reviewItem}>
+                                <div className={styles.reviewAuthor}>John Doe</div>
+                                <div className={styles.reviewRating}>4.5</div>
+                                <div className={styles.reviewText}>This course was really helpful for me. I highly recommend it!</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div className={styles.reviewItem}>
+                                <div className={styles.reviewAuthor}>Jane Smith</div>
+                                <div className={styles.reviewRating}>3.0</div>
+                                <div className={styles.reviewText}>The course content was good, but the instructor's teaching style didn't work for me.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div className={styles.reviewItem}>
+                                <div className={styles.reviewAuthor}>Bob Johnson</div>
+                                <div className={styles.reviewRating}>5.0</div>
+                                <div className={styles.reviewText}>I loved this course! The instructor was great and the content was very informative.</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            );
+    }
+
+
     return (
         <div className={styles.top_wrapper}>
             <SetPost />
-            
+            <SetReview/>
         </div>
     );
 }

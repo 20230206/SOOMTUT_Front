@@ -1,4 +1,4 @@
-import styles from "../assets/styles/routes/lecture/lecture.module.css"
+import styles from "../assets/styles/routes/lecture/single_lecture.module.css"
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -289,10 +289,6 @@ function GetLecture() {
             return (
             <div className={styles.wrapper}> 
                 <div className={styles.headbox}>
-                    <Button
-                     className={styles.headboxbutton}
-                     onClick={() => navigate( from==="save" ? -2 : -1)}
-                    > 돌아가기 </Button>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>
                     
@@ -354,7 +350,7 @@ function GetLecture() {
     }
 
     return (
-        <div>
+        <div className={styles.top_wrapper}>
             <SetPost />
             
         </div>

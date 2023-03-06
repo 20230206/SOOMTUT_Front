@@ -1,0 +1,76 @@
+.top_wrapper{
+    margin-top: 30px;
+}
+
+.wrapper {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.headbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.headboxtextonRead {
+    font-size: 24px;
+}
+
+.headboxbutton {
+    font-size: 16px;
+    padding: 6px 10px;
+}
+
+.imagebox {
+    margin-bottom: 20px;
+}
+
+.imagebox img {
+    width: 100%;
+    height: auto;
+}
+
+.tutorinfobox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tutorimagebox {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    background-color: #eee;
+}
+
+.tutordiscripbox span {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.contentsbox {
+    margin-bottom: 20px;
+}
+
+.contentdescrip p {
+    font-size: 16px;
+}
+
+.menubox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.favbutton, .chatbutton {
+    font-size: 16px;
+    padding: 6px 10px;
+    margin-left: 10px;
+}
+
+.chatbutton {
+    background-color: #2196F3;
+    color: #fff;
+}

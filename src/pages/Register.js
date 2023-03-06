@@ -25,9 +25,12 @@ function Register () {
     const [dupleEmail, setDupleEmail] = useState(false);
     const [dupleNickname, setDupleNickname] = useState(false);
 
-    const [location, setLocation] = useState(null);
+    const [address, setLocation] = useState(null);
     const [posX, setPosX] = useState();
     const [posY, setPosY] = useState();
+    const [sido, setSido] = useState();
+    const [sigungu, setSigungu] = useState();
+    const [bname, setBname] = useState();
     const [settedlocation, setSettedlocation] = useState(false);
     
     const [show, setShow] = useState(false);
@@ -124,11 +127,11 @@ function Register () {
     useEffect(() => {
         const AddressToMapXY = async () => {
             var geocoder = new kakao.maps.services.Geocoder();
-            await geocoder.addressSearch(location, callback);
+            await geocoder.addressSearch(address, callback);
         };
 
-        if(location) AddressToMapXY();
-    }, [location])
+        if(address) AddressToMapXY();
+    }, [address])
 
     const callback = async(result, status) => {
         if(status === kakao.maps.services.Status.OK) {
@@ -143,9 +146,12 @@ function Register () {
             "nickname": nickname,
             "email": email,
             "password": password,
-            "address": location,
-            "vectorX": posX,
-            "vectorY": posY
+            "address": address,
+            "posX": posX,
+            "posY": posY,
+            "sido": sido,
+            "sigungu": sigungu,
+            "bname": bname
           });
           
           var config = {
@@ -248,7 +254,7 @@ function Register () {
              <div style={{display:"flex"}}>
              <Form.Control
               className={styles.address}
-              value={location ? location : ""}
+              value={address ? address : ""}
               type="text"
               placeholder=""
               required
@@ -274,7 +280,12 @@ function Register () {
                 style={{ width: 460, height: 320 }}
                 jsOptions={{ animation: true, hideMapBtn: true }}
                 onSelected={data => {
+                    console.log(data);
                     SetLocation(data.address)
+                    setBname(data.bname)
+                    setSido(data.sido)
+                    setSigungu(data.sigungu)
+
                     setSettedlocation(true);
                     
                     handleClose();

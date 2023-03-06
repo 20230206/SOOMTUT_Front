@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import styles from "../assets/styles/routes/lecture/lecture.module.css"
+
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown,Form } from "react-bootstrap";
-import styles from "../../assets/styles/routes/lecture/lecture.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
-import CustomNavbar from "../../components/navbar/CustomNavbar";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },
@@ -21,10 +20,31 @@ const Category_List = [
 ];
 
 function CreateLecture() {
-    
-    const [View, token] = CustomNavbar();
-
+    axios.defaults.withCredentials = true;
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/valid`,
+            headers: {
+                "Authorization": localStorage.getItem("Access")
+            }
+        }
+
+        axios(config)
+        .then(function(response){
+
+        })
+        .catch(function(error){
+            console.log(error);
+            alert("로그인 이후 사용할 수 있는 서비스입니다.");
+            navigate("/login");
+        })
+
+    }, [])
 
     const [title, setTitle] = useState("");
     const InputTitle = (event) => {
@@ -92,9 +112,9 @@ function CreateLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture`,
+            url: `${process.env.REACT_APP_HOST}/lecture/create`,
             headers: { 
-              'Authorization': token,
+              'Authorization': localStorage.getItem("Access"),
               'Content-Type': 'multipart/form-data'
 
 
@@ -116,7 +136,6 @@ function CreateLecture() {
 
     return (
         <div>
-        <View />
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
                 <Link to="/lecture"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>

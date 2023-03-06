@@ -11,6 +11,7 @@ import { Home,
 OAuthInit,
 OAuthLogin,
 Register} from "../pages"; 
+import CreateLecture from "../pages/CreateLecture";
 
 import Lectures from "../pages/Lectures";
 
@@ -26,6 +27,7 @@ const Router = () => {
                 <Route path="/oauthlogin/init" element={<OAuthInit />} />
 
                 <Route path="/lectures" element={<Lectures />} />
+                <Route path="/lectures/create" element={<CreateLecture />} />
             </Routes>
         </BrowserRouter>
     )

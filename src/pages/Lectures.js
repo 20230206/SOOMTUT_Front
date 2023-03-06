@@ -72,68 +72,35 @@ function Lectures() {
         if(lectures) console.log(lectures);
     }, [lectures])
 
-    const CreatePost = (props) => {
-        // 강의가 존재하면 조회해옴
-        if(lectures)  {
-            return props.posts.map((post, index) => (
-                <PostBoxInList 
-                    key={index}
-                    postId={post.lectureId} 
-                    image={post.image} 
-                    tutorNickname={post.tutorNickname} 
-                    title={post.title} 
-                    location={post.location} 
-                    fee={post.fee} />
-                )
-            );
-        }
-    }
-
-    return (
+    return ( 
         <div className={styles.wrap} >
             <div className={styles.leftMenu}>
               <Button
                 className={styles.backButton} 
                 onClick={()=>navigate(-1)}
               > 뒤로 돌아가기 </Button>
+              <Button
+                className={styles.createButton}
+                onClick={()=>navigate("/lectures/create")}
+              > 글쓰기 </Button>
               <Form className={styles.searchBar}>
-                <InputGroup>
-                    <Form.Control
-                        className={styles.input}
-                    />
-                    <Button className={styles.searchButton}>
-                        검색
-                    </Button>
-                </InputGroup>
+
+            <InputGroup>
+                <Form.Control
+                    className={styles.input}
+                />
+                <Button className={styles.searchButton}>
+                    검색
+                </Button>
+            </InputGroup>
               </Form>
               <DropdownCategory />
               <DropdownRegion />
             </div>
             <div>
-                <LectureContainer lectures={lectures}/>
+                { lectures && <LectureContainer lectures={lectures}/> }
                 <Paging />
             </div>
-        {/* <div className={styles.wrap}>
-        <div className={styles.headbox}>
-            <Button
-              className={styles.retbutton}
-              onClick={() => navigate(-1)}
-            > 돌아가기 </Button>
-            <DropdownCategory />
-            <div className={styles.headtextbox}> 
-            
-            </div> 
-            <Link to="/lecture/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
-        </div>
-        <div className={styles.listbox} id="listbox">
-            <CreatePost posts={lectures}></CreatePost>
-        </div>
-
-        <div className={styles.pagination}>
-            <Paging /> 
-        </div>
-    </div> */}
-
         </div>
     );
 }

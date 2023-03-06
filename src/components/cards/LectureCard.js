@@ -44,27 +44,31 @@ function LectureCard(props) {
         }
     }, [lecture])
 
+    const truncatedTitle = lecture ? (lecture.title.length > 15 ? `${lecture.title.slice(0, 11)}...` : lecture.title) : '';
+    
     if(lecture) {
     return (
-      <div className={styles.wrap} >
-          <Card className={styles.card} onClick={() => navigate(lectureURI)} >
-            <div className={styles.cardBox}>
-                <Card.Img className={styles.cardImage} src={lecture.image} />
-            </div>
-          <Card.Body className={styles.cardBody}>
-            <Card.Title className={styles.cardTitle}>{lecture.title}</Card.Title>
-            <div className={styles.cardFooter}>
-                <div style={{width:"140px"}}>
-                    <span> {lecture.member.nickname} 강사님 </span> 
+        <div className={styles.wrap}>
+            <Card className={styles.card} onClick={() => navigate(lectureURI)}>
+                <div className={styles.cardBox}>
+                    <Card.Img className={styles.cardImage} src={lecture.image} />
                 </div>
-                <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                    <img className={styles.heartImg} src={heart} alt="heart" />
-                    <span> {lecture.favorit} </span>
-                </div>
-            </div>
-          </Card.Body>
-          </Card>
-      </div>
+                <Card.Body className={styles.cardBody}>
+                    <Card.Title className={styles.cardTitle}>{truncatedTitle}</Card.Title>
+                    <div className={styles.cardFooter}>
+                            <span>{lecture.member.nickname} 강사님</span>
+                    </div>
+                    <div className={styles.tuition}>
+                        {lecture && (lecture.fee.toString().length > 7 ? `${lecture.fee.toLocaleString().slice(0, 7)}...` : lecture.fee)} 원
+                        <div className={styles.heart}>
+                            <img className={styles.heartImg} src={heart} alt="heart" />
+                            <span>{lecture.favorit > 999 ? `${(lecture.favorit / 1000).toFixed(1)}k` : lecture.favorit}</span>
+                        </div>
+                    </div>
+                    
+                </Card.Body>
+            </Card>
+        </div>
     )}
 }
 

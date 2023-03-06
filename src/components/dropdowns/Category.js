@@ -58,11 +58,13 @@ function Category(props) {
         if(selected) {
             return ( 
               <div className={styles.wrap}>
-                <button
-                  className={styles.toggleButton}
-                  onClick={()=>handleShowList()}
-                > 카테고리 {showList ? "▲" : "▼"} </button> 
-                { showList && <CreateCategories /> }
+                  <button
+                      className={`${styles.toggleButton} ${showList ? styles.active : ''}`}
+                      onClick={handleShowList}
+                  >
+                      카테고리 {showList ? '▲' : '▼'}
+                  </button>
+                  {showList && <CreateCategories />}
               </div>
             )
         }

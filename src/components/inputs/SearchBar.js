@@ -21,6 +21,7 @@ function SearchBar () {
           title={dropMenu}
           >
           <DropdownItem onClick={() => setDropMenu("서울")} > 서울 </DropdownItem>
+          <DropdownItem onClick={() => setDropMenu("인천")} > 인천 </DropdownItem>
           <DropdownItem onClick={() => setDropMenu("경기")} > 경기 </DropdownItem>
           <DropdownItem onClick={() => setDropMenu("강원")} > 강원 </DropdownItem>
           <DropdownItem onClick={() => setDropMenu("충북")} > 충북 </DropdownItem>
@@ -45,7 +46,7 @@ function SearchBar () {
 
         <Button
           className={styles.searchbutton}
-          onClick={()=>navigate("/lectures")}>
+          onClick={()=>navigate("/lectures?region="+dropMenu)}>
             검색
         </Button>
         </InputGroup>

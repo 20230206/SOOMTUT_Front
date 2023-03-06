@@ -10,6 +10,7 @@ function LectureContainer(props) {
     useEffect(() => {
         if(!lectures) {
             if(Object.keys(props).length !== 0) {
+                console.log(props)
                 setLecture(props.lectures);
             }
         }

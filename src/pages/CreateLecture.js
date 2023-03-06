@@ -3,7 +3,7 @@ import styles from "../assets/styles/routes/lecture/lecture.module.css"
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown,Form } from "react-bootstrap";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },
@@ -22,9 +22,13 @@ const Category_List = [
 function CreateLecture() {
     axios.defaults.withCredentials = true;
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const mode = params.get("mode");
+    const id = params.get("id");
     
     useEffect(() => {
-        
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -43,25 +47,30 @@ function CreateLecture() {
             alert("로그인 이후 사용할 수 있는 서비스입니다.");
             navigate("/login");
         })
-
     }, [])
 
     const [title, setTitle] = useState("");
+    const [fee, setFee] = useState("");
+    const [curCategory, setCurCategory] = useState(Category_List[0])
+    const [categoryId, setCategoryId] = useState(0);
+
+    useEffect(() => {
+        if(mode==="create") {}
+        if(mode==="update") {}
+    }, [mode])
+
     const InputTitle = (event) => {
         setTitle(event.target.value)
     }
 
-    const [fee, setFee] = useState(0);
     const InputFee = (event) => {
-        var regex = /^[0-9]{0,99}$/
+        var regex = /^[0-9]{0,15}$/
         var isRegex =  regex.test(event.target.value);
         if(isRegex) {
             setFee(event.target.value)
         }
     }
 
-    const [curCategory, setCurCategory] = useState(Category_List[0])
-    const [categoryId, setCategoryId] = useState(0);
     const SelectCategory = (type) => {
         setCurCategory(Category_List[type])
         setCategoryId(Category_List[type].id)
@@ -71,6 +80,7 @@ function CreateLecture() {
     const InputContents = (event) => {
         setContents(event.target.value)
     }
+
     const [imgState,setImgState] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState([]);
@@ -89,145 +99,169 @@ function CreateLecture() {
                 }
             }
         }
-
-        setImgState("up");
-
+        setImgState(true);
     }
 
-
-    const RequestCreatePost = () => {
+    const RequestSaveLecture = () => {
+        if(curCategory.id === 0) {
+            alert("카테고리 선택이 필요합니다.")
+            return
+        }
+        if(contents.length < 20) {
+            alert("최소 20장이상의 설명이 필요합니다.")
+            return
+        }
+        if(title.length < 1) {
+            alert("제목을 입력하세요.")
+            return
+        }
        
         axios.defaults.withCredentials = true;
         const data = new FormData();
         data.append('postRequestDto',
-            new Blob([JSON.stringify({"title":title,"content":contents,"category":categoryId,"fee":fee})], { type: "application/json" })
-          );
-       
+            new Blob([
+                    JSON.stringify({
+                        "title":title,
+                        "content":contents,
+                        "category":categoryId,
+                        "fee":fee
+                    })
+                ], { type: "application/json" })
+        );
+
         data.append("file", imgFile);
-       
-          
-          var config = {
+        var config = {
             method: 'post',
-          maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/create`,
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
-              'Authorization': localStorage.getItem("Access"),
-              'Content-Type': 'multipart/form-data'
-
-
+                'Authorization': localStorage.getItem("Access"),
+                'Content-Type': 'multipart/form-data'
             },
             data : data
-          };
+        };
           
-          axios(config)
-          .then(function (response) {
+        axios(config)
+        .then(function (response) {
             alert("게시글 작성에 성공했습니다!");
-            navigate("/lecture/"+response.data.data.id)
-          })
-          .catch(function (error) {
+            navigate("/lectures/"+response.data.data.id+"?from=save")
+        })
+        .catch(function (error) {
             console.log(error);
-          });
+        });
           
     }
 
+    const DropdownCategory = () => {
+        return ( 
+          <Dropdown>
+          <Dropdown.Toggle  id="dropdown-basic"  className={styles.categorydropdown}> {curCategory.name}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+          <Dropdown.Item onClick={ () => SelectCategory(1) } > { Category_List[1].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(2) } > { Category_List[2].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(3) } > { Category_List[3].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(4) } > { Category_List[4].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(5) } > { Category_List[5].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(6) } > { Category_List[6].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(7) } > { Category_List[7].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(8) } > { Category_List[8].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(9) } > { Category_List[9].name } </Dropdown.Item>
+          <Dropdown.Item onClick={ () => SelectCategory(10) } > { Category_List[10].name } </Dropdown.Item>
+          </Dropdown.Menu>
+          </Dropdown>
+        );
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault(false)
+    }
+
     return (
-        <div>
-        <div className={styles.wrapper}>
-            <div className={styles.headbox}>
-                <Button
-                  className={styles.headboxbutton}
-                  onClick={() => navigate(-1)}
-                > 돌아가기 </Button>
-                <div className={styles.headboxtext}><span> 글쓰기 </span></div>
-                <Button
-                 className={styles.headboxbutton}
-                 onClick={() => RequestCreatePost()}>
-                    완료
-                </Button>
-            </div>
-
-            <div className={styles.imagebox}>{
-                imgState?
-                imgBase64.map((item)=>{
-                    
-                    return (
-                        <img
-                         key="ProfilePreview"
-                         className="d-block w-100"
-                         src={item} 
-                         alt="First slide"
-                         style={{
-                            width:"100%",
-                            height:"100%"
-                         }}
-                        />
-                    )
-                })
-       
-                :
-                    <Form.Group id="up_load" controlId="formFile" className="mb-3">
-                    <Form.Label> </Form.Label>
-                    <Form.Control
-                     type="file" 
-                     onChange={(event)=>handleFileChange(event)}
-                     accept="image/*"
-                     />
-                     </Form.Group>
-        }
-            </div>
-
-            <div className={styles.titlebox}>
-                <textarea
-                value={title}
-                className={styles.titleinput}
-                placeholder="제목을 입력하세요"
-                onChange={InputTitle}
-                />
-            </div>
-
-            <div className={styles.categoryandfeebox}>
-
-            <div className={styles.categorybox}>
-             <Dropdown>
-              <Dropdown.Toggle  id="dropdown-basic"  className={styles.categorydropdown}> {curCategory.name}
-              </Dropdown.Toggle>
- 
-              <Dropdown.Menu>
-               <Dropdown.Item onClick={ () => SelectCategory(1) } > { Category_List[1].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(2) } > { Category_List[2].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(3) } > { Category_List[3].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(4) } > { Category_List[4].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(5) } > { Category_List[5].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(6) } > { Category_List[6].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(7) } > { Category_List[7].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(8) } > { Category_List[8].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(9) } > { Category_List[9].name } </Dropdown.Item>
-               <Dropdown.Item onClick={ () => SelectCategory(10) } > { Category_List[10].name } </Dropdown.Item>
-              </Dropdown.Menu>
-             </Dropdown>
-            </div>
-
-            <div className={styles.feebox}>
-                <textarea
-                value={fee}
-                className={styles.feeinput}
-                placeholder="가격(\)" 
-                onChange={InputFee}
-                />
-            </div>
-            
-            </div>
-
-            <div className={styles.contentsbox}>
-                <textarea
-                 value={contents}
-                 className={styles.contentsinput}
-                 placeholder="내용을 입력하세요"
-                 onChange={InputContents}
-                />
-            </div>
-        </div>
-        </div>
+      <div>
+        <div className={styles.wrap}>
+          <div className={styles.categorybox}>
+            <DropdownCategory />
+          </div>
+          <div>
+            <Form className={styles.inputForm} onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Control 
+                value={curCategory.id}
+                required
+                style={{display:"none"}}
+              />
+            </Form.Group>
+  
+              <Form.Group className={styles.formGroup} style={{marginTop:"50px"}}>
+                  <Form.Label className={styles.formLabel}> 제목 </Form.Label>
+                  <Form.Control
+                  value={title}
+                  placeholder="제목을 입력하세요."
+                  className={styles.formInput}
+                  onChange={InputTitle}
+                  required
+                  />
+              </Form.Group>
+  
+              { imgState && 
+              <div className={styles.imagebox}> 
+                  {
+                      imgBase64.map((item)=>{
+                          return (
+                          <img
+                              key="ProfilePreview"
+                              className="d-block w-100"
+                              src={item} 
+                              alt="First slide"
+                              style={{
+                              width:"100%",
+                              height:"100%"
+                              }}
+                          />
+                      )})
+                  }
+              </div> 
+              }
+  
+              <Form.Group controlId="formFile" className={styles.formGroup} >
+              <Form.Label className={styles.formLabel}> 수업 이미지 </Form.Label>
+              <Form.Control
+                  type="file" 
+                  className={styles.formInput}
+                  onChange={(event)=>handleFileChange(event)}
+                  accept="image/*"
+                  />
+              </Form.Group>
+              <Form.Group className={styles.formGroup}>
+                  <Form.Label className={styles.formLabel}> 요금 </Form.Label>
+                  <Form.Control 
+                    className={styles.formInput}
+                    value={fee}
+                    placeholder="희망 비용 (\)"
+                    onChange={InputFee}
+                  />
+              </Form.Group>
+              <Form.Group className={styles.formContentsGroup}>
+                  <Form.Label className={styles.formLabel}> 수업 내용 </Form.Label>
+                  <Form.Control 
+                      className={styles.formContentsInput}
+                      value={contents}
+                      placeholder="내용을 입력하세요"
+                      required
+                      minLength={"10"}
+                      onChange={InputContents}
+                  />
+              </Form.Group>
+              <Button
+                  className={styles.requestButton}
+                  onClick={() => RequestSaveLecture()}
+                  type="submit"
+              > 완료 </Button>
+          </Form>
+          </div>
+      </div>
+      </div>
     );
 }
 

@@ -22,11 +22,11 @@ function Lectures() {
     const [DropdownRegion, curRegion] = Region(0);
     const navigate = useNavigate();
 
-    const GetPosts = (category, page) => {
+    const GetLectures = (category, page) => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
             headers: { 
 
             }
@@ -53,7 +53,7 @@ function Lectures() {
     
     // 토큰 정보 생성 시, 포스트 내용 조회
     useEffect(() => {
-       GetPosts(0, 1);
+       GetLectures(0, 1);
     }, [])
     const [pages, setPages] = useState(null);
 
@@ -64,12 +64,35 @@ function Lectures() {
     
     const SetCurPage = (event) => {
         setCurPage(event);
-        if(curCategory) GetPosts(curCategory.id, event);
+        if(curCategory) GetLectures(curCategory.id, event);
     }
 
     const [lectures, setLectures] = useState(null)
+    const [lectureChunk, setLectureChunk] = useState(null);
     useEffect(() => {
-        if(lectures) console.log(lectures);
+        
+            const chunkSize = 5;
+            const chunkedData = [];
+        if(lectures) {
+            for (let i = 0; i < lectures.length; i += chunkSize) {
+              const chunk = lectures.slice(i, i + chunkSize);
+              chunkedData.push(chunk);
+            }
+
+            if (chunkedData.length > 1 && chunkedData[chunkedData.length - 1].length < chunkSize) {
+              const lastChunk = chunkedData.pop();
+              const lastChunkSize = lastChunk.length;
+              const prevChunkSize = chunkSize - lastChunkSize;
+              const prevChunk = chunkedData[chunkedData.length - 1].slice(0, prevChunkSize);
+              const newLastChunk = prevChunk.concat(lastChunk);
+              chunkedData[chunkedData.length - 1] = newLastChunk;
+              console.log(lastChunk)
+              chunkedData.push(lastChunk);
+            }
+            console.log(chunkedData);
+
+            setLectureChunk(chunkedData);
+        }
     }, [lectures])
 
     return ( 
@@ -81,7 +104,7 @@ function Lectures() {
               > 뒤로 돌아가기 </Button>
               <Button
                 className={styles.createButton}
-                onClick={()=>navigate("/lectures/create")}
+                onClick={()=>navigate("/lectures/create?mode=create")}
               > 글쓰기 </Button>
               <Form className={styles.searchBar}>
 
@@ -98,7 +121,17 @@ function Lectures() {
               <DropdownRegion />
             </div>
             <div>
-                { lectures && <LectureContainer lectures={lectures}/> }
+                <div style={{minHeight:"780px"}}>
+                <div style={{display:"flex"}}>
+                    { lectureChunk && <LectureContainer lectures={lectureChunk[0]}/> } 
+                </div>
+                <div style={{display:"flex"}}>
+                    { lectureChunk && <LectureContainer lectures={lectureChunk[1]}/> } 
+                </div>
+                <div style={{display:"flex"}}>
+                    { lectureChunk && <LectureContainer lectures={lectureChunk[2]}/> } 
+                </div>
+                </div>
                 <Paging />
             </div>
         </div>

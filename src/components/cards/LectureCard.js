@@ -5,6 +5,7 @@ import heart from "../../assets/images/color_heart.png";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Card, Button, Container } from "react-bootstrap";
 
 const DEFAULT_VALUE = {
     lecture: {
@@ -45,29 +46,24 @@ function LectureCard(props) {
 
     if(lecture) {
     return (
-      <div className={styles.wrap} onClick={() => navigate(lectureURI)}>
-            <div style={{ display:"flex", justifyContent:"center", alignItems:"center" }}>
-                <div className={styles.cardId}>
-                    {lecture.id}
+      <div className={styles.wrap} >
+          <Card className={styles.card} onClick={() => navigate(lectureURI)} >
+            <div className={styles.cardBox}>
+                <Card.Img className={styles.cardImage} src={lecture.image} />
+            </div>
+          <Card.Body className={styles.cardBody}>
+            <Card.Title className={styles.cardTitle}>{lecture.title}</Card.Title>
+            <div className={styles.cardFooter}>
+                <div style={{width:"140px"}}>
+                    <span> {lecture.member.nickname} 강사님 </span> 
                 </div>
-                <img
-                  className={styles.cardImage}
-                  src={lecture.image}
-                />
-                <div
-                  className={styles.cardBody}
-                >
-                    {lecture.title} <br></br>
-                    {lecture.member.nickname} <br></br>
-                    {lecture.content}
-                </div>
-                <div
-                  className={styles.cardFooter}
-                >
-                    <img className={styles.heartImg} src={heart} />
-                    <span>{lecture.favorit}</span>
+                <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                    <img className={styles.heartImg} src={heart} alt="heart" />
+                    <span> {lecture.favorit} </span>
                 </div>
             </div>
+          </Card.Body>
+          </Card>
       </div>
     )}
 }

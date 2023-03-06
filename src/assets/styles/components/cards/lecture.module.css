@@ -1,34 +1,37 @@
 .wrap {
-    max-width: 600px;
-    max-height: 180px;
+    width: 210px;
+    height: 284px;
+}
+.card {
+    border: 100px solid;
 
-    background-color: white;
+}
+
+.cardBox {
+    width: 196px;
+    height: 196px;
+
+    border: 2px solid;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cardId {
-    width: 20px;
-    height: 180px;
     border: 1px solid;
 }
 
-.cardImage {
-    width: 320px;
-    height: 180px;
-}
 .cardBody {
-    width: 200px;
-    height: 180px;
     border: 1px solid;
 }
 
-.cardFooter{
-    width: 40px;
-    height: 180px;
-    border: 1px solid;
+.cardTitle{
     text-align: center;
-    
-    display:grid;
-    place-content: center;
+}
+
+.cardFooter {
+    display: flex;
 }
 
 .heartImg {

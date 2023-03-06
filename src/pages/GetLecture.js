@@ -1,19 +1,24 @@
 import styles from "../assets/styles/routes/lecture/lecture.module.css"
 
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { Button } from "react-bootstrap";
 
 import axios from "axios";
-import CustomNavbar from "../components/navbar/CustomNavbar";
 import ReviewCard from "../components/cards/ReviewCard";
 import CustomPagination from "../components/CustomPagination";
 
 function GetLecture() {
     axios.defaults.withCredentials = true;
     const navigate = useNavigate();
+    const lectureId = useParams().id;
+    const [lecturedata, setPostdata] = useState(null)
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const from = params.get("from");
 
     const [loginState, setLoginState] = useState(false)
     const GetLoginState = () => {
@@ -34,35 +39,34 @@ function GetLecture() {
             setLoginState(false);
         }) 
     }
-
-    useEffect(() => {
-
-    }, [])
-
-    const lectureId = useParams().id;
-    const [lecturedata, setPostdata] = useState(null)
-    const [isMy, setIsMy] = useState(false);
-    const [bookmarked, setBookmarked] = useState(false);
-    
     const GetLectureInfo = () => {
         var config = {
             method: 'get',
-        maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/public/${lectureId}`,
-            headers: { 
-            'Authorization': localStorage.getItem("Access")
-            }
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture/public/${lectureId}`
         };
         
         axios(config)
         .then(function (response) {
-            //console.log(response.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
             console.log(error);
         });
     }
+
+    useEffect(() => {
+        GetLoginState();
+        GetLectureInfo();
+    }, [])
+
+    useEffect(() => {
+        console.log(loginState)
+    }, [loginState])
+
+    const [isMy, setIsMy] = useState(false);
+    const [bookmarked, setBookmarked] = useState(false);
+    
 
     const GetPostIsMy = useCallback(() => {
 
@@ -91,7 +95,6 @@ function GetLecture() {
     }
 
     useEffect(() => {
-        if(localStorage.getItem("Access")) GetLectureInfo();
         if(localStorage.getItem("Access")) GetFav();
         if(localStorage.getItem("Access")) GetReviews(1);
     }, [localStorage.getItem("Access")])
@@ -128,26 +131,6 @@ function GetLecture() {
           
     }
 
-    const RequestClass = () => {
-        var config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/classConfirmed/${lectureId}`,
-            headers: { 
-                'Authorization': localStorage.getItem("Access")
-            }
-        };
-        
-        axios(config)
-        .then(function (response) {
-            // console.log(JSON.stringify(response.data.data));
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-  
-    }
-    
     const [isLecreq, setIsLecreq] = useState(false);
     const GetIsLecreq = () => {
         var config = {
@@ -308,7 +291,7 @@ function GetLecture() {
                 <div className={styles.headbox}>
                     <Button
                      className={styles.headboxbutton}
-                     onClick={() => navigate(-1)}
+                     onClick={() => navigate( from==="save" ? -2 : -1)}
                     > 돌아가기 </Button>
                     <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
                 </div>

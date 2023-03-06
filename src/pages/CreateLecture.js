@@ -109,7 +109,7 @@ function CreateLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture`,
+            url: `${process.env.REACT_APP_HOST}/lecture/create`,
             headers: { 
               'Authorization': localStorage.getItem("Access"),
               'Content-Type': 'multipart/form-data'

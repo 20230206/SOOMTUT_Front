@@ -20,11 +20,14 @@ function OAuthInit() {
 
     
     const [address, setAddress] = useState(null);
+    const [posX, setPosX] = useState();
+    const [posY, setPosY] = useState();
+    const [sido, setSido] = useState();
+    const [sigungu, setSigungu] = useState();
+    const [bname, setBname] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [posX, setPosX] = useState();
-    const [posY, setPosY] = useState();
     const [settedAddress, setSettedAddress] = useState(false);
 
     const NicknameDupleCheck = (input) => {
@@ -91,8 +94,11 @@ function OAuthInit() {
         var data = JSON.stringify({
             "nickname": nickname,
             "address": address,
-            "vectorX": posX,
-            "vectorY": posY
+            "posX": posX,
+            "posY": posY,
+            "sido": sido,
+            "sigungu": sigungu,
+            "bname": bname
           });
           
           var config = {
@@ -179,6 +185,9 @@ function OAuthInit() {
                 jsOptions={{ animation: true, hideMapBtn: true }}
                 onSelected={data => {
                     SetAddress(data.address)
+                    setBname(data.bname)
+                    setSido(data.sido)
+                    setSigungu(data.sigungu)
                     setSettedAddress(true)
                     handleClose();
                 }}

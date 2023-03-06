@@ -26,7 +26,7 @@ function Lectures() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture?category=${category}&page=${page-1}&size=5`,
+            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=5`,
             headers: { 
 
             }

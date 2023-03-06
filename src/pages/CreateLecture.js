@@ -80,14 +80,11 @@ function CreateLecture() {
         setImgBase64([]);
         if(event.target.files[0]) {
             let reader = new FileReader();
-            console.log(event.target.files[0]);
             reader.readAsDataURL(event.target.files[0]);
             reader.onloadend = () => {
                 const base64 = reader.result;
                 if(base64) {
                     var base64Sub = base64.toString();
-                    console.log(base64);
-
                     setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
                 }
             }
@@ -112,7 +109,7 @@ function CreateLecture() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/create`,
+            url: `${process.env.REACT_APP_HOST}/lecture`,
             headers: { 
               'Authorization': localStorage.getItem("Access"),
               'Content-Type': 'multipart/form-data'
@@ -124,9 +121,8 @@ function CreateLecture() {
           
           axios(config)
           .then(function (response) {
-            console.log(response);
             alert("게시글 작성에 성공했습니다!");
-            navigate("/lecture/"+response.data.data.lectureId)
+            navigate("/lecture/"+response.data.data.id)
           })
           .catch(function (error) {
             console.log(error);

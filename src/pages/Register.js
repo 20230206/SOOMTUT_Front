@@ -25,7 +25,7 @@ function Register () {
     const [dupleEmail, setDupleEmail] = useState(false);
     const [dupleNickname, setDupleNickname] = useState(false);
 
-    const [address, setLocation] = useState(null);
+    const [address, setAddress] = useState(null);
     const [posX, setPosX] = useState();
     const [posY, setPosY] = useState();
     const [sido, setSido] = useState();
@@ -121,7 +121,7 @@ function Register () {
     }
 
     const SetLocation = (input) => {
-        setLocation(input);
+        setAddress(input);
     }
 
     useEffect(() => {

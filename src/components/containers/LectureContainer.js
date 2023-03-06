@@ -15,10 +15,25 @@ function LectureContainer(props) {
         }
     }, [])
 
+    const CreateLectures = () => {
+        if(lectures) {
+            var arr = [];
+            lectures.map((item, index) => {
+                arr.push(
+                    <LectureCard 
+                      key={index}
+                      lecture={item}
+                    />
+                )
+            })
+            return arr;
+        }
+    }
+
     return(
       <>
         <div className={styles.wrap}>
-            {lectures && <LectureCard lecture={lectures[0]}/>}
+            <CreateLectures />
         </div>
       </>
     )

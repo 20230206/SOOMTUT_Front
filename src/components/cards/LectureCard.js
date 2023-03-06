@@ -5,7 +5,7 @@ import heart from "../../assets/images/color_heart.png";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Container } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 const DEFAULT_VALUE = {
     lecture: {

@@ -10,6 +10,8 @@ import register from '../../assets/images/navbar/register.png'
 import mypage from '../../assets/images/navbar/mypage.png'
 import logout from '../../assets/images/navbar/logout.png'
 
+import AccessToken from "../../js/static/AccessToken"
+
 import axios from 'axios';
 
 function SNavbar() {
@@ -39,64 +41,36 @@ function SNavbar() {
 
   // Access Token 관리
   const [accessToken, setAccessToken] = useState(localStorage.getItem("Access"));
+  const [loginState, setLoginState] = useState(false);
+
   useEffect(() => {
     if(currentURI ==="/login" || currentURI === "/register") return;
-    if(!accessToken) {
-        console.log("Access Token has null");
-        GetAccessToken();
+
+    async function fetchAccessToken() {
+      await AccessToken.GetAccessToken();
+      setAccessToken(localStorage.getItem("Access"))
     }
-    else {
-        // 만료 시간 계산후, 만료 시 자동으로 새로운 Access Token 요청
-        var ExpireDate = new Date(localStorage.getItem("ExpireDate"));
-        var curDate = new Date();
-        var left = (ExpireDate - curDate);
-        if (left < 0) {
-            GetAccessToken();
-        }
-        setLoginState(true);
+      console.log("Access Token is null");
+    fetchAccessToken();
+
+  }, [])
+
+  useEffect(()=>{
+    if(accessToken) {
+      setLoginState(true)
     }
   }, [accessToken])
-
-  const [loginState, setLoginState] = useState(false);
-  // Access Token 획득 및 로컬 저장소로 저장
-  const GetAccessToken = () => {
-    const config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `${process.env.REACT_APP_HOST}/auth/get-accesstoken`,
-        headers: {}
-      };
-
-    axios(config)
-    .then(function (response) {
-        if(response.data.data) {
-            console.log("로그인이 된 상태입니다.")
-            setAccessToken("Bearer " + response.headers.get("Authorization"));
-            localStorage.setItem("Access", "Bearer " + response.headers.get("Authorization"));
-            var tDate = new Date();
-            tDate.setMinutes(tDate.getMinutes() + 25);
-            localStorage.setItem("ExpireDate", tDate);
-            setLoginState(true);
-        }
-        else {
-            console.log("로그인 되지 않은 상태입니다.")
-            setLoginState(false);
-        }
-    })
-    .catch(function (error) {
-        console.log(error);
-        setAccessToken(null);
-    })
-  }
 
   // 로그인 정보 획득
   const [memberName, setMemberName] = useState(localStorage.getItem("Nickname"));
   useEffect(() => {
+    if(loginState === true)
+      console.log("Call By LogIn Success")
     if(loginState && !memberName) {
         console.log("Get My Name")
         GetMyName()
     }
-  }, [memberName, loginState])
+  }, [loginState])
 
   const GetMyName = () => {
     const config = {
@@ -104,14 +78,14 @@ function SNavbar() {
         maxBodyLength: Infinity,
         url: `${process.env.REACT_APP_HOST}/member/myInfo`,
         headers: {
-          'Authorization': accessToken
+          'Authorization': localStorage.getItem("Nickname")
         }
       };
       axios(config)
       .then(function(response) {
         console.log(response.data)
         setMemberName(response.data.data.nickname);
-        localStorage.setItem("nickname", response.data.data.nickname);
+        localStorage.setItem("Nickname", response.data.data.nickname);
       })
       .catch(function(error) {
 

@@ -9,6 +9,8 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 import ReviewCard from "../components/cards/ReviewCard";
 import CustomPagination from "../components/CustomPagination";
+import ColorHeart from "../assets/images/color_heart.png";
+import Heart from "../assets/images/heart.png";
 
 function GetLecture() {
     axios.defaults.withCredentials = true;
@@ -287,19 +289,29 @@ function GetLecture() {
     const SetPost = () => {
         if(lecturedata) {
             return (
-            <div className={styles.wrapper}> 
-                <div className={styles.headbox}>
-                    <div className={styles.headboxtextonRead}><span> {lecturedata.title} </span></div>
-                </div>
-                    
+            <div className={styles.wrapper}>
                 <div className={styles.imagebox}>
-                    <img src={lecturedata.image} style={{width:"790px", height:"390px"}} alt="postimage"/>
+                    <img src={lecturedata.image}  alt="postimage"/>
                 </div>
-
+                
+                <div className={styles.headbox}>
+                    <div className={styles.headbox_content}>
+                        <span className={styles.headbox_title} > {lecturedata.title}</span>
+                        <div className={styles.headbox_location}> 미추홀구 주안동 </div>
+                    </div>
+                    <span className={styles.headbox_heart}><img
+                        onClick={() => RequestBookmark()}
+                        src={bookmarked ? ColorHeart : Heart}
+                        alt="bookmark"
+                    /></span>
+                </div>
+                <div className={styles.line}>
+                    <hr></hr>
+                </div>
                 <div className={styles.tutorinfobox} >
-                    <div className={styles.tutorimagebox}> </div>
+                    <div className={styles.tutorimagebox}>  </div>
                     <div className={styles.tutordiscripbox}>
-                        <span> {lecturedata.tutorNickname} </span> <br />
+                        <span> {lecturedata.tutorNickname} </span> 튜터닉네임 <br />
                         <span> {lecturedata.location} </span> <span> LV20 </span> <br />
                     </div>
                 </div>
@@ -313,9 +325,6 @@ function GetLecture() {
                     </div>
                 </div>
 
-                <Button
-                  style={{marginLeft:"10px"}}
-                  onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
                 <div 
                   style={{
                     width:"800px",
@@ -326,25 +335,31 @@ function GetLecture() {
                     <CreateReviews review={reviews}/> 
                     <Paging />
                 </div>
-                
-
 
                 <div className={styles.menubox}>
                     {/* 이버튼을 포스트 주인이라면 -> 수정하기 버튼
                                        주인이 아니라면 -> 북마크 버튼 */
-                     isMy ? 
-                     <Link to={`/lecture/update/${lectureId}`}><Button className={styles.favbutton}>
-                     수정 하기
-                 </Button></Link> :
-                    <Button
-                     className={styles.favbutton} 
-                     onClick={() => RequestBookmark() }> {bookmarked ? "❤ 북마크 취소" : "🤍 북마크"} 
-                    </Button>
+                        !isMy && (
+                            <Link to={`/lecture/update/${lectureId}`}>
+                                <Button className={styles.update_button}>
+                                    수정 하기
+                                </Button>
+                            </Link>
+                        )
                     }
-                    { !isMy && <Button className={styles.chatbutton}
+                    
+                    { !isMy && <Button className={styles.chat_button}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
+
+                {/*수정 예정*/}
+                <Button
+                    style={{marginLeft:"10px"}}
+                    onClick={() => OnClickShowReviewButton()}> 후기 보기 </Button>
             </div>
+                
+                
+                
             )
         }
     }

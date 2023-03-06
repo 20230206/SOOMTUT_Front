@@ -1,5 +1,5 @@
 .wrap {
-    width: 300px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +8,7 @@
 }
 
 .toggleButton {
-    width: 300px;
+    width: 100%;
     height: 48px;
 
     font-size: 22px;
@@ -23,10 +23,10 @@
 }
 
 .categoryButton {
-    width: 230px;
+    width: 100%;
     height: 40px;
     font-size: 22px;
-    margin: 1px 0px 1px 20px;
+    margin-bottom: 5px;
     background-color: #fcfcfc;
 
     border: none;

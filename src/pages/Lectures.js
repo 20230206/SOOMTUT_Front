@@ -13,6 +13,8 @@ import Category from "../components/dropdowns/Category";
 import LectureContainer from "../components/containers/LectureContainer";
 import Region from "../components/dropdowns/Region";
 
+import backIcon from "../assets/images/backbutton.png";
+
 function Lectures() {
     const [loading, setLoading] = useState(false);
     const [curPage, setCurPage] = useState(1);
@@ -98,10 +100,12 @@ function Lectures() {
     return ( 
         <div className={styles.wrap} >
             <div className={styles.leftMenu}>
-              <Button
-                className={styles.backButton} 
-                onClick={()=>navigate(-1)}
-              > 뒤로 돌아가기 </Button>
+                <img
+                    src={backIcon}
+                    className={styles.backButton}
+                    onClick={() => navigate(-1)}
+                    alt="Back"
+                />
               <Button
                 className={styles.createButton}
                 onClick={()=>navigate("/lectures/create?mode=create")}

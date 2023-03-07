@@ -15,8 +15,6 @@ class AccessToken {
             .then(function(response) {
                 var tDate = new Date();
                 if(response.data.data) {
-                    console.log(response);
-                    console.log("엑세스 토큰 요청 성공 : " + tDate);
                     localStorage.setItem("Access", "Bearer " + response.headers.get("Authorization"));
                     tDate.setMinutes(tDate.getMinutes() + 25)
                     localStorage.setItem("ExpireDate", tDate);
@@ -29,10 +27,6 @@ class AccessToken {
                 return null;
             })
         }
-    }
-
-    static IsExpired() {
-        
     }
 }
 

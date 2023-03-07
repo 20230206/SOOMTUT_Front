@@ -48,3 +48,15 @@
 .searchButton{
     width: 25%;
 }
+
+.cardsBox {
+    height: 975px;
+}
+
+.pagination {
+    width: 1100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

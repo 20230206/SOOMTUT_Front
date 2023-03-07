@@ -122,7 +122,11 @@ function UpdateLecture(){
         axios.defaults.withCredentials = true;
         const data = new FormData();
         data.append('updatePostRequestDto',
-            new Blob([JSON.stringify({"title":title,"content":contents,"category":categoryId,"fee":fee})], { type: "application/json" })
+            new Blob([JSON.stringify({
+                "title":title,
+                "content":contents,
+                "category":categoryId,
+                "fee":fee})], { type: "application/json" })
           );
        
         data.append("file", imgFile);

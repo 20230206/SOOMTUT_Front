@@ -40,7 +40,7 @@ function LectureCard(props) {
     const [lectureURI, setLectureURI] = useState(null);
     useEffect(() => {
         if(lecture) {
-            setLectureURI("/lectures/"+lecture.id); 
+            setLectureURI(`/lectures/${lecture.id}?from=lectures`); 
         }
     }, [lecture])
 
@@ -56,7 +56,7 @@ function LectureCard(props) {
                 <Card.Body className={styles.cardBody}>
                     <Card.Title className={styles.cardTitle}>{truncatedTitle}</Card.Title>
                     <div className={styles.cardFooter}>
-                            <span>{lecture.member.nickname} 강사님</span>
+                        <li style={{listStyle:"none"}}>{lecture.member.nickname}</li>
                     </div>
                     <div className={styles.tuition}>
                         {lecture && (lecture.fee.toString().length > 7 ? `${lecture.fee.toLocaleString().slice(0, 7)}...` : lecture.fee)} 원

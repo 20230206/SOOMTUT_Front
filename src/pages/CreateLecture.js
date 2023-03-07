@@ -54,9 +54,30 @@ function CreateLecture() {
     const [curCategory, setCurCategory] = useState(Category_List[0])
     const [categoryId, setCategoryId] = useState(0);
 
+    const [updateBeforeImage, setUpdateBeforeImage] = useState("");
+
     useEffect(() => {
         if(mode==="create") {}
-        if(mode==="update") {}
+        if(mode==="update") {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/public/${id}`
+            };
+            
+            axios(config)
+            .then(function (response) {
+                console.log(response.data.data)
+                setTitle(response.data.data.title);
+                setFee(response.data.data.fee)
+                SelectCategory(response.data.data.categoryId)
+                setContents(response.data.data.content)
+                setUpdateBeforeImage(response.data.data.image);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
     }, [mode])
 
     const InputTitle = (event) => {
@@ -108,7 +129,7 @@ function CreateLecture() {
             return
         }
         if(contents.length < 20) {
-            alert("최소 20장이상의 설명이 필요합니다.")
+            alert("최소 10자이상의 설명이 필요합니다.")
             return
         }
         if(title.length < 1) {
@@ -130,21 +151,36 @@ function CreateLecture() {
         );
 
         data.append("file", imgFile);
-        var config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture`,
-            headers: { 
-                'Authorization': localStorage.getItem("Access"),
-                'Content-Type': 'multipart/form-data'
-            },
-            data : data
-        };
+        var config;
+        if(mode==="create") {
+            config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture`,
+                headers: { 
+                    'Authorization': localStorage.getItem("Access"),
+                    'Content-Type': 'multipart/form-data'
+                },
+                data : data
+            };
+        }
+        if(mode==="update") {
+            config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/${id}`,
+                headers: { 
+                    'Authorization': localStorage.getItem("Access"),
+                    'Content-Type': 'multipart/form-data'
+                },
+                data : data
+            };
+        }
           
         axios(config)
         .then(function (response) {
             alert("게시글 작성에 성공했습니다!");
-            navigate("/lectures/"+response.data.data.id+"?from=save")
+            navigate(`/lectures/${response.data.data.id}?from=save`)
         })
         .catch(function (error) {
             console.log(error);
@@ -190,6 +226,7 @@ function CreateLecture() {
                 value={curCategory.id}
                 required
                 style={{display:"none"}}
+                readOnly
               />
             </Form.Group>
   
@@ -204,6 +241,17 @@ function CreateLecture() {
                   />
               </Form.Group>
   
+              { (mode==="update" && !imgState && updateBeforeImage) && <div className={styles.imagebox}>
+                <img
+                  src={updateBeforeImage} 
+                  className="d-block w-100"
+                  alt="before"
+                  style={{
+                  width:"100%",
+                  height:"100%"
+                  }}
+                />
+              </div> }
               { imgState && 
               <div className={styles.imagebox}> 
                   {

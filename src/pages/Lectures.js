@@ -36,9 +36,10 @@ function Lectures() {
         
         axios(config)
         .then(function (response) {
+            console.log(response.data.data)
             setLectures(response.data.data.content);
             setPages(response.data.data.totalPages);
-            SetLoading();
+            if(!loading) SetLoading(true);
         })
         .catch(function (error) {
         });
@@ -71,10 +72,10 @@ function Lectures() {
 
     const [lectures, setLectures] = useState(null)
     const [lectureChunk, setLectureChunk] = useState(null);
-    useEffect(() => {
-        
-            const chunkSize = 5;
-            const chunkedData = [];
+    const Rechunck = () => {
+        const chunkSize = 5;
+        const chunkedData = [];
+
         if(lectures) {
             for (let i = 0; i < lectures.length; i += chunkSize) {
               const chunk = lectures.slice(i, i + chunkSize);
@@ -91,11 +92,29 @@ function Lectures() {
               console.log(lastChunk)
               chunkedData.push(lastChunk);
             }
-            console.log(chunkedData);
-
             setLectureChunk(chunkedData);
         }
+    }
+    useEffect(() => {
+        Rechunck();
     }, [lectures])
+
+    const CreateLectureContainers = () => {
+        if(lectureChunk) {
+            var arr = [];
+            lectureChunk.map((item, index) => {
+                arr.push(
+                  <div style={{display:"flex"}}>
+                    <LectureContainer 
+                      key = {index}
+                      lectures = {item}
+                    />
+                  </div>
+                )
+            })
+            return arr;
+        }
+    }
 
     return ( 
         <div className={styles.wrap} >
@@ -108,7 +127,7 @@ function Lectures() {
                 />
               <Button
                 className={styles.createButton}
-                onClick={()=>navigate("/lectures/create?mode=create")}
+                onClick={()=>navigate(`/lectures/create?mode=create`)}
               > 글쓰기 </Button>
               <Form className={styles.searchBar}>
 
@@ -125,18 +144,12 @@ function Lectures() {
               <DropdownRegion />
             </div>
             <div>
-                <div style={{minHeight:"780px"}}>
-                <div style={{display:"flex"}}>
-                    { lectureChunk && <LectureContainer lectures={lectureChunk[0]}/> } 
+                <div className={styles.cardsBox}>
+                   <CreateLectureContainers />
                 </div>
-                <div style={{display:"flex"}}>
-                    { lectureChunk && <LectureContainer lectures={lectureChunk[1]}/> } 
+                <div className={styles.pagination}>
+                    <Paging />
                 </div>
-                <div style={{display:"flex"}}>
-                    { lectureChunk && <LectureContainer lectures={lectureChunk[2]}/> } 
-                </div>
-                </div>
-                <Paging />
             </div>
         </div>
     );

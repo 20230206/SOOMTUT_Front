@@ -1,6 +1,6 @@
 import styles from "../assets/styles/routes/lecture/single_lecture.module.css"
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -50,6 +50,7 @@ function GetLecture() {
         
         axios(config)
         .then(function (response) {
+            console.log(response.data.data)
             setPostdata(response.data.data)
         })
         .catch(function (error) {
@@ -60,60 +61,34 @@ function GetLecture() {
     useEffect(() => {
         GetLoginState();
         GetLectureInfo();
+        GetReviews(1);
     }, [])
 
     useEffect(() => {
-        console.log(loginState)
+        if(loginState) {
+            const myNickname = localStorage.getItem("Nickname");
+            console.log(myNickname);
+            const getMy = myNickname === lecturedata.member.nickname;
+            setIsMy(getMy);
+        }
+        else {}
     }, [loginState])
 
     const [isMy, setIsMy] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
-    
-
-    const GetPostIsMy = useCallback(() => {
-
-        // if(member && lecturedata) setIsMy(lecturedata.tutorNickname===member.nickname)
-    }, [lecturedata])
-
-    const GetFav = () => {
-        var config = {
-            method: 'get',
-          maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
-            headers: { 
-              'Authorization': localStorage.getItem("Access")
-            }
-          };
-          
-          axios(config)
-          .then(function (response) {
-            //console.log("Bookmark :" + response.data)
-            setBookmarked(response.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
-    }
-
-    useEffect(() => {
-        if(localStorage.getItem("Access")) GetFav();
-        if(localStorage.getItem("Access")) GetReviews(1);
-    }, [localStorage.getItem("Access")])
-
-    useEffect(() => {
-        if(lecturedata) { GetPostIsMy() }
-    }, [lecturedata])
 
     const RequestBookmark = () => {
-        console.log(bookmarked)
+        if(!loginState){
+            alert("로그인 이후 사용할 수 있는 서비스 입니다.")
+            return;
+        }
         var data = JSON.stringify({
             "curfav": bookmarked
           });
           
           var config = {
             method: 'post',
-          maxBodyLength: Infinity,
+            maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
             headers: { 
               'Authorization': localStorage.getItem("Access"), 
@@ -210,7 +185,6 @@ function GetLecture() {
 
     const [createChat, setCreateChat] = useState(false);
     const CreateChatRoom = () => {
-        console.log(isLecreq)
         if(isLecreq === false) { CreateLecreq() }
         setCreateChat(true);
     }
@@ -297,22 +271,22 @@ function GetLecture() {
                 <div className={styles.headbox}>
                     <div className={styles.headbox_content}>
                         <span className={styles.headbox_title} > {lecturedata.title}</span>
-                        <div className={styles.headbox_location}> 미추홀구 주안동 </div>
+                        <div className={styles.headbox_location}> {lecturedata.member.location.address} </div>
                     </div>
-                    <span className={styles.headbox_heart}><img
+                    { !isMy && <span className={styles.headbox_heart}><img
                         onClick={() => RequestBookmark()}
                         src={bookmarked ? ColorHeart : Heart}
                         alt="bookmark"
-                    /></span>
+                    /></span> }
                 </div>
-                <div className={styles.line}>
-                    <hr></hr>
-                </div>
+                <div className={styles.line}> <hr></hr> </div>
                 <div className={styles.tutorinfobox} >
-                    <div className={styles.tutorimagebox}>  </div>
+                    <div className={styles.tutorimagebox}> 
+                        <img src={lecturedata.member.image} alt="profile" />
+                    </div>
                     <div className={styles.tutordiscripbox}>
-                        <span> {lecturedata.tutorNickname} </span> 튜터닉네임 <br />
-                        <span> {lecturedata.location} </span> <span> LV20 </span> <br />
+                        <span> {lecturedata.member.nickname} </span><br />
+                        <span> {lecturedata.favorit} </span> <br />
                     </div>
                 </div>
 
@@ -325,20 +299,15 @@ function GetLecture() {
                     </div>
                 </div>
 
-                <div 
-                  style={{
-                    width:"800px",
-                    margin:"5px auto 5px auto"
-                  }}
-                  hidden={!showReviews}
-                >
-                    <CreateReviews review={reviews}/> 
-                    <Paging />
-                </div>
+                <CreateReviews review={reviews}/> 
+                <Paging />
 
                 <div className={styles.menubox}>
-                    { isMy && <Link to={`/lecture/update/${lectureId}`}>
-                                <Button className={styles.update_button}>수정 하기</Button></Link>}
+                    { isMy &&
+                        <Button 
+                          className={styles.update_button}
+                          onClick={() => navigate(`/lectures/create?mode=update&id=${lectureId}`)}
+                        >수정 하기</Button>}
                     
                     { !isMy && <Button className={styles.chat_button}
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}

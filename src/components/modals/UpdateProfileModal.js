@@ -17,11 +17,13 @@ function UpdateProfileModal (props) {
     const CheckRegexNickname = () => {
         const regex = /^[가-힣a-zA-Z0-9]{2,12}$/;
         var isRegex =  regex.test(nickname);
+        console.log("유효성 체크 :" + isRegex);
+        setRegexNickname(isRegex);
         return isRegex;
     }
     const [dupleNickname, setDupleNickname] = useState(false);
     const CheckDuplicateNickname = () => {
-        if(!CheckRegexNickname) {
+        if(!CheckRegexNickname()) {
             alert("사용할 수 없는 닉네임입니다. \n 2~12자 사이의 한글,영어,숫자만 사용해주세요.")
             return;
         }
@@ -39,7 +41,7 @@ function UpdateProfileModal (props) {
             }
             else {
                 alert("사용 가능한 닉네임입니다.")
-                setDupleNickname(response.data.data);
+                setDupleNickname(!response.data.data);
             }
         })
         .catch(function (error) {

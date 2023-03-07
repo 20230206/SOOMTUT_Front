@@ -25,10 +25,10 @@ function OAuthInit() {
     const [sido, setSido] = useState();
     const [sigungu, setSigungu] = useState();
     const [bname, setBname] = useState();
+    const [settedAddress, setSettedAddress] = useState(false);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [settedAddress, setSettedAddress] = useState(false);
 
     const NicknameDupleCheck = (input) => {
         var data = '';
@@ -66,7 +66,6 @@ function OAuthInit() {
 
 
     const SetAddress = (input) => {
-        console.log(input)
         setAddress(input)
     }
     
@@ -86,9 +85,6 @@ function OAuthInit() {
             setPosY(result[0].x);
         }
     }
-
-    console.log(posX)
-    console.log(posY)
 
     const SubmitInfo = () => {
         var data = JSON.stringify({

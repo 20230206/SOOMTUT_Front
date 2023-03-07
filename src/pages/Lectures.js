@@ -18,10 +18,6 @@ function Lectures() {
     const [loading, setLoading] = useState(false);
     const [curPage, setCurPage] = useState(1);
 
-    const [selectedCategory, setSelectedCategory] = useState(0);
-    const [DropdownCategory, curCategory] = Category(0);
-    const [selectedRegion, setSelectedRegion] = useState(0);
-    const [DropdownRegion, curRegion] = Region(0);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -47,29 +43,56 @@ function Lectures() {
     const category = params.get("category");
     const keyword = params.get("keyword");
 
+    const [selectedCategory, setSelectedCategory] = useState(category);
+    const [DropdownCategory, curCategory] = Category(0);
+    const [selectedRegion, setSelectedRegion] = useState(region);
+    const [DropdownRegion, curRegion] = Region(0);
+
     console.log("region: " + region + " memberId: " + memberId + " category: " + category + " keyword: " + keyword);
 
     
 
-    const GetLectures = (category, page) => {
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
-            headers: { 
+    const GetLectures = (category, region, page) => {
+        if(memberId == null) {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&region=${region}&page=${page-1}&size=15`,
+                headers: { 
+                }
+            };
 
-            }
-        };
-        
-        axios(config)
-        .then(function (response) {
-            console.log(response.data.data)
-            setLectures(response.data.data.content);
-            setPages(response.data.data.totalPages);
-            if(!loading) SetLoading(true);
-        })
-        .catch(function (error) {
-        });
+            axios(config)
+            .then(function (response) {
+                console.log(response.data.data)
+                setLectures(response.data.data.content);
+                setPages(response.data.data.totalPages);
+                if(!loading) SetLoading(true);
+            })
+            .catch(function (error) {
+            });
+        }
+
+        if(memberId) {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/public/${memberId}/all?category=${category}&region=${region}&page=${page-1}&size=15`,
+                headers: { 
+                }
+            };
+
+            axios(config)
+            .then(function (response) {
+                console.log(response.data.data)
+                setLectures(response.data.data.content);
+                setPages(response.data.data.totalPages);
+                if(!loading) SetLoading(true);
+            })
+            .catch(function (error) {
+            });
+
+        }
     }
 
     useEffect(()=>{
@@ -83,7 +106,7 @@ function Lectures() {
     
     // 토큰 정보 생성 시, 포스트 내용 조회
     useEffect(() => {
-       GetLectures(0, 1);
+       GetLectures(0, "서울", 1);
     }, [])
 
     const [pages, setPages] = useState(null);

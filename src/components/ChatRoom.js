@@ -1,8 +1,9 @@
 
-import { useState, useEffect, useRef } from 'react';
-import { Button, InputGroup, Form } from 'react-bootstrap';
-import { useParams, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/chat.module.css'
+
+import { useState, useEffect, useRef } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import Stomp from 'stompjs'

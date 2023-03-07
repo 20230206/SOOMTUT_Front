@@ -229,11 +229,16 @@ function MyPage() {
                             onClick={() => navigate(`/lectures?mode=bookmark`)}>
                            관심 목록 
                         </li>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/myLecture"> 나의 수업 목록 </Link>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}
+                            onClick={() => navigate(`/lectures?mode=myLectures`)}
+                        >
+                             나의 수업 목록 
                         </li>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/manage"> 수업 관리 </Link>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}
+                            onClick={() => navigate(`/manage/lecture`)}
+                        
+                        >
+                            수업 관리 
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
                             <Link to="/mypage/myreview"> 나의 후기 관리 </Link>

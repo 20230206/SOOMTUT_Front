@@ -17,6 +17,7 @@ import CreateLecture from "../pages/CreateLecture";
 import GetLecture from "../pages/GetLecture";
 
 import Lectures from "../pages/Lectures";
+import ManageLecture from "../pages/ManageLecture";
 import MyPage from "../pages/MyPage";
 
 const Router = () => {
@@ -35,6 +36,9 @@ const Router = () => {
                 <Route path="/lectures/:id" element={<GetLecture />} />
 
                 <Route path="/mypage" element={<MyPage />} />
+
+                <Route path="/manage/lecture" element={<ManageLecture />} />
+
             </Routes>
         </BrowserRouter>
     )

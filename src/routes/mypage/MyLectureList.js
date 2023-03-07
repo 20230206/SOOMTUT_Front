@@ -22,7 +22,6 @@ function MyLectureList() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
             headers: { 
             'Authorization': token
             }

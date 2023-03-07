@@ -30,7 +30,7 @@ function Lectures() {
 
     useEffect(() => {
         if(mode) {
-            if(mode === "search" || mode === "bookmark" || mode === "mylecture") {}
+            if(mode === "search" || mode === "bookmark" || mode === "myLectures") {}
             else {
                 alert("비정상적인 접근입니다.")
                 navigate("/");
@@ -70,11 +70,11 @@ function Lectures() {
             };
         }
         
-        if (mode === "mylecture") {
+        if (mode === "myLectures") {
             var config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `${process.env.REACT_APP_HOST}/lecture/bookmark?page=${page-1}&size=5`,
+                url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
                 headers: { 
                     'Authorization': localStorage.getItem("Access")
                 }
@@ -197,6 +197,12 @@ function Lectures() {
             {   mode === "bookmark" &&
                 <div className={styles.leftMenu}>
                     <li className={styles.pageName}> 관심 목록 </li>
+                    <DropdownCategory />
+                </div>
+            }
+            { mode === "myLectures" &&
+                <div className={styles.leftMenu}>
+                    <li className={styles.pageName}> 내 수업 목록 </li>
                     <DropdownCategory />
                 </div>
             }

@@ -1,14 +1,12 @@
+import styles from "../assets/styles/routes/lecture/lectures.module.css"
 import React, { useEffect, useState } from "react";
 
 import { Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import styles from "../../assets/styles/routes/lecture/listpage.module.css"
-
 import axios from "axios";
-import CustomNavbar from "../../components/navbar/CustomNavbar";
 
-import ManageBoxInList from "../../components/ManageBoxInList";
+import ManageBoxInList from "../components/ManageBoxInList";
 
 
 const LectureState = [ 
@@ -21,60 +19,63 @@ const LectureState = [
 function ManageLecture() {
     axios.defaults.withCredentials=true;    
     
-    const [View, token, member] = CustomNavbar();
     const [chatlist, setChatList] = useState(null);
     const [curState, setCurState] = useState(LectureState[0])
 
+    useEffect(() => {
+
+    }, [])
+
     useEffect(()=> {
-        if(token, curState) {
+        if(localStorage.getItem("Access"), curState) {
             var config = {
                 method: 'get',
             maxBodyLength: Infinity,
                 url: `${process.env.REACT_APP_HOST}/chat_room?state=${curState.id}&page=0&size=5`,
                 headers: { 
-                    'Authorization': token, 
+                    'Authorization': localStorage.getItem("Access") 
                 }
             };
             
             axios(config)
             .then(function (response) {
+                console.log(response.data)
                 setChatList(response.data.data.content);
             })
             .catch(function (error) {
                 console.log(error);
             });
         }
-    }, [token, curState])
+    }, [localStorage.getItem("Access"), curState])
 
     const CreateChatBox = () => {
         // console.log(chatlist)
-        if(chatlist && member) {
-            return chatlist.map((item, index) => (<ManageBoxInList
-                key={index}
-                id={item.lecreqId}
-                opponent={
-                    item.tutee.nickname === member.nickname ? 
-                    item.tutor.nickname : item.tutee.nickname
-                }
-                role={ item.tutee.nickname === member.nickname ? "tutee" : "tutor" }
-                image= {
-                    item.tutee.nickname === member.nickname ? 
-                        item.tutor.profileImage : item.tutee.profileImage
-                }
-                requeststate={ item.state }
-                token = { token }
-                lecture ={item.lecture}
-                reviewed={item.reviewed}
-            />)
-            )
-        }
+        // if(chatlist && member) {
+        //     return chatlist.map((item, index) => (<ManageBoxInList
+        //         key={index}
+        //         id={item.lecreqId}
+        //         opponent={
+        //             item.tutee.nickname === member.nickname ? 
+        //             item.tutor.nickname : item.tutee.nickname
+        //         }
+        //         role={ item.tutee.nickname === member.nickname ? "tutee" : "tutor" }
+        //         image= {
+        //             item.tutee.nickname === member.nickname ? 
+        //                 item.tutor.profileImage : item.tutee.profileImage
+        //         }
+        //         requeststate={ item.state }
+        //         token = { localStorage.getItem("Access") }
+        //         lecture ={item.lecture}
+        //         reviewed={item.reviewed}
+        //     />)
+        //     )
+        // }
     }
 
 
 
     return (
         <div>
-            <View />
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>

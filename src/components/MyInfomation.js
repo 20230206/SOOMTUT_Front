@@ -1,5 +1,5 @@
 /*global kakao*/
-import styles from "../assets/styles/components/myinfomation.module.css"
+import styles from "../assets/styles/components/mypages/myinfomation.module.css"
 
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { Button, Modal } from "react-bootstrap";

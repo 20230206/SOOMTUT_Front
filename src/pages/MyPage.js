@@ -17,6 +17,7 @@ import axios from "axios"
 import MyInfomation from "../components/MyInfomation";
 import MyLectures from "../components/MyLectures";
 import Bookmark from "../components/Bookmark";
+import ManageLecture from "../components/ManageLecture";
 
 function MyPage() {
     axios.defaults.withCredentials = true;
@@ -123,7 +124,7 @@ function MyPage() {
               <div className={styles.contentsBox}>
                 { (memberData && selectedMenu === 1) && <div> <MyInfomation member={memberData}/> </div> }
                 { selectedMenu === 2 && <div> <MyLectures /> </div> }
-                { selectedMenu === 3 && <div>  </div> }
+                { (memberData && selectedMenu === 3) && <div> <ManageLecture  member={memberData}/> </div> }
                 { selectedMenu === 4 && <div> <Bookmark /> </div> }
                 { selectedMenu === 5 && <div>  </div> }
               </div>

@@ -1,0 +1,12 @@
+.wrap {
+    width: 1000px;
+    height: 80vh;
+    
+}
+
+.category {
+    width: 1000px;
+
+    display: flex;
+    justify-content: end;
+}

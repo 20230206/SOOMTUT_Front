@@ -3,7 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 
 import axios from "axios";
 
-import styles from "../../assets/styles/components/mypages/updateprofilemodal.module.css"
+import styles from "../../assets/styles/components/modals/updateprofilemodal.module.css"
 
 function UpdateProfileModal (props) {
     const [nickname, setNickname] = useState(props.nickname)

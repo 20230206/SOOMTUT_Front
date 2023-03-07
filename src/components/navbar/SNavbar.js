@@ -1,7 +1,7 @@
 import styles from '../../assets/styles/components/navbar/navbar.module.css'
 
 import { useEffect, useState } from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Button, Nav } from 'react-bootstrap';
 
 import logo from '../../assets/images/logo.png'
 import login from '../../assets/images/navbar/login.png'
@@ -14,11 +14,14 @@ import AccessToken from "../../js/static/AccessToken"
 
 import axios from 'axios';
 import SearchBar from '../inputs/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 function SNavbar() {
   axios.defaults.withCredentials = true;
 
   const currentURI = window.location.pathname;
+
+  const navigate = useNavigate();
   
   // 마우스 오버시 메뉴 하이라이트
   const [onMouseMenu1, setOnMouseMenu1] = useState(false);
@@ -125,6 +128,9 @@ function SNavbar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <SearchBar />
+            <Button
+                onClick={() => navigate("/maps")}
+            >내 주변 튜터 찾기</Button>
           </Nav>
           { !loginState && <Nav>
               { !collapsed &&

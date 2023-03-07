@@ -12,8 +12,35 @@ import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router";
 
 function FindTutor() {
+    axios.defaults.withCredentials = true;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/valid`,
+            headers: {
+                "Authorization": localStorage.getItem("Access")
+            }
+        }
+
+        axios(config)
+        .then(function(response){
+        })
+        .catch(function(error){
+            console.log(error);
+            alert("로그인 이후 사용할 수 있는 서비스입니다.");
+            localStorage.removeItem("Access")
+            localStorage.removeItem("Nickname")
+            localStorage.removeItem("ExpireDate")
+            navigate("/login");
+        })
+    }, [])
+
 
     const [loading, setLoading] = useState(false);
+    const [memberData, setMemberData] = useState(null);
     const [otherMarkers, setOtherMarkers] = useState(null);
 
     const [mapCenterX, setMapCenterX] = useState(null);
@@ -26,10 +53,10 @@ function FindTutor() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/location/showNearTutor`,
+            url: `${process.env.REACT_APP_HOST}/member/showNearTutor`,
             headers: { 
-            'Authorization': localStorage.getItem("Access"),
-            'Content-Type':'application/json'
+                "Authorization": localStorage.getItem("Access"),
+                'Content-Type':'application/json'
             },
         };
         
@@ -38,49 +65,73 @@ function FindTutor() {
             setOtherMarkers(response.data);
             // setMapCenterX(member.vectorX);
             // setMapCenterY(member.vectorY);
-            setLoading(true);
+            // setLoading(true);
 
         })
         .catch(function (error) {
         });
     }
 
+    const GetMyInfo = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/member/myInfo`,
+            headers: { 
+                "Authrorization": localStorage.getItem("Access"),
+                "Content-Type": "application/json"
+            }
+        };
+
+        axios(config).
+        then(function(response) {
+            setMemberData(response.data.data);
+        })
+        .catch (function(error) {
+            console.log(error);
+        }) 
+
+    }
+
     useEffect(() => {
-        if(!loading) GetMarkerInfo()
-    }, [localStorage.getItem("Access")] )
+        GetMarkerInfo();
+        GetMyInfo();
+        setLoading(true);
+    }, [] )
 
 
     const CreateMap = () => {
+        if(!memberData) return;
 
         const MakeOtherMarkers = (props) => {
             const map = useMap();
+            const item = props.item;
             const [isVisible, setIsVisible] = useState(false);
-            var markerPosition =  new kakao.maps.LatLng(37.06, 137.02);
+            var markerPosition =  new kakao.maps.LatLng(memberData.location.posX, memberData.location.posY);
             var v = new kakao.maps.Polyline({
-             path: [markerPosition, new kakao.maps.LatLng(props.item.vectorX, props.item.vectorY)]
+             path: [markerPosition, new kakao.maps.LatLng(item.location.posX, item.location.posY)]
             });
-            console.log(props.item.vectorX,props.item.vectorY,v.getLength());
             if(v.getLength()<=50000){
 
                 return (
                     <MapMarker
                         key={props.index}
                         position= {{
-                        lat: props.item.vectorX,
-                        lng: props.item.vectorY
+                            lat: item.location.posX,
+                            lng: item.location.posY
                         }}
                         clickable={true}
                         onClick={(marker) => {
                             // 맵의 중앙 좌표를 현제 마커의 좌표로 변경시킨다.
-                            // setMapCenterX(marker.getPosition().Ma);
-                            // setMapCenterY(marker.getPosition().La);
+                            setMapCenterX(marker.getPosition().Ma);
+                            setMapCenterY(marker.getPosition().La);
                             setShowDetails(true);
-                            setDetails(props.item);
+                            setDetails(item);
                         }}
                         onMouseOver={() => setIsVisible(true)}
                         onMouseOut={() => setIsVisible(false)}
                         >
-                            {isVisible && props.item.nickname}
+                            {isVisible && item.nickname}
                     </MapMarker>
                 );
 
@@ -90,15 +141,15 @@ function FindTutor() {
 
         return (
             <Map center={{
-                    lat: 37.07,
-                    lng: 137.01
+                    lat: memberData.location.posX,
+                    lng: memberData.location.posY
                 }} 
                 className={styles.map} >
 
                 <MapMarker key="myMarker"
                 position={{ 
-                    lat: 37.07, 
-                    lng: 137.01
+                    lat: memberData.location.posX,
+                    lng: memberData.location.posY
                 }}
 
                 image={{
@@ -116,9 +167,8 @@ function FindTutor() {
                 }}
                 > 
                 </MapMarker>
-
                 { otherMarkers ? otherMarkers.map((item, index) => (
-                        <MakeOtherMarkers item={item} index={index} />
+                        <MakeOtherMarkers key={index} item={item} index={index} />
                     ))
                     : null
                 }
@@ -129,16 +179,14 @@ function FindTutor() {
     }
 
     const Details = (props) => {
+        const item = props.item;
 
         const navigate = useNavigate();
         const toGetTutorPost=()=>{
-            
-            navigate("/lectureList/member/" + props.item.id)
-
-
+            navigate(`/lectures?mode=search&memberId=${item.id}`)
         }
         const OnClickReviews = () => {
-            navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.id)
+            // navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.id)
         }
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
@@ -150,14 +198,14 @@ function FindTutor() {
                     <div className={stylesProfile.profilebox}>
                         <div className={stylesProfile.imagebox}>
                             <img
-                              src={props.item.image} style={{width:"196px", height:"196px"}}
+                              src={item.image} style={{width:"196px", height:"196px"}}
                               alt="profileImage" />
                         </div>
                         <div >
-                            <div> <span> {props.item.nickname} </span></div>
-                            <div> <span> {props.item.email} </span></div>
-                            <div> <span> {props.item.createdAt} 부터 활동중 </span></div>
-                            <div> <span> {props.item.address} </span></div>
+                            <div> <span> {item.nickname} </span></div>
+                            <div> <span> {item.email} </span></div>
+                            <div> <span> {item.createdAt} 부터 활동중 </span></div>
+                            <div> <span> {item.address} </span></div>
                         </div>
                     </div>
                     <div className={stylesProfile.modalprofileinfobox}>

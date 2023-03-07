@@ -21,11 +21,6 @@ const Home = () => {
                 <div className={styles.footMenuSelector}>
                     <span> 🔥 실시간 인기 클래스 🔥 </span>
                 </div>
-                <div className={styles.mapButton}>
-                    <Button
-                        onClick={() => navigate("/maps")}
-                    >내 주변 튜터 찾기</Button>
-                </div>
               </div>
               <HomeFootCarousel/>
                 

@@ -43,21 +43,23 @@ function Lectures() {
     }, [mode])
 
     const region = params.get("region");
+    const memberId = params.get("memberId");
+    const category = params.get("category");
+    const keyword = params.get("keyword");
+
+    console.log("region: " + region + " memberId: " + memberId + " category: " + category + " keyword: " + keyword);
 
     
 
     const GetLectures = (category, page) => {
-        var config;
-        if(mode === "search") {
-            config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
-                headers: { 
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
+            headers: { 
 
-                }
-            };
-        }
+            }
+        };
         
         axios(config)
         .then(function (response) {

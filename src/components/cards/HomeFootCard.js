@@ -53,17 +53,17 @@ function HomeFootCard (props) {
         <Card className={styles.card} onClick={() => navigate(lectureURI)}>
           <Card.Img variant="top" src={lecture.image} />
           <Card.Body>
-            <Card.Title> {lecture.title} </Card.Title>
+            <Card.Title className={styles.cardTitle}> {lecture.title} </Card.Title>
             <Card.Text>
               [{lecture.categoryId}]
               {lecture.content}
             </Card.Text>
-            <Card.Footer style={{display:"flex"}}>
-                <div style={{width:"8rem"}}>
-                    {lecture.member.nickname} 강사님
+            <Card.Footer style={{display:"flex", justifyContent:"space-between"}}>
+                <div className={styles.nickname}>
+                    {lecture.member.nickname} 
                 </div>
-                <div>
-                    <img className={styles.favorit} src={heart} alt="favorit"/> {lecture.favorit}
+                <div className={styles.favorit}>
+                    <img className={styles.favorit_img} src={heart} alt="favorit"/> {lecture.favorit}
                 </div>
             </Card.Footer>
           </Card.Body>

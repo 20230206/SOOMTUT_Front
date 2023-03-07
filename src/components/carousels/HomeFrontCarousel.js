@@ -24,7 +24,6 @@ function HomeFrontCarousel() {
           src={slide2}
           alt="Second slide"
         />
-
         <Carousel.Caption>
         </Carousel.Caption>
       </Carousel.Item>
@@ -34,7 +33,6 @@ function HomeFrontCarousel() {
           src={slide3}
           alt="Third slide"
         />
-
         <Carousel.Caption>
         </Carousel.Caption>
       </Carousel.Item>

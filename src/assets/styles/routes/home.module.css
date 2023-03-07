@@ -1,32 +1,71 @@
 .wrap {
-    width: 1400px;
+    /*width: 1400px;*/
 
     margin: 0px auto 0px auto;
+    width: 75vw;
+    max-width: 1400px;
+    /*background-color: bisque;*/
 }
 
 .footContents {
-    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    max-width: 1400px;
     min-height: 330px;
 
     margin: 0px auto 20px auto;
     padding-bottom: 10px;
 
+    /*background-color: yellowgreen;*/
 }
 
 .footMenuBar {
-    display: flex ;
-    margin-bottom : 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    max-width: 1000px;
+    margin: 0px auto;
     padding: 5px 5px 5px;
+
+    /*background-color: darkorange;*/
 }
 
 .footMenuSelector {
-    width: 330px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+
+@media (max-width: 650px) {
+    .footMenuSelector {
+        font-size: 16px;
+    }
 }
 
 .footMenuButtons {
     width: 100px;
     margin: auto;
+}
+
+.mapButton{
+}
+
+.mapButton Button{
+    background-color: #5359C7;
+    border: none;
+}
+
+@media (max-width: 650px) {
+    .mapButton Button {
+        font-size: 14px;
+    }
 }

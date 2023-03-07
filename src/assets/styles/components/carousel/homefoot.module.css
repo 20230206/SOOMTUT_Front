@@ -1,7 +1,7 @@
 .carousel {
-    width: 1000px;
+    max-width: 1000px;
+    width: 75vw;
     height: 320px;
-
     margin: 5px auto 5px auto;
 }
 

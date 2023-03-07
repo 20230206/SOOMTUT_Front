@@ -15,19 +15,24 @@ const Home = () => {
         <div className={styles.wrap}>
             <HomeFrontCarousel />
             <SearchBar />
+            
             <div className={styles.footContents}>
+                
               <div className={styles.footMenuBar}>
+                  
                 <div className={styles.footMenuSelector}>
+                    <span> 🔥 실시간 인기 클래스 🔥 </span>
                 </div>
-                <span> 실시간 인기 클래스 </span>
-                <div style={{width:"500px"}}></div>
-                <Button
-                  style={{width:"180px",justifyContent:"flex-end"}}
-                  onClick={() => navigate("/maps")}
-                >내 주변 튜터 찾기</Button>
+                <div className={styles.mapButton}>
+                    <Button
+                        onClick={() => navigate("/maps")}
+                    >내 주변 튜터 찾기</Button>
+                </div>
               </div>
-              <HomeFootCarousel />
+              <HomeFootCarousel/>
+                
             </div>
+            
         </div>
     );
 }

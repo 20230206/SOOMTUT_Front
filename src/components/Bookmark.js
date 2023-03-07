@@ -101,7 +101,8 @@ function Bookmark() {
         <div
           style={{
             width:"1000px",
-            height:"80vh"
+            height:"80vh",
+            border:"2px solid"
         }}>
             <div
               style={{

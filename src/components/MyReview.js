@@ -1,17 +1,15 @@
+import styles from "../assets/styles/components/mypages/myreview.module.css"
+
 import React, { useEffect, useState } from "react";
 
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../../assets/styles/routes/lecture/listpage.module.css"
-
 import axios from "axios";
-import CustomNavbar from "../../components/navbar/CustomNavbar";
-import CustomPagination from "../../components/CustomPagination";
-import ReviewCard from "../../components/cards/ReviewCard";
+import CustomPagination from "../components/paginations/CustomPagination";
+import ReviewCard from "./cards/ReviewCard";
 
 function MyReview() {
-    const [Navbar, token] = CustomNavbar();
     const [reviews, setReviews] = useState(null);
     const [curPage, setCurPage] = useState(1);
 
@@ -23,7 +21,7 @@ function MyReview() {
         maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/review/myReviews?page=${page-1}&size=5`,
             headers: { 
-                'Authorization': token
+                'Authorization': localStorage.getItem("Access")
             }
         };
         
@@ -36,10 +34,6 @@ function MyReview() {
             console.log(error);
         });
     }
-    
-    useEffect(() => {
-        if(token) GetReviews(1);
-    }, [token])
     
     const [pages, setPages] = useState(null);
     const [Paging, selected] = CustomPagination(curPage, pages);
@@ -70,17 +64,8 @@ function MyReview() {
 
     return (
         <div>
-            <Navbar />
-            <div className={styles.wrapper}>
-                <div className={styles.headbox}>
-                    <Button className={styles.retbutton}
-                     onClick={() => navigate(-1)}>
-                    돌아가기 </Button>
-                    <div className={styles.headtextbox}> 
-                        <span className={styles.headtext}> 나의 후기 </span>
-                    </div> 
-                </div>
-                <div className={styles.listbox} id="listbox">
+            <div className={styles.wrap}>
+                <div className={styles.reviewBox} id="listbox">
                     <CreateCards reviews={reviews} />
                 </div>
                 

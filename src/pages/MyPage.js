@@ -18,6 +18,7 @@ import MyInfomation from "../components/MyInfomation";
 import MyLectures from "../components/MyLectures";
 import Bookmark from "../components/Bookmark";
 import ManageLecture from "../components/ManageLecture";
+import MyReview from "../components/MyReview";
 
 function MyPage() {
     axios.defaults.withCredentials = true;
@@ -129,7 +130,7 @@ function MyPage() {
                 { selectedMenu === 2 && <div> <MyLectures /> </div> }
                 { (memberData && selectedMenu === 3) && <div> <ManageLecture  member={memberData}/> </div> }
                 { selectedMenu === 4 && <div> <Bookmark /> </div> }
-                { selectedMenu === 5 && <div>  </div> }
+                { selectedMenu === 5 && <div> <MyReview /> </div> }
               </div>
               {/*
                       <li className={`${styles.infotextfont} ${styles.textmarginleft}`}

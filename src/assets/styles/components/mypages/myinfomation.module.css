@@ -1,5 +1,7 @@
 .wrap {
-    height: 80vh;
+    height: 85vh;
+
+    border: 2px solid;
     
     display: flex;
     justify-content: center;

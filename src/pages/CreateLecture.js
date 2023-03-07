@@ -154,6 +154,7 @@ function CreateLecture() {
         );
 
         data.append("file", imgFile);
+
         var config;
         if(mode==="create") {
             config = {
@@ -178,6 +179,7 @@ function CreateLecture() {
                 },
                 data : data
             };
+            console.log(data);
         }
           
         axios(config)

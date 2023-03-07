@@ -23,13 +23,28 @@ function Lectures() {
     const [selectedRegion, setSelectedRegion] = useState(0);
     const [DropdownRegion, curRegion] = Region(0);
 
+    const navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const mode = params.get("mode");
+
+    useEffect(() => {
+        if(mode) {
+            if(mode === "search" || mode === "bookmark" || mode === "mylecture") {}
+            else {
+                alert("비정상적인 접근입니다.")
+                navigate("/");
+            }
+        }
+        else {
+            alert("비정상적인 접근입니다.")
+            navigate("/");
+        }
+    }, [mode])
+
     const region = params.get("region");
 
     
-    const navigate = useNavigate();
 
     const GetLectures = (category, page) => {
         var config;
@@ -54,6 +69,18 @@ function Lectures() {
                 }
             };
         }
+        
+        if (mode === "mylecture") {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/bookmark?page=${page-1}&size=5`,
+                headers: { 
+                    'Authorization': localStorage.getItem("Access")
+                }
+            };
+        }
+        
         
         axios(config)
         .then(function (response) {

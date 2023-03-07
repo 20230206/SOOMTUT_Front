@@ -173,13 +173,13 @@ function Lectures() {
         <div className={styles.wrap} >
             { mode === "search" &&
             <div className={styles.leftMenu}>
-            <li className={styles.pageName}> 튜터 검색 </li>
                 <img
-                    src={backIcon}
-                    className={styles.backButton}
-                    onClick={() => navigate(-1)}
-                    alt="Back"
+                src={backIcon}
+                className={styles.backButton}
+                onClick={() => navigate(-1)}
+                alt="Back"
                 />
+            <li className={styles.pageName}> 튜터 검색 </li>
 
             <Button
             className={styles.createButton}

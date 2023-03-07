@@ -20,8 +20,9 @@
 
 .pageName {
     list-style: none;
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
+    margin: 20px 30px 20px 20px;
 }
 
 ::-webkit-scrollbar {
@@ -30,10 +31,16 @@
   }
 
 .backButton {
+    float: left;
     width: 50px;
     margin-left: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.backButton:hover{
+    background: #6610f2 ;
+    border-radius: 50%;
 }
 
 .createButton {

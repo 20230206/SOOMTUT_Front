@@ -92,7 +92,7 @@ const ChatRoom = () => {
         const socket = new SockJS(`${process.env.REACT_APP_HOST}/connect`);
         const stompClient = Stomp.over(socket);
 
-        var headers = {'Authorization': token};
+        var headers = {'Authorization': localStorage.getItem("Access")};
     
         stompClient.connect(headers, () => {
           setConnected(true);
@@ -132,7 +132,7 @@ const ChatRoom = () => {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/chat_room/${lectureRequestId}/tutee`,
             headers: { 
-                'Authorization' : token
+                'Authorization' : localStorage.getItem("Access")
             }
         };
         
@@ -149,7 +149,7 @@ const ChatRoom = () => {
           maxBodyLength: Infinity,
           url: `${process.env.REACT_APP_HOST}/chat_room/${lectureRequestId}/tutor`,
           headers: { 
-              'Authorization' : token
+              'Authorization' : localStorage.getItem("Access")
           }
         };
       
@@ -175,7 +175,7 @@ const ChatRoom = () => {
       maxBodyLength: Infinity,
         url: `${process.env.REACT_APP_HOST}/chat/messages?roomId=${roomInfo.id}`,
         headers: { 
-          'Authorization': token, 
+          'Authorization': localStorage.getItem("Access"), 
         }
       };
 
@@ -200,7 +200,7 @@ const ChatRoom = () => {
     const SendMessage = () => {
       if(message === "") return;
         const chatRequest = {
-          senderId: userdata.memberId,
+          senderId: userdata.id,
           roomId: roomInfo.id,
           message: message
         };
@@ -223,7 +223,7 @@ const ChatRoom = () => {
             <div
                 key={index}
                 className={`${styles.chatwrapper} 
-          ${chat.senderId === userdata.memberId ? styles.mine : styles.others}`}
+          ${chat.senderId === userdata.id ? styles.mine : styles.others}`}
             >
                 <span>{chat.message}</span>
                 <div className={styles.time}>

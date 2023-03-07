@@ -152,11 +152,16 @@ function Lectures() {
             var arr = [];
             lectureChunk.map((item, index) => {
                 arr.push(
-                  <div style={{display:"flex"}}>
+                  <div
+                   key={index} 
+                   style={{display:"flex"}}
+                  >
                     <LectureContainer 
-                      key = {index}
-                      lectures = {item}
-                    />
+                      key={index}
+                      lectures={item}
+                    >
+
+                    </LectureContainer>
                   </div>
                 )
             })

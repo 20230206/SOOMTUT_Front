@@ -30,7 +30,7 @@ function ManageLecture() {
         if(localStorage.getItem("Access"), curState) {
             var config = {
                 method: 'get',
-            maxBodyLength: Infinity,
+                maxBodyLength: Infinity,
                 url: `${process.env.REACT_APP_HOST}/chat_room?state=${curState.id}&page=0&size=5`,
                 headers: { 
                     'Authorization': localStorage.getItem("Access") 

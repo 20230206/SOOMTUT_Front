@@ -3,6 +3,7 @@ import {
     Routes,
     Route,
   } from "react-router-dom"  
+import ChatRoom from "../components/ChatRoom";
 
 import Header from "../components/header/Header";
 
@@ -39,6 +40,7 @@ const Router = () => {
 
                 <Route path="/manage/lecture" element={<ManageLecture />} />
 
+                <Route path="/chat" element={<ChatRoom />} />
             </Routes>
         </BrowserRouter>
     )

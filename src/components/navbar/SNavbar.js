@@ -112,6 +112,7 @@ function SNavbar() {
       window.location.reload();
   }
 
+  if(!currentURI.startsWith("/chat")){
   return (
    <>
    <Navbar className={styles.wrap} collapseOnSelect expand="lg">
@@ -188,6 +189,7 @@ function SNavbar() {
     </Navbar>
    </>
   );
+  }
 }
 
 export default SNavbar;

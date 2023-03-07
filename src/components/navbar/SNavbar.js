@@ -13,6 +13,7 @@ import logout from '../../assets/images/navbar/logout.png'
 import AccessToken from "../../js/static/AccessToken"
 
 import axios from 'axios';
+import SearchBar from '../inputs/SearchBar';
 
 function SNavbar() {
   axios.defaults.withCredentials = true;
@@ -123,6 +124,7 @@ function SNavbar() {
         </Navbar.Brand>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
+            <SearchBar />
           </Nav>
           { !loginState && <Nav>
               { !collapsed &&

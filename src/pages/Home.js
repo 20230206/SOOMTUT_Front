@@ -14,8 +14,6 @@ const Home = () => {
     return (
         <div className={styles.wrap}>
             <HomeFrontCarousel />
-            <SearchBar />
-            
             <div className={styles.footContents}>
                 
               <div className={styles.footMenuBar}>

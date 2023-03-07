@@ -118,7 +118,10 @@ function MyPage() {
                   <button className={styles.menuButton} onClick={()=>SetMenu(3)}  > 수업 관리 </button>
                   <button className={styles.menuButton} onClick={()=>SetMenu(4)}  > 즐겨찾기 </button>
                   <button className={styles.menuButton} onClick={()=>SetMenu(5)}  > 내 리뷰 </button>
-                  <Button variant="danger" className={styles.suspend}> 회원 탈퇴 </Button>
+                  <Button variant="danger" className={styles.suspend}
+                    onClick={() => alert("추후에 업데이트 되는 기능입니다 기다려주세요 ㅠㅠ")}
+                  
+                  > 회원 탈퇴 </Button>
                   </ButtonGroup>
               </div>
               <div className={styles.contentsBox}>

@@ -65,7 +65,6 @@ function Bookmark() {
               const prevChunk = chunkedData[chunkedData.length - 1].slice(0, prevChunkSize);
               const newLastChunk = prevChunk.concat(lastChunk);
               chunkedData[chunkedData.length - 1] = newLastChunk;
-              console.log(lastChunk)
               chunkedData.push(lastChunk);
             }
             setLectureChunk(chunkedData);

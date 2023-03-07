@@ -29,7 +29,6 @@ function MyLectures() {
 
         axios(config)
         .then(function (response) {
-            console.log(response.data.data)
             setLectures(response.data.data.content);
             setPages(response.data.data.totalPages);
             if(!loading) SetLoading(true);
@@ -67,7 +66,6 @@ function MyLectures() {
               const prevChunk = chunkedData[chunkedData.length - 1].slice(0, prevChunkSize);
               const newLastChunk = prevChunk.concat(lastChunk);
               chunkedData[chunkedData.length - 1] = newLastChunk;
-              console.log(lastChunk)
               chunkedData.push(lastChunk);
             }
             setLectureChunk(chunkedData);

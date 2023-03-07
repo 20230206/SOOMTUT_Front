@@ -30,7 +30,7 @@ function Lectures() {
 
     useEffect(() => {
         if(mode) {
-            if(mode === "search" || mode === "bookmark") {}
+            if(mode === "search") {}
             else {
                 alert("비정상적인 접근입니다.")
                 navigate("/");
@@ -55,17 +55,6 @@ function Lectures() {
                 url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
                 headers: { 
 
-                }
-            };
-        }
-
-        if (mode === "bookmark") {
-            var config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `${process.env.REACT_APP_HOST}/lecture/bookmark?page=${page-1}&size=5`,
-                headers: { 
-                    'Authorization': localStorage.getItem("Access")
                 }
             };
         }

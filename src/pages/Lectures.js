@@ -48,10 +48,6 @@ function Lectures() {
     const [selectedRegion, setSelectedRegion] = useState(region);
     const [DropdownRegion, curRegion] = Region(0);
 
-    console.log("region: " + region + " memberId: " + memberId + " category: " + category + " keyword: " + keyword);
-
-    
-
     const GetLectures = (category, region, page) => {
         if(memberId == null) {
             var config = {

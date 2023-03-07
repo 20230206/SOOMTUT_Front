@@ -6,7 +6,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import axios from "axios"
 
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomPagination from "../components/CustomPagination";
+import CustomPagination from "../components/paginations/CustomPagination";
 
 import Category from "../components/dropdowns/Category";
 import LectureContainer from "../components/containers/LectureContainer";

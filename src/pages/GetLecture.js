@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 import axios from "axios";
 import ReviewCard from "../components/cards/ReviewCard";
-import CustomPagination from "../components/CustomPagination";
+import CustomPagination from "../components/paginations/CustomPagination";
 import ColorHeart from "../assets/images/color_heart.png";
 import Heart from "../assets/images/heart.png";
 

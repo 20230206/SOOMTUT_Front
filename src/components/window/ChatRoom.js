@@ -1,5 +1,5 @@
 
-import styles from '../assets/styles/chat.module.css'
+import styles from '../../assets/styles/chat.module.css'
 
 import { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';

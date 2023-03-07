@@ -6,8 +6,11 @@ import SearchBar from "../components/inputs/SearchBar";
 import { Button } from "react-bootstrap";
 
 import HomeFootCarousel from "../components/carousels/HomeFootCarousel";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+
     return (
         <div className={styles.wrap}>
             <HomeFrontCarousel />
@@ -18,7 +21,10 @@ const Home = () => {
                 </div>
                 <span> 실시간 인기 클래스 </span>
                 <div style={{width:"500px"}}></div>
-                <Button style={{width:"180px",justifyContent:"flex-end"}}>내 주변 튜터 찾기</Button>
+                <Button
+                  style={{width:"180px",justifyContent:"flex-end"}}
+                  onClick={() => navigate("/maps")}
+                >내 주변 튜터 찾기</Button>
               </div>
               <HomeFootCarousel />
             </div>

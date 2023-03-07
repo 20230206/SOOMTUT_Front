@@ -3,7 +3,7 @@ import {
     Routes,
     Route,
   } from "react-router-dom"  
-import ChatRoom from "../components/ChatRoom";
+import ChatRoom from "../components/window/ChatRoom";
 
 import Header from "../components/header/Header";
 
@@ -20,6 +20,7 @@ import GetLecture from "../pages/GetLecture";
 import Lectures from "../pages/Lectures";
 import ManageLecture from "../pages/ManageLecture";
 import MyPage from "../pages/MyPage";
+import FindTutor from "../routes/findtutor/FindTutor";
 
 const Router = () => {
     return (
@@ -41,6 +42,8 @@ const Router = () => {
                 <Route path="/manage/lecture" element={<ManageLecture />} />
 
                 <Route path="/chat" element={<ChatRoom />} />
+
+                <Route path="/maps" element={<FindTutor />} />
             </Routes>
         </BrowserRouter>
     )

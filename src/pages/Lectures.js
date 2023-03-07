@@ -30,7 +30,7 @@ function Lectures() {
 
     useEffect(() => {
         if(mode) {
-            if(mode === "search" || mode === "bookmark" || mode === "myLectures") {}
+            if(mode === "search" || mode === "bookmark") {}
             else {
                 alert("비정상적인 접근입니다.")
                 navigate("/");
@@ -70,18 +70,6 @@ function Lectures() {
             };
         }
         
-        if (mode === "myLectures") {
-            var config = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: `${process.env.REACT_APP_HOST}/lecture/mylectures?page=${page-1}&size=5`,
-                headers: { 
-                    'Authorization': localStorage.getItem("Access")
-                }
-            };
-        }
-        
-        
         axios(config)
         .then(function (response) {
             console.log(response.data.data)
@@ -106,8 +94,8 @@ function Lectures() {
     useEffect(() => {
        GetLectures(0, 1);
     }, [])
-    const [pages, setPages] = useState(null);
 
+    const [pages, setPages] = useState(null);
     const [Paging, selected] = CustomPagination(curPage, pages);
     useEffect(() => {
         if(selected) SetCurPage(selected);

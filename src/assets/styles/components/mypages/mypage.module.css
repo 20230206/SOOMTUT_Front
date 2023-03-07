@@ -13,9 +13,6 @@
 .contentsBox {
     width: 1100px;
     height: 800px;
-    border: 2px solid;
-
-    background-color: aquamarine;
 }
 
 .menuBox li {

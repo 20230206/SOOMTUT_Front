@@ -23,7 +23,8 @@ class AccessToken {
                     return null;
                 }
             })
-            .catch(function() {
+            .catch(function(error) {
+                console.log(error)
                 return null;
             })
         }

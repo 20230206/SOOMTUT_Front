@@ -1,21 +1,18 @@
 /*global kakao*/
+import styles from "../../assets/styles/findTutor.module.css"
 import React, 
 { useEffect,useState } from "react";
 
-import { Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import axios from "axios"
-import CustomNavbar from "../../components/navbar/CustomNavbar";
-import styles from "../../assets/styles/findTutor.module.css"
 import stylesProfile from "../../assets/styles/routes/mypage/mypage.module.css"
 
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 
 function FindTutor() {
 
-    const [Navbar, token, member] = CustomNavbar();
     const [loading, setLoading] = useState(false);
     const [otherMarkers, setOtherMarkers] = useState(null);
 
@@ -31,7 +28,7 @@ function FindTutor() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/location/showNearTutor`,
             headers: { 
-            'Authorization': token,
+            'Authorization': localStorage.getItem("Access"),
             'Content-Type':'application/json'
             },
         };
@@ -39,8 +36,8 @@ function FindTutor() {
         axios(config)
         .then(function (response) {
             setOtherMarkers(response.data);
-            setMapCenterX(member.vectorX);
-            setMapCenterY(member.vectorY);
+            // setMapCenterX(member.vectorX);
+            // setMapCenterY(member.vectorY);
             setLoading(true);
 
         })
@@ -50,7 +47,7 @@ function FindTutor() {
 
     useEffect(() => {
         if(!loading) GetMarkerInfo()
-    }, [member, token] )
+    }, [localStorage.getItem("Access")] )
 
 
     const CreateMap = () => {
@@ -58,7 +55,7 @@ function FindTutor() {
         const MakeOtherMarkers = (props) => {
             const map = useMap();
             const [isVisible, setIsVisible] = useState(false);
-            var markerPosition =  new kakao.maps.LatLng(member.vectorX, member.vectorY);
+            var markerPosition =  new kakao.maps.LatLng(37.06, 137.02);
             var v = new kakao.maps.Polyline({
              path: [markerPosition, new kakao.maps.LatLng(props.item.vectorX, props.item.vectorY)]
             });
@@ -92,20 +89,16 @@ function FindTutor() {
         }
 
         return (
-            <Map center={member ? {
-                    lat: mapCenterX,
-                    lng: mapCenterY
-                } : {
-
+            <Map center={{
+                    lat: 37.07,
+                    lng: 137.01
                 }} 
                 className={styles.map} >
 
                 <MapMarker key="myMarker"
-                position={member ? { 
-                    lat: member.vectorX, 
-                    lng: member.vectorY 
-                } : {
-
+                position={{ 
+                    lat: 37.07, 
+                    lng: 137.01
                 }}
 
                 image={{
@@ -140,12 +133,12 @@ function FindTutor() {
         const navigate = useNavigate();
         const toGetTutorPost=()=>{
             
-            navigate("/lectureList/member/" + props.item.memberId)
+            navigate("/lectureList/member/" + props.item.id)
 
 
         }
         const OnClickReviews = () => {
-            navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.memberId)
+            navigate("/reviews?nickname="+props.item.nickname+"&memberId="+props.item.id)
         }
         return (
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="xl">
@@ -180,7 +173,6 @@ function FindTutor() {
 
     return (
     <div>
-        <Navbar />
         { loading && <CreateMap /> }
         { showDetails && <Details item={details} /> }
     </div>

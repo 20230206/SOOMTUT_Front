@@ -1,0 +1,93 @@
+.card {
+    width: 16rem;
+    margin: 0px 5px 0px 5px;
+}
+
+@media only screen and (max-width: 750px) {
+    .card {
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .card {
+        font-size: 0.6rem;
+    }
+}
+
+.cardTitle {
+    font-size: 25px;
+}
+
+@media (max-width: 750px) {
+    .cardTitle {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 540px) {
+    .cardTitle {
+        font-size: 16px;
+    }
+}
+
+.cardFooter{
+    /*background-color: yellow;*/
+}
+
+.nickname{
+    font-size: 20px;
+    /*background-color: yellowgreen;*/
+}
+
+@media (max-width: 1020px) {
+    .nickname {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 760px) {
+    .nickname {
+        font-size: 3px;
+    }
+}
+
+
+.favorit{
+    font-size: 18px;
+    /*background-color: cornflowerblue;*/
+    display: flex;
+    /*justify-content: flex-end;*/
+    align-items: center;
+}
+
+@media (max-width: 1020px) {
+    .favorit {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 760px) {
+    .favorit {
+        font-size: 3px;
+    }
+}
+
+.favorit_img {
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 1020px) {
+    .favorit_img {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 540px) {
+    .favorit_img {
+        width: 10px;
+        height: 10px;
+    }
+}

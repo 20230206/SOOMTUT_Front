@@ -1,0 +1,69 @@
+.wrap {
+    width: 210px;
+    height: 284px;
+    margin-bottom: 40px;
+}
+.card {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.cardBox {
+    width: 197px;
+    height: 196px;
+
+    /*border: 1px solid lightgray;*/
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cardTitle {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    width: 140px;
+
+}
+
+.cardFooter {
+    display: flex;
+    align-items: center;
+    /*background-color: cadetblue;*/
+}
+
+.tuition {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*background-color: bisque;*/
+}
+
+.heart {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    /*background-color: white;*/
+}
+
+.heart span {
+    margin-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 35px;
+}
+
+.heartImg {
+    width: 16px;
+    margin-right: 4px;
+}

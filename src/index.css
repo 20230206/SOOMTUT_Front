@@ -9,5 +9,9 @@
 
 body {
     font-family: var(--font-googleJua);
-    background-color: #4E57DE;
+    background-color: #FCFCFC;
+}
+
+#social:hover {
+    filter: opacity(0.8) drop-shadow(0 0 0 #000000);
 }

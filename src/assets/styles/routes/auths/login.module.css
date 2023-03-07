@@ -1,5 +1,5 @@
-.wrapper {
-    width: 600px;
+.wrap {
+    width: 400px;
     height: 90vh;
 
     margin: auto;
@@ -11,7 +11,7 @@
 }
 
 .box {
-    width: 600px;
+    width: 380px;
 
     background-color: white;
 
@@ -20,7 +20,7 @@
 }
 
 .logo {
-    width: 400px;
+    width: 380px;
     height: 98px;
     margin: auto;
     
@@ -33,55 +33,102 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    font-family: var(--font-googleJua);
 }
 
-.form {
-    width: 500px;
-    margin: 0px auto 10px auto;
+.form{
+    width: 380px;
+    margin: auto;
+
 }
 
-.group{
-    width: 500px;
-    margin-bottom: 10px;
+.formgroup{
+    width: 360px;
+
+    margin: auto;
+
 }
 
-.labelfont{
-    font-family: var(--font-googleJua);
+.formlabel{
     font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0px;
 }
 
-.menu {
-    display: flex;
+.formbutton {
+    color: white;
+    
+    width: 360px;
+    height: 48px;
+
+    margin: 5px 10px 5px 10px;
+    
+    border-radius: 25px;
 }
 
-.menutextbox {
-    width: 450px;
-    height: 34px;
+.forminput {
+    border: 0;
+    border-radius: 0;
+
+    border-bottom: 2px solid gray;
+}
+
+.accountmenu {
+    width: 360px;
+    height: 32px;
 
     display: flex;
+
+    margin: 5px 10px 5px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menutext {
+    width: 100px;
     margin-left : 10px;
     font-size: 18px;
     font-family: var(--font-googleJua);
-}
 
-.button {
-    background-color: #4E57DE;
-    color: white;
-    font-family: var(--font-googleJua);
-    
-    width: 78px;
-    height: 34px;
+    text-decoration:none;
+    color: black;
 
-    border: 0px;
-    border-radius: 5px;
+    text-align: center;
 }
 
 .socials {
-    width: 450px;
+    width: 360px;
 
     margin: auto;
+
+}
+
+.socialbutton {
+    width: 360px;
+    height: 48px;
+    position: relative;
+
+    margin-bottom: 10px;
+
+}
+
+.socialimage {
+    width: 360px;
+    height: 48px;
+    border-radius: 25px;
+}
+
+.textonsocial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    text-decoration: none;
+
+    transform: translate(-50%, -40%);
+
+    font-size: 16px;
+    font-weight: 100;
+
 }

@@ -1,4 +1,5 @@
 /*global kakao*/
+import styles from "../assets/styles/routes/mypage/mypage.module.css"
 import React, {
     useState,
     useEffect,
@@ -12,22 +13,44 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom"
 
-import styles from "../../assets/styles/routes/mypage/mypage.module.css"
+
 import axios from "axios"
 
 import Postcode from '@actbase/react-daum-postcode';
-import ProfileModal from "../../components/ProfileModal";
-import CustomNavbar from "../../components/navbar/CustomNavbar";
-import UpdateProfileModal from "../../components/mypage/UpdateProfileModal";
+import ProfileModal from "../components/modals/ProfileModal";
+import UpdateProfileModal from "../components/modals/UpdateProfileModal";
 
 function MyPage() {
     const navigate = useNavigate();
 
-    const [View, token, member] = CustomNavbar()
+    useEffect(() => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/valid`,
+            headers: {
+                "Authorization": localStorage.getItem("Access")
+            }
+        }
+
+        axios(config)
+        .then(function(response){
+
+        })
+        .catch(function(error){
+            console.log(error);
+            alert("로그인 이후 사용할 수 있는 서비스입니다.");
+            localStorage.removeItem("Access")
+            localStorage.removeItem("Nickname")
+            localStorage.removeItem("ExpireDate")
+            navigate("/login");
+        })
+    }, [])
 
     const [myInfo, setMyInfo] = useState([]);
+    
   
-    const [location, setLocation] = useState("서울특별시 서초구 반포동");
+    const [location, setLocation] = useState("서울 특별시 반포동");
     const [posX, setPosX] = useState(37.365264512305174);
     const [posY, setPosY] = useState(127.10676860117488);
     
@@ -39,7 +62,6 @@ function MyPage() {
     const handleLocationClose = () => setLocationShow(false);
     const handleLocationShow = () => setLocationShow(true);
 
-
     const GetMyInfo = useCallback(async() => {
         axios.defaults.withCredentials = true;
         var config = {
@@ -47,7 +69,7 @@ function MyPage() {
             maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/member/myInfo`,
             headers: { 
-                "Authrorization": token,
+                "Authrorization": localStorage.getItem("Access"),
                 "Content-Type": "application/json"
             }
         };
@@ -113,26 +135,25 @@ function MyPage() {
             "vectorX": posX,
             "vectorY": posY,
             "address": location
-          });
-          
-          var config = {
-            method: 'put',
-          maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/location/updatelocation`,
-            headers: { 
-              'Content-Type': 'application/json'
-            },
-            data : data
-          };
-          
-          axios(config)
-          .then(function (response) {
+        });
+        
+        var config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `${process.env.REACT_APP_HOST}/location/updatelocation`,
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        data : data
+        };
+        
+        axios(config)
+        .then(function (response) {
 
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
     }
     
     const [showSuspend, setShowSuspend] = useState(false);
@@ -148,7 +169,7 @@ function MyPage() {
         maxBodyLength: Infinity,
             url: `${process.env.REACT_APP_HOST}/member/suspend`,
             headers: { 
-                'Authorization': token
+                'Authorization': localStorage.getItem("Access")
             }
         };
         
@@ -170,14 +191,13 @@ function MyPage() {
 
     return (
         <div>
-            <View />
             <div className={styles.wrapper}>
                 <div className={styles.pagebox}>
                      <p className={styles.pageboxtext}>마이 페이지</p>
                 </div>
                 <div className={styles.profilebox}>
                     <div className={styles.imagebox}>
-                        <img src={myInfo.profileImage} className={styles.images} alt="profileImage"/>
+                        <img src={myInfo.image} className={styles.images} alt="profileImage"/>
                     </div>
                     <div className={styles.profiles}>
                         <div className={styles.profilename}> <span> {myInfo.nickname} </span></div>
@@ -199,14 +219,15 @@ function MyPage() {
                      onClick={()=> handleUpdateProfileOpen()}>
                      정보 수정 
                     </button>
-                    {member ? <Modal key="updateProfile" show={showUpdateProfile} onHide={handleUpdateProfileClose}> 
-                        <UpdateProfileModal nickname={member.nickname} handler={handleUpdateProfileClose} token={token}/> 
+                    {myInfo ? <Modal key="updateProfile" show={showUpdateProfile} onHide={handleUpdateProfileClose}> 
+                        <UpdateProfileModal nickname={myInfo.nickname} handler={handleUpdateProfileClose} /> 
                     </Modal> : null}
                     <button className={`${styles.infotextfont} ${styles.textmarginleft}`}> 비밀번호 수정 </button>
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
-                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
-                            <Link to="/mypage/bookmark"> 관심 목록 </Link>
+                        <li className={`${styles.infotextfont} ${styles.textmarginleft}`}
+                            onClick={() => navigate(`/lectures?mode=bookmark`)}>
+                           관심 목록 
                         </li>
                         <li className={`${styles.infotextfont} ${styles.textmarginleft}`}>
                             <Link to="/mypage/myLecture"> 나의 수업 목록 </Link>
@@ -273,7 +294,7 @@ function MyPage() {
                     <Modal.Header closeButton>
                     <Modal.Title> 정말 숨튜를 떠나실 건가요? </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body> 숨튜를 떠나신다고 하셔도 7일동안 다시 돌아올 수 있어요 </Modal.Body>
+                    {/* <Modal.Body> 숨튜를 떠나신다고 하셔도 7일동안 다시 돌아올 수 있어요 </Modal.Body> */}
                     <Modal.Footer>
                     <Button variant="secondary" onClick={handleSuspendClose}>
                         아니오

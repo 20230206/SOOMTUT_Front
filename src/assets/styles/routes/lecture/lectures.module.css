@@ -18,6 +18,12 @@
     top: 0;
 }
 
+.pageName {
+    list-style: none;
+    font-size: 30px;
+    text-align: center;
+}
+
 ::-webkit-scrollbar {
     width: 0;
     height: 0;

@@ -5,8 +5,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 
 import axios from "axios"
 
-import { Link, useNavigate } from "react-router-dom";
-import PostBoxInList from "../components/PostBoxInList";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomPagination from "../components/CustomPagination";
 
 import Category from "../components/dropdowns/Category";
@@ -18,21 +17,43 @@ import backIcon from "../assets/images/backbutton.png";
 function Lectures() {
     const [loading, setLoading] = useState(false);
     const [curPage, setCurPage] = useState(1);
+
     const [selectedCategory, setSelectedCategory] = useState(0);
     const [DropdownCategory, curCategory] = Category(0);
     const [selectedRegion, setSelectedRegion] = useState(0);
     const [DropdownRegion, curRegion] = Region(0);
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const mode = params.get("mode");
+    const region = params.get("region");
+
+    
     const navigate = useNavigate();
 
     const GetLectures = (category, page) => {
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
-            headers: { 
+        var config;
+        if(mode === "search") {
+            config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/public?category=${category}&page=${page-1}&size=15`,
+                headers: { 
 
-            }
-        };
+                }
+            };
+        }
+
+        if (mode === "bookmark") {
+            var config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${process.env.REACT_APP_HOST}/lecture/bookmark?page=${page-1}&size=5`,
+                headers: { 
+                    'Authorization': localStorage.getItem("Access")
+                }
+            };
+        }
         
         axios(config)
         .then(function (response) {
@@ -118,19 +139,22 @@ function Lectures() {
 
     return ( 
         <div className={styles.wrap} >
+            { mode === "search" &&
             <div className={styles.leftMenu}>
+            <li className={styles.pageName}> 튜터 검색 </li>
                 <img
                     src={backIcon}
                     className={styles.backButton}
                     onClick={() => navigate(-1)}
                     alt="Back"
                 />
-              <Button
-                className={styles.createButton}
-                onClick={()=>navigate(`/lectures/create?mode=create`)}
-              > 글쓰기 </Button>
-              <Form className={styles.searchBar}>
 
+            <Button
+            className={styles.createButton}
+            onClick={()=>navigate(`/lectures/create?mode=create`)}
+            > 글쓰기 </Button>
+            <Form className={styles.searchBar}>
+            
             <InputGroup>
                 <Form.Control
                     className={styles.input}
@@ -142,7 +166,13 @@ function Lectures() {
               </Form>
               <DropdownCategory />
               <DropdownRegion />
-            </div>
+            </div>}
+            {   mode === "bookmark" &&
+                <div className={styles.leftMenu}>
+                    <li className={styles.pageName}> 관심 목록 </li>
+                    <DropdownCategory />
+                </div>
+            }
             <div>
                 <div className={styles.cardsBox}>
                    <CreateLectureContainers />

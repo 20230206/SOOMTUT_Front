@@ -7,19 +7,24 @@ import styles from "../../assets/styles/components/mypages/updateprofilemodal.mo
 
 function UpdateProfileModal (props) {
     const [nickname, setNickname] = useState(props.nickname)
-    const InputNickname = (event) => setNickname(event.target.value)
+    const InputNickname = (event) =>{
+        setDupleNickname(false);
+        setNickname(event.target.value)
+    }
 
     const [regexNickname, setRegexNickname] = useState(false);
-    useEffect(() => {
-        if(nickname) CheckRegexNickname(nickname);
-    }, [nickname])
-    const CheckRegexNickname = (nickname) => {
-        const regex = /^[가-힣a-zA-Z0-9]{4,10}$/;
+
+    const CheckRegexNickname = () => {
+        const regex = /^[가-힣a-zA-Z0-9]{2,12}$/;
         var isRegex =  regex.test(nickname);
-        setRegexNickname(isRegex);
+        return isRegex;
     }
     const [dupleNickname, setDupleNickname] = useState(false);
     const CheckDuplicateNickname = () => {
+        if(!CheckRegexNickname) {
+            alert("사용할 수 없는 닉네임입니다. \n 2~12자 사이의 한글,영어,숫자만 사용해주세요.")
+            return;
+        }
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -28,13 +33,13 @@ function UpdateProfileModal (props) {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
-            setDupleNickname(response.data);
-            if(!response.data) {
-                alert("사용 불가능한 닉네임입니다.")
+            console.log(response.data);
+            if(response.data.data) {
+                alert("중복된 닉네임입니다.")
             }
             else {
                 alert("사용 가능한 닉네임입니다.")
+                setDupleNickname(response.data.data);
             }
         })
         .catch(function (error) {
@@ -129,7 +134,10 @@ function UpdateProfileModal (props) {
                          style={{
                             width:"360px"
                          }}
-                         placeholder="4~10자 영문자,숫자,한글만 가능합니다."
+                         placeholder="2~12자 영문자,숫자,한글만 가능합니다."
+                         required
+                         minLength={"2"}
+                         maxLength={"12"}
                          onChange={(event) => InputNickname(event)}
                         />
                         <Button

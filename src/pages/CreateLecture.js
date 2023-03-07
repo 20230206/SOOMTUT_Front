@@ -45,6 +45,9 @@ function CreateLecture() {
         .catch(function(error){
             console.log(error);
             alert("로그인 이후 사용할 수 있는 서비스입니다.");
+            localStorage.removeItem("Access")
+            localStorage.removeItem("Nickname")
+            localStorage.removeItem("ExpireDate")
             navigate("/login");
         })
     }, [])

@@ -154,8 +154,8 @@ function SNavbar() {
             { loginState && <Nav>
               { !collapsed &&
                 <>
-                  <Nav.Link href="/register">Register</Nav.Link>
-                  <Nav.Link eventKey={2} href="/login">Login</Nav.Link>
+                  <Nav.Link href="/mypage">Mypage</Nav.Link>
+                  <Nav.Link eventKey={2} onClick={() => LogoutHandler()} >Logout</Nav.Link>
                 </> }
               { collapsed && 
                 <>

@@ -31,7 +31,7 @@ const DEFAULT_VALUE = {
 function ReviewCard(props) {
     const navigate = useNavigate();
     const ClickToLecture = (lectureId) => {
-        navigate("/lecture/"+lectureId)
+        navigate("/lectures/"+lectureId)
     }
 
     const [review, setReview] = useState(DEFAULT_VALUE);

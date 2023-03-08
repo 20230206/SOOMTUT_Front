@@ -67,15 +67,37 @@ function GetLecture() {
     useEffect(() => {
         if(loginState) {
             const myNickname = localStorage.getItem("Nickname");
-            console.log(myNickname);
             const getMy = myNickname === lecturedata.member.nickname;
             setIsMy(getMy);
+
+            GetBookmarked();
+            var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+            headers: { 
+                'Authorization': localStorage.getItem("Access"), 
+            }
+            };
+            
+            axios(config)
+            .then(function (response) {
+                console.log(response.data.data);
+                setBookmarked(response.data.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
         else {}
     }, [loginState])
 
     const [isMy, setIsMy] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
+
+    const GetBookmarked = () => {
+
+    }
 
     const RequestBookmark = () => {
         if(!loginState){
@@ -84,28 +106,27 @@ function GetLecture() {
         }
         var data = JSON.stringify({
             "curfav": bookmarked
-          });
-          
-          var config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
-            headers: { 
-              'Authorization': localStorage.getItem("Access"), 
-              'Content-Type': 'application/json'
-            },
-            data : data
-          };
-          
-          axios(config)
-          .then(function (response) {
-            console.log(data);
-            setBookmarked(response.data.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
+        });
+        
+        var config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `${process.env.REACT_APP_HOST}/lecture/bookmark/${lectureId}`,
+        headers: { 
+            'Authorization': localStorage.getItem("Access"), 
+            'Content-Type': 'application/json'
+        },
+        data : data
+        };
+        
+        axios(config)
+        .then(function (response) {
+        console.log(data);
+        setBookmarked(response.data.data)
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
     }
 
     const [isLecreq, setIsLecreq] = useState(false);
@@ -222,7 +243,6 @@ function GetLecture() {
 
 
     const GetReviews = (curPage) => {
-                
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -299,9 +319,6 @@ function GetLecture() {
                     </div>
                 </div>
 
-                <CreateReviews review={reviews}/> 
-                <Paging />
-
                 <div className={styles.menubox}>
                     { isMy &&
                         <Button 
@@ -313,6 +330,9 @@ function GetLecture() {
                         onClick={() => CreateChatRoom() }> 채팅 문의 </Button>}
                 </div>
                 
+                <CreateReviews review={reviews}/> 
+                <Paging />
+
             </div>
                 
             )
@@ -354,7 +374,7 @@ function GetLecture() {
     return (
         <div className={styles.top_wrapper}>
             <SetPost />
-            <SetReview/>
+            {/* <SetReview/> */}
         </div>
     );
 }

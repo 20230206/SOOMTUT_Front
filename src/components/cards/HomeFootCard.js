@@ -43,7 +43,7 @@ function HomeFootCard (props) {
     useEffect(() => {
         
         if(lecture) {
-            setLectureURI("/lecture/"+lecture.id); 
+            setLectureURI(`/lectures/${lecture.id}?from=lectures`); 
         }
     }, [lecture])
 

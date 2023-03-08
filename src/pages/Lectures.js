@@ -46,7 +46,7 @@ function Lectures() {
 
     const [selectedCategory, setSelectedCategory] = useState(category);
     useEffect(() => {
-
+        
     }, [selectedCategory])
     const [selectedRegion, setSelectedRegion] = useState(region);
     useEffect(() => {
@@ -55,6 +55,7 @@ function Lectures() {
 
     const GetLectures = (category, region, page) => {
         if(memberId == null) {
+            console.log(`${process.env.REACT_APP_HOST}/lecture/public?category=${category}&region=${region}&page=${page-1}&size=15`);
             var config = {
                 method: 'get',
                 maxBodyLength: Infinity,

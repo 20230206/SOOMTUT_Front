@@ -109,6 +109,10 @@ function CreateLecture() {
     const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState([]);
     const handleFileChange = (event) => {
+        if(event.target.files[0] && event.target.files[0] > (20*1024*1024)) {
+            alert("파일 크기가 20mb를 넘습니다. \n 20mb 이하의 파일을 업로드하세요.")
+            return;
+        }
         setImgFile(event.target.files[0])
 
         setImgBase64([]);
@@ -131,7 +135,7 @@ function CreateLecture() {
             alert("카테고리 선택이 필요합니다.")
             return
         }
-        if(contents.length < 20) {
+        if(contents.length < 10) {
             alert("최소 10자이상의 설명이 필요합니다.")
             return
         }

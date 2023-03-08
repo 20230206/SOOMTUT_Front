@@ -1,6 +1,6 @@
 import styles from "../assets/styles/routes/auths/login.module.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
 import { Link, useNavigate } from "react-router-dom";

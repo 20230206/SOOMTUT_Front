@@ -64,6 +64,7 @@ function UpdateProfileModal (props) {
         axios(config)
         .then(function (response) {
             console.log(JSON.stringify(response.data));
+            localStorage.setItem("Nickname", response.data.data.nickname)
             alert("닉네임 변경에 성공했습니다.")
             window.location.reload();
         })

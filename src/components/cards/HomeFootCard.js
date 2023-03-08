@@ -55,7 +55,7 @@ function HomeFootCard (props) {
           <Card.Body>
             <Card.Title className={styles.cardTitle}> {lecture.title} </Card.Title>
             <Card.Text>
-              [{lecture.categoryId}]
+              [{lecture.categoryName}]
               {lecture.content}
             </Card.Text>
             <Card.Footer style={{display:"flex", justifyContent:"space-between"}}>

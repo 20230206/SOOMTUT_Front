@@ -3,8 +3,17 @@
     src: url(./assets/fonts/Jua/Jua-Regular.ttf);
 }
 
+@font-face {
+    font-family: "naverNanumGothic";
+    src: url(./assets/fonts/NanumFontSetup_TTF_GOTHIC/NanumGothicBold.ttf);
+}
+
 :root {
     --font-googleJua: "googleJua";
+}
+
+:root {
+    --font-naverNanumGothic: "naverNanumGothic"
 }
 
 body {

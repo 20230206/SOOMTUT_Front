@@ -46,7 +46,7 @@ function SearchBar () {
 
         <Button
           className={styles.searchbutton}
-          onClick={()=>navigate(`/lectures?mode=search&region=${dropMenu}&keyword=${keyword}`)}>
+          onClick={()=>navigate(`/lectures?mode=search&region=${dropMenu}&category=0&keyword=${keyword}`)}>
             검색
         </Button>
         </InputGroup>

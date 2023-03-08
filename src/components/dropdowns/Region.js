@@ -2,8 +2,9 @@ import styles from "../../assets/styles/components/dropdowns/dropdown.module.css
 
 import { Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Category_List = [ 
+const Region_List = [ 
     { id:1, name:"서울" },
     { id:2, name:"부산" },
     { id:3, name:"대전" },
@@ -21,20 +22,46 @@ const Category_List = [
 ];
 function Region (props) {
 
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState(false)
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
+    const memberId = params.get("memberId");
+
+    const [category, setCategory] = useState(null);
+
     useEffect(() => {
         if(!selected) {
-            if(Object.keys(props).length === 0) {
-                setSelected(Category_List[0]);
+            if(Object.keys(props).length !== 0){
+                setCategory(props.category);
+                setSelected(true);
             }
             else {
-                setSelected(Category_List[props.categoryId]);
+                setCategory(0);
+                setSelected(true);
             }
         }
-    }, [props])
+    }, [])
 
-    const SelectCategory = (id) => {
-        setSelected(Category_List[id]);
+
+    const [prevSelected, setPrevSelected] = useState();
+    useEffect(() =>{
+        if(selected && !prevSelected) {
+            if(memberId && category)  {
+                setPrevSelected(`/lectures?mode=search&memberId=${memberId}&category=${category}&region=`)
+            }
+            else if (!memberId && category) {
+                setPrevSelected(`/lectures?mode=search&category=${category}&region=`)
+            }
+        }
+    }, [selected, category])
+
+    const SelectCategory = (item) => {
+        console.log("NEXT : "+prevSelected + item.name);
+        navigate(`${prevSelected}${item.name}`)
+        setSelected(Region_List[item.id]);
     }
 
     const [showList, setShowList] = useState(false)
@@ -42,12 +69,12 @@ function Region (props) {
 
     const CreateCategories = () => {
         const arr = []
-            Category_List.map((item, index) => {
+            Region_List.map((item, index) => {
             arr.push(
                 <button
                   key={index}
                   className={styles.categoryButton}
-                  onClick={() => SelectCategory(item.id)}
+                  onClick={() => SelectCategory(item)}
                 >
                     {item.name}
                 </button>
@@ -57,20 +84,20 @@ function Region (props) {
     }
 
     const DropDown = () => {
-        if(selected) {
-            return ( 
-              <div className={styles.wrap}>
-                <button
-                  className={styles.toggleButton}
-                  onClick={()=>handleShowList()}
-                > 지역 {showList ? "▲" : "▼"} </button> 
-                { showList && <CreateCategories /> }
-              </div>
-            )
-        }
+        return ( 
+            <div className={styles.wrap}>
+            <button
+                className={styles.toggleButton}
+                onClick={()=>handleShowList()}
+            > 지역 {showList ? "▲" : "▼"} </button> 
+            { showList && <CreateCategories /> }
+            </div>
+        )
         
     }
 
-    return [DropDown, selected];
+    return (
+            <DropDown />
+    );
 }
 export default Region;

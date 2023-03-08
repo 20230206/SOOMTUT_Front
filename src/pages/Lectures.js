@@ -41,12 +41,17 @@ function Lectures() {
     const region = params.get("region");
     const memberId = params.get("memberId");
     const category = params.get("category");
+    const page = params.get("page");
     const keyword = params.get("keyword");
 
     const [selectedCategory, setSelectedCategory] = useState(category);
-    const [DropdownCategory, curCategory] = Category(0);
+    useEffect(() => {
+
+    }, [selectedCategory])
     const [selectedRegion, setSelectedRegion] = useState(region);
-    const [DropdownRegion, curRegion] = Region(0);
+    useEffect(() => {
+
+    }, [selectedRegion])
 
     const GetLectures = (category, region, page) => {
         if(memberId == null) {
@@ -91,19 +96,12 @@ function Lectures() {
         }
     }
 
-    useEffect(()=>{
-    }, [DropdownCategory])
-
-    useEffect(()=>{
-    }, [DropdownRegion])
-
-
     const SetLoading = () => { setLoading(true); }
     
     // 토큰 정보 생성 시, 포스트 내용 조회
     useEffect(() => {
-       GetLectures(0, "서울", 1);
-    }, [])
+       GetLectures(category, region, curPage);
+    }, [category, region, curPage])
 
     const [pages, setPages] = useState(null);
     const [Paging, selected] = CustomPagination(curPage, pages);
@@ -113,7 +111,6 @@ function Lectures() {
     
     const SetCurPage = (event) => {
         setCurPage(event);
-        if(curCategory) GetLectures(curCategory.id, event);
     }
 
     const [lectures, setLectures] = useState(null)
@@ -193,22 +190,10 @@ function Lectures() {
                     검색
                 </Button>
             </InputGroup>
-              </Form>
-              <DropdownCategory />
-              <DropdownRegion />
+            </Form>
+                { selectedCategory && <Category region={selectedRegion}/>}
+                { selectedRegion && <Region category={selectedCategory}/>}
             </div>}
-            {   mode === "bookmark" &&
-                <div className={styles.leftMenu}>
-                    <li className={styles.pageName}> 관심 목록 </li>
-                    <DropdownCategory />
-                </div>
-            }
-            { mode === "myLectures" &&
-                <div className={styles.leftMenu}>
-                    <li className={styles.pageName}> 내 수업 목록 </li>
-                    <DropdownCategory />
-                </div>
-            }
             <div>
                 <div className={styles.cardsBox}>
                    <CreateLectureContainers />

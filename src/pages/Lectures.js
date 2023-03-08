@@ -135,7 +135,7 @@ function Lectures() {
             //   chunkedData[chunkedData.length - 1] = newLastChunk;
             //   console.log(lastChunk)
             //   chunkedData.push(lastChunk);
-            // }
+            // }//
             setLectureChunk(chunkedData);
         }
     }

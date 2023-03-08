@@ -126,16 +126,16 @@ function Lectures() {
               chunkedData.push(chunk);
             }
 
-            if (chunkedData.length > 1 && chunkedData[chunkedData.length - 1].length < chunkSize) {
-              const lastChunk = chunkedData.pop();
-              const lastChunkSize = lastChunk.length;
-              const prevChunkSize = chunkSize - lastChunkSize;
-              const prevChunk = chunkedData[chunkedData.length - 1].slice(0, prevChunkSize);
-              const newLastChunk = prevChunk.concat(lastChunk);
-              chunkedData[chunkedData.length - 1] = newLastChunk;
-              console.log(lastChunk)
-              chunkedData.push(lastChunk);
-            }
+            // if (chunkedData.length > 1 && chunkedData[chunkedData.length - 1].length < chunkSize) {
+            //   const lastChunk = chunkedData.pop();
+            //   const lastChunkSize = lastChunk.length;
+            //   const prevChunkSize = chunkSize - lastChunkSize;
+            //   const prevChunk = chunkedData[chunkedData.length - 1].slice(0, prevChunkSize);
+            //   const newLastChunk = prevChunk.concat(lastChunk);
+            //   chunkedData[chunkedData.length - 1] = newLastChunk;
+            //   console.log(lastChunk)
+            //   chunkedData.push(lastChunk);
+            // }
             setLectureChunk(chunkedData);
         }
     }

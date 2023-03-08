@@ -1,3 +1,4 @@
+import styles from "../assets/styles/components/mypages/myreview.module.css"
 import axios from "axios";
 
 import React, {
@@ -99,14 +100,10 @@ function Bookmark() {
 
     return (
         <div
-          style={{
-            width:"1000px",
-            height:"85vh",
-            border:"2px solid"
-        }}>
+          className={styles.wrap}
+          >
             <div
               style={{
-                margin: "30px 0px 30px 0px",
                 width:"1000px",
                 height:"680px"
               }}

@@ -5,10 +5,20 @@ import { Carousel } from "react-bootstrap";
 import slide1 from "../../assets/images/1.png";
 import slide2 from "../../assets/images/2.png";
 import slide3 from "../../assets/images/3.png";
+import slide4 from "../../assets/images/4.png";
 
 function HomeFrontCarousel() {
     return (
     <Carousel variant="dark" className={styles.carousel} >
+      <Carousel.Item>
+        <img
+          className={styles.carouselimg}
+          src={slide4}
+          alt="First slide"
+        />
+        <Carousel.Caption>
+        </Carousel.Caption>
+      </Carousel.Item>
       <Carousel.Item>
         <img
           className={styles.carouselimg}

@@ -1,11 +1,12 @@
 .wrap {
-    width: 1000px;
-    height: 85vh;
+    height: 795px;
 
-    border: 2px solid;
+    margin-left: 2px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .reviewBox {
+    padding-top: 10px;
     width: 1000px;
     height: 750px;
 }

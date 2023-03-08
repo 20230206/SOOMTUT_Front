@@ -50,26 +50,6 @@ function Login () {
       console.log(error);
     });
   }
-
-  useEffect(()=> {
-    if(state) {
-      if(state === "INIT") {
-        navigate("/oauthlogin/init")
-      }
-
-      if(state === "ACTIVE") {
-        navigate("/");
-        window.location.reload();
-      }
-
-      if(state === "SUSPEND") {
-        alert("회원 탈퇴 요청된 계정입니다.")
-        navigate("/");
-      }
-      if(state === "STOPPED") console.log("Account is STOPPED")
-    }
-  }, [state])
-
   const handleSubmit = (event) => {
     event.preventDefault();
   }

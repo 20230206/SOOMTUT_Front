@@ -22,6 +22,7 @@ function SNavbar() {
   const currentURI = window.location.pathname;
 
   const navigate = useNavigate();
+
   
   // 마우스 오버시 메뉴 하이라이트
   const [onMouseMenu1, setOnMouseMenu1] = useState(false);
@@ -65,33 +66,55 @@ function SNavbar() {
   }, [accessToken])
 
   // 로그인 정보 획득
-  const [memberName, setMemberName] = useState(localStorage.getItem("Nickname"));
+  const [memberData, setMemberData] = useState(null);
   useEffect(() => {
-    if(loginState === true)
-    if(loginState && !memberName) {
-        GetMyName()
+    if(loginState === true) {
+      if(loginState && !memberData) {
+          GetMember()
+      }
     }
   }, [loginState])
+  
 
-  const GetMyName = () => {
+  const GetMember = () => {
     const config = {
         method: 'get',
         maxBodyLength: Infinity,
         url: `${process.env.REACT_APP_HOST}/member/myInfo`,
         headers: {
-          'Authorization': localStorage.getItem("Nickname")
+          'Authorization': localStorage.getItem("Access")
         }
       };
       axios(config)
       .then(function(response) {
-        setMemberName(response.data.data.nickname);
-        localStorage.setItem("Nickname", response.data.data.nickname);
+        setMemberData(response.data.data);
+        
       })
       .catch(function(error) {
 
       })
-       
   }
+
+  useEffect(() => {
+    if(memberData) {
+      if(memberData.state === "INIT") {
+        navigate("/oauthlogin/init")
+        return;
+      }
+
+      if(memberData.state === "ACTIVE") {
+        localStorage.setItem("Nickname", memberData.nickname);
+      }
+
+      if(memberData.state === "SUSPEND") {
+        alert("회원 탈퇴 요청된 계정입니다.")
+        navigate("/");
+        return;
+      }
+
+      if(memberData.state === "STOPPED") console.log("Account is STOPPED")
+    }
+  }, [memberData])
 
   const LogoutHandler = () => {
     const config = {
@@ -104,7 +127,7 @@ function SNavbar() {
         const response = axios(config);
         setAccessToken(null);
         setLoginState(false);
-        setMemberName(null);
+        setMemberData(null);
         localStorage.removeItem("Access");
         localStorage.removeItem("ExpireDate");
         localStorage.removeItem("Nickname");
@@ -169,7 +192,7 @@ function SNavbar() {
               { collapsed && 
                 <>
                   <div className={styles.nickname}>
-                    <span> {memberName} 님 </span>
+                    { memberData && <span> {memberData.nickname} 님 </span>}
                   </div>
                   <Nav.Link href="/mypage">
                   <img

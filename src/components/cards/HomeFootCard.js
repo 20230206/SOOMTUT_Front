@@ -63,7 +63,10 @@ function HomeFootCard (props) {
                     {lecture.member.nickname} 
                 </div>
                 <div className={styles.favorit}>
-                    <img className={styles.favorit_img} src={heart} alt="favorit"/> {lecture.favorit}
+                    <img
+                     className={styles.favorit_img}
+                     src={heart} 
+                     alt="favorit"/> {lecture.favorit}
                 </div>
             </Card.Footer>
           </Card.Body>

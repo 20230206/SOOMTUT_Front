@@ -53,10 +53,10 @@ function HomeFootCard (props) {
         <Card className={styles.card} onClick={() => navigate(lectureURI)}>
           <Card.Img className={styles.lectureImage} variant="top" src={lecture.image} />
           <Card.Body>
-            <Card.Title className={styles.cardTitle}> {lecture.title} </Card.Title>
+            <Card.Title className={styles.cardTitle}> {(lecture.title.length > 15 ? `${lecture.title.slice(0, 11)}...` : lecture.title)} </Card.Title>
             <Card.Text>
               [{lecture.categoryName}]
-              {lecture.content}
+              {lecture.content > 30 ? `${lecture.content.slice(0,27)}...` : lecture.content}
             </Card.Text>
             <Card.Footer style={{display:"flex", justifyContent:"space-between"}}>
                 <div className={styles.nickname}>

@@ -51,7 +51,7 @@ function HomeFootCard (props) {
       <>
         { lecture &&
         <Card className={styles.card} onClick={() => navigate(lectureURI)}>
-          <Card.Img variant="top" src={lecture.image} />
+          <Card.Img className={styles.lectureImage} variant="top" src={lecture.image} />
           <Card.Body>
             <Card.Title className={styles.cardTitle}> {lecture.title} </Card.Title>
             <Card.Text>
